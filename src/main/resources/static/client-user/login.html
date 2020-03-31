@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>易趣学教育</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <link rel="stylesheet" href="../lib/weui.min.css">
+    <link rel="stylesheet" href="../css/jquery-weui.css">
+    <style>
+        .buttons{
+            position:absolute;
+            bottom:0;
+            width:100%;
+        }
+    </style>
+
+</head>
+
+<body ontouchstart>
+
+
+<header class='demos-header'>
+    <h1 class="demos-title">易趣学教育登陆</h1>
+</header>
+<div class="weui-cells weui-cells_form" style="padding-top: 5%">
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label class="weui-label">手机号</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="tel" id="phone" pattern="[0-9]*" placeholder="请输入手机号">
+        </div>
+    </div>
+    <div class="weui-cell weui-cell_vcode" style="padding-top: 3%">
+        <div class="weui-cell__hd">
+            <label class="weui-label">密码</label>
+        </div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" type="password" id="password" placeholder="请输入密码">
+        </div>
+    </div>
+</div>
+
+<label for="weuiAgree" class="weui-agree">
+    <input id="weuiAgree" type="checkbox" class="weui-agree__checkbox">
+    <span class="weui-agree__text">
+        阅读并同意<a href="javascript:void(0);">《相关条款》</a>
+      </span>
+</label>
+
+<div class="weui-btn-area" style="padding-top: 10%">
+    <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">确定</a>
+</div>
+
+<script src="../lib/jquery-2.1.4.js"></script>
+<script src="../lib/fastclick.js"></script>
+<script>
+    $(function() {
+        FastClick.attach(document.body);
+    });
+</script>
+<script src="../js/jquery-weui.js"></script>
+
+
+<script>
+    $("#showTooltips").click(function() {
+        var phone = $('#phone').val();
+        var password = $('#password').val();
+        if(!phone || !/1[3|4|5|7|8]\d{9}/.test(phone)) $.toptip('请输入手机号');
+        else if(!password) $.toptip('请输入密码');
+        else
+
+        var saveDataForm = {
+            phone,
+            password,
+        }
+
+        $.ajax({
+            url: "/client/login",
+            type: "post",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(saveDataForm),
+            dataType: "json",
+            success: function (data) {
+                if (data.code != '2000') {
+                    alert(data.msg);
+                    return
+                } else {
+                    $.toptip('登陆成功', 'success');
+                    window.location.href = "/client/to-personal";
+                }
+            },
+            error: function (e) {
+                alert("错误！！");
+            }
+        });
+    });
+</script>
+</body>
+</html>
