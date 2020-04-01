@@ -111,18 +111,6 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!--mqtt-->
-        <!-- MQTT-jar -->
-        <dependency>
-            <groupId>org.eclipse.paho</groupId>
-            <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
-            <version>1.2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fusesource.mqtt-client</groupId>
-            <artifactId>mqtt-client</artifactId>
-            <version>1.14</version>
-        </dependency>
         <!-- springboot websocket -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -178,16 +166,22 @@
                 </executions>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <!--指定resources插件处理哪个目录下的资源文件-->
+                <directory>src/main/resources</directory>
+                <!--打开资源过滤功能-->
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 
     <profiles>
         <profile>
-            <!-- 公司开发环境 -->
+            <!-- 部署环境 -->
             <id>dev</id>
             <properties>
                 <profiles.active>dev</profiles.active>
-                <log.file.directory>/opt/log/</log.file.directory>
-
             </properties>
         </profile>
         <profile>
@@ -195,7 +189,6 @@
             <id>local</id>
             <properties>
                 <profiles.active>local</profiles.active>
-                <log.file.directory>../log/</log.file.directory>
             </properties>
         </profile>
     </profiles>

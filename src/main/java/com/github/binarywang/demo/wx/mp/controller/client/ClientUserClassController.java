@@ -3,6 +3,7 @@ package com.github.binarywang.demo.wx.mp.controller.client;
 import com.github.binarywang.demo.wx.mp.config.intercepors.LoginInterceptor;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsClientUser;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsUserClass;
+import com.github.binarywang.demo.wx.mp.enums.ClassTypeEnum;
 import com.github.binarywang.demo.wx.mp.enums.ResultCodeEnum;
 import com.github.binarywang.demo.wx.mp.service.manager.UserClassService;
 import com.github.binarywang.demo.wx.mp.utils.PageUtils;
@@ -10,10 +11,13 @@ import com.github.binarywang.demo.wx.mp.utils.ResultEntity;
 import com.github.binarywang.demo.wx.mp.utils.ResultUtils;
 import com.github.binarywang.demo.wx.mp.vo.UserClassReq;
 import lombok.AllArgsConstructor;
+import org.hibernate.mapping.Collection;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -91,6 +95,20 @@ public class ClientUserClassController {
             return ResultUtils.fail(ResultCodeEnum.INTERNAL_ERROR);
         }
         List<LsUserClass> userClassList = userClassService.findByUserPhone(clientUser.getPhone());
+        if(!CollectionUtils.isEmpty(userClassList)){
+            userClassList.stream().forEach(item ->{
+                 String classType = item.getClassType();
+                 if(!StringUtils.isEmpty(classType)){
+                     if(ClassTypeEnum.CLASS.getCode().equals(classType)){
+                         item.setClassType(ClassTypeEnum.CLASS.getDesc());
+                     }else if(ClassTypeEnum.GROUP_COURSE.getCode().equals(classType)){
+                         item.setClassType(ClassTypeEnum.GROUP_COURSE.getDesc());
+                     }else if(ClassTypeEnum.ONE_ON_ONE.getCode().equals(classType)){
+                         item.setClassType(ClassTypeEnum.ONE_ON_ONE.getDesc());
+                     }
+                 }
+            });
+        }
         return ResultUtils.success(userClassList);
     }
 

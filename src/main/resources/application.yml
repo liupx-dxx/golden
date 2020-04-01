@@ -24,13 +24,14 @@ spring:
         prefix: classpath:/static/
     profiles:
         #区分springboot是线上还是线下环境
-        active: '@profileActive@'
+        active: '@profiles.active@'
 
-logging:
-  level:
-    org.springframework.web: INFO
-    com.github.binarywang.demo.wx.mp: DEBUG
-    me.chanjar.weixin: DEBUG
+#logging:
+  #level:
+    #org.springframework.web: INFO
+    #com.github.binarywang.demo.wx.mp: DEBUG
+    #me.chanjar.weixin: DEBUG
+
 wx:
   mp:
     configs:
