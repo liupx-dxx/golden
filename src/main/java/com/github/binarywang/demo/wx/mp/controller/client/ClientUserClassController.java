@@ -11,8 +11,6 @@ import com.github.binarywang.demo.wx.mp.utils.ResultEntity;
 import com.github.binarywang.demo.wx.mp.utils.ResultUtils;
 import com.github.binarywang.demo.wx.mp.vo.UserClassReq;
 import lombok.AllArgsConstructor;
-import org.hibernate.mapping.Collection;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -109,7 +107,10 @@ public class ClientUserClassController {
                  }
             });
         }
-        return ResultUtils.success(userClassList);
+        UserClassReq userClassReq = new UserClassReq();
+        userClassReq.setUserClassList(userClassList);
+        userClassReq.setPhone(clientUser.getPhone());
+        return ResultUtils.success(userClassReq);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.github.binarywang.demo.wx.mp.controller.client;
 
+import com.github.binarywang.demo.wx.mp.config.intercepors.LoginInterceptor;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsClientUser;
 import com.github.binarywang.demo.wx.mp.enums.ResultCodeEnum;
 import com.github.binarywang.demo.wx.mp.service.client.ClientUserService;
@@ -7,11 +8,13 @@ import com.github.binarywang.demo.wx.mp.utils.ResultEntity;
 import com.github.binarywang.demo.wx.mp.utils.ResultUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import java.util.Base64;
@@ -22,7 +25,10 @@ public class ClientUserController {
     ClientUserService userService;
 
     @RequestMapping("/client/to-personal")
-    public String toPersonal() {
+    public String toPersonal(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        LsClientUser attribute = (LsClientUser) session.getAttribute(LoginInterceptor.CLIENT_SESSION_KEY);
+        model.addAttribute("user",attribute.getPhone());
         return "client-user/personal";
     }
 

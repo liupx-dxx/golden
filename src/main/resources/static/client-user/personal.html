@@ -34,6 +34,8 @@
 <script type="text/javascript" src="../js/detailList.js"></script>
 <script type="text/javascript">
 
+    var userName = "user";
+
     $(function() {
         FastClick.attach(document.body);
     });
@@ -56,7 +58,9 @@
             dataType: 'json',
             success: function(data) {
                 debugger;
-                var dataList = data.data;
+                var dataObjiect = data.data;
+                var dataList = dataObjiect.userClassList;
+                userName = dataObjiect.phone;
                 var li = '';
                 var data_length = dataList.length; //数据的总条数
                 var remainder = data_length % num; //page 是每次加载的条数，利用数据的总条数/每次加载条数 取余数
@@ -70,6 +74,7 @@
                             '       <div class="weui-form-preview__item">'+
                             '       <label class="weui-form-preview__label">课程名称</label>'+
                             '       <em class="weui-form-preview__value">'+dataList[i]["className"]+'</em>'+
+                            '           <a herf="javascript:" style="font-size: 10px" onclick="discuss('+dataList[i]["id"]+')">进入讨论区>>></a>'+
                             '       </div>'+
                             '   </div>'+
                             '   <div class="weui-form-preview__bd">'+
@@ -105,6 +110,7 @@
                             '       <div class="weui-form-preview__item">'+
                             '       <label class="weui-form-preview__label">课程名称</label>'+
                             '       <em class="weui-form-preview__value">'+dataList[i]["className"]+'</em>'+
+                            '           <a herf="javascript:" style="font-size: 10px" onclick="discuss('+dataList[i]["id"]+')">进入讨论区>>></a>'+
                             '       </div>'+
                             '   </div>'+
                             '   <div class="weui-form-preview__bd">'+
@@ -156,6 +162,10 @@
             }
         }
     });
+
+    function discuss(id) {
+        window.location.href = "/websocket/"+userName;
+    }
     function sign(id){
 
         $.confirm("您确定要签到吗?", "确认签到?", function() {
