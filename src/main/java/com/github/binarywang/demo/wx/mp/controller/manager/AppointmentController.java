@@ -18,6 +18,7 @@ import java.util.Map;
 
 @Controller
 @AllArgsConstructor
+@RequestMapping("/manager")
 public class AppointmentController {
 
     AdvanceService advanceService;
@@ -26,7 +27,7 @@ public class AppointmentController {
      * 分页获取所有预约信息
      * @return
      */
-    @RequestMapping("/manager/appointment/findAll")
+    @RequestMapping("/appointment/findAll")
     @ResponseBody
     public PageUtils findAll(
         @NotNull(message = "请求参数不能为空")
@@ -53,7 +54,7 @@ public class AppointmentController {
      * 跳转到预约页面
      *
      *  */
-    @RequestMapping("/manager/appointment/to-list")
+    @RequestMapping("/appointment/to-list")
     public String toList(){
         return "sys/appointment-list";
     }
@@ -62,7 +63,7 @@ public class AppointmentController {
      * 跳转到预约页面
      *
      *  */
-    @GetMapping("/manager/appointment/findById/{id}")
+    @GetMapping("/appointment/findById/{id}")
     @ResponseBody
     public Advance findById(
         @NotNull(message = "id不可为空")
@@ -75,7 +76,7 @@ public class AppointmentController {
      * 新增预约信息
      * @return
      */
-    @PostMapping(value="/manager/appointment/update")
+    @PostMapping(value="/appointment/update")
     @ResponseBody
     public ResultEntity save(
         @NotNull(message = "对象不可为空")

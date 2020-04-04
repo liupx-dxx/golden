@@ -20,15 +20,16 @@ import java.util.Map;
 
 @Controller
 @AllArgsConstructor
+@RequestMapping("/manager")
 public class LoginController {
     UserService userService;
 
-    @RequestMapping("/manager/to-login")
+    @RequestMapping("/to-login")
     public String login() {
         return "sys/login";
     }
 
-    @PostMapping(value="manager/login")
+    @PostMapping(value="/login")
     @ResponseBody
     public ResultEntity findAll(
         @NotNull(message = "对象不能为空")

@@ -22,6 +22,7 @@ import java.util.Map;
 
 @Controller
 @AllArgsConstructor
+@RequestMapping("/manager")
 public class UserClassController {
 
     UserClassService userClassService;
@@ -30,7 +31,7 @@ public class UserClassController {
      * 跳转到用户课程页面
      *
      *  */
-    @RequestMapping("/manager/userClass/to-list")
+    @RequestMapping("/userClass/to-list")
     public String toList(){
         return "sys/userClass-list";
     }
@@ -39,7 +40,7 @@ public class UserClassController {
      * 分页获取所有购买信息
      * @return
      */
-    @RequestMapping("/manager/userClass/findPage")
+    @RequestMapping("/userClass/findPage")
     @ResponseBody
     public PageUtils findPage(
         @NotNull(message = "请求参数不能为空")
@@ -66,6 +67,7 @@ public class UserClassController {
                         item.setClassType(ClassTypeEnum.ONE_ON_ONE.getDesc());
                     }
                 }
+
             });
         }
         PageUtils pageUtils = new PageUtils();
@@ -81,7 +83,7 @@ public class UserClassController {
      * 跳转到课程详情
      *
      *  */
-    @GetMapping("/manager/userClass/findById/{id}")
+    @GetMapping("/userClass/findById/{id}")
     @ResponseBody
     public LsUserClass findById(
         @NotNull(message = "id不可为空")
@@ -94,7 +96,7 @@ public class UserClassController {
      * 删除用户购买信息
      *
      *  */
-    @GetMapping("/manager/userClass/delete/{id}")
+    @GetMapping("/userClass/delete/{id}")
     @ResponseBody
     public ResultEntity deleteById(
         @NotNull(message = "id不可为空")
@@ -107,7 +109,7 @@ public class UserClassController {
      * 新增预约信息
      * @return
      */
-    @PostMapping(value="/manager/userClass/update")
+    @PostMapping(value="/userClass/update")
     @ResponseBody
     public ResultEntity save(
         @NotNull(message = "对象不可为空")
@@ -120,7 +122,7 @@ public class UserClassController {
      * 批量新增用户购买课程信息
      * @return
      */
-    @PostMapping(value="/manager/userClass/saveAll")
+    @PostMapping(value="/userClass/saveAll")
     @ResponseBody
     public ResultEntity saveAll(
         @NotNull(message = "对象不可为空")
@@ -133,7 +135,7 @@ public class UserClassController {
      * 批量删除该课程
      *
      *  */
-    @PostMapping("/manager/userClass/delByIds")
+    @PostMapping("/userClass/delByIds")
     @ResponseBody
     public ResultEntity delById(
         @NotNull(message = "请求参数不能为空")

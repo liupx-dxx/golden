@@ -21,13 +21,14 @@ import java.util.Base64;
 
 @Controller
 @AllArgsConstructor
+@RequestMapping("/client")
 public class ClientLoginController {
 
     ClientUserService userService;
 
     TokenService tokenService;
 
-    @RequestMapping("/client/to-login")
+    @RequestMapping("/to-login")
     public String login() {
         return "client-user/login";
     }
@@ -37,7 +38,7 @@ public class ClientLoginController {
      * 用户登陆
      *
      * */
-    @PostMapping(value="client/login")
+    @PostMapping(value="/login")
     @ResponseBody
     public ResultEntity findAll(
         @NotNull(message = "对象不能为空")
@@ -67,7 +68,7 @@ public class ClientLoginController {
         return ResultUtils.success();
     }
 
-    @PostMapping(value="client/user/save")
+    @PostMapping(value="/user/save")
     public ResultEntity save(@RequestBody LsClientUser clientUser) {
         LsClientUser user = userService.findByPhone(clientUser.getPhone());
         if(user!=null){

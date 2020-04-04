@@ -21,10 +21,11 @@ import java.util.Base64;
 
 @Controller
 @AllArgsConstructor
+@RequestMapping("/client")
 public class ClientUserController {
     ClientUserService userService;
 
-    @RequestMapping("/client/to-personal")
+    @RequestMapping("/to-personal")
     public String toPersonal(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession();
         LsClientUser attribute = (LsClientUser) session.getAttribute(LoginInterceptor.CLIENT_SESSION_KEY);
@@ -32,7 +33,7 @@ public class ClientUserController {
         return "client-user/personal";
     }
 
-    @PostMapping(value="client/personal")
+    @PostMapping(value="/personal")
     @ResponseBody
     public ResultEntity findAll(
         @NotNull(message = "对象不能为空")

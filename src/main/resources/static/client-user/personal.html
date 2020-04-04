@@ -76,7 +76,7 @@
                             '       <div class="weui-form-preview__item">'+
                             '       <label class="weui-form-preview__label">课程名称</label>'+
                             '       <em class="weui-form-preview__value">'+dataList[i]["className"]+'</em>'+
-                            '           <a herf="javascript:" style="font-size: 10px" onclick="discuss('+dataList[i]["id"]+')">进入讨论区>>></a>'+
+                            // '           <a herf="javascript:" style="font-size: 10px" onclick="discuss('+dataList[i]["id"]+')">进入讨论区>>></a>'+
                             '       </div>'+
                             '   </div>'+
                             '   <div class="weui-form-preview__bd">'+
@@ -94,6 +94,7 @@
                             '       </div>'+
                             '   </div>'+
                             '   <div class="weui-form-preview__ft">'+
+                            '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="leave('+dataList[i]["id"]+')">请假</a>'+
                             '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="sign('+dataList[i]["id"]+')">签到</a>'+
                             '   </div>'+
                             '</div>';
@@ -112,7 +113,7 @@
                             '       <div class="weui-form-preview__item">'+
                             '       <label class="weui-form-preview__label">课程名称</label>'+
                             '       <em class="weui-form-preview__value">'+dataList[i]["className"]+'</em>'+
-                            '           <a herf="javascript:" style="font-size: 10px" onclick="discuss('+dataList[i]["id"]+')">进入讨论区>>></a>'+
+                            // '           <a herf="javascript:" style="font-size: 10px" onclick="discuss('+dataList[i]["id"]+')">进入讨论区>>></a>'+
                             '       </div>'+
                             '   </div>'+
                             '   <div class="weui-form-preview__bd">'+
@@ -130,6 +131,7 @@
                             '       </div>'+
                             '   </div>'+
                             '   <div class="weui-form-preview__ft">'+
+                            '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="leave('+dataList[i]["id"]+')">请假</a>'+
                             '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="sign('+dataList[i]["id"]+')">签到</a>'+
                             '   </div>'+
                             '</div>';
@@ -182,6 +184,34 @@
                         return
                     } else {
                         $.toptip('签到成功', 'success');
+                        //window.location.reload();
+                        window.location.href = "/client/to-personal";
+                    }
+                },
+                error: function (e) {
+                    alert("错误！！");
+                }
+            });
+        }, function() {
+            //取消操作
+        });
+
+    }
+    //请假
+    function leave(id){
+
+        $.confirm("您确定要请假吗?", "确认请假?", function() {
+            $.ajax({
+                url: "/client/userClass/leave/"+id,
+                type: "get",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data.code != '2000') {
+                        alert(data.msg);
+                        return
+                    } else {
+                        $.toptip('请假成功', 'success');
                         //window.location.reload();
                         window.location.href = "/client/to-personal";
                     }

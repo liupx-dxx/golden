@@ -4,12 +4,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- 适配移动端 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>老师列表</title>
+    <title>学生签到列表</title>
     <!--@*1、Jquery组件引用*@-->
     <script src="../js/jquery-3.3.1.min.js"></script>
 
@@ -31,18 +29,29 @@
         <div class="panel-body">
             <form id="formSearch" class="form-horizontal">
                 <div class="form-group" style="margin-top:15px">
-                    <label class="control-label col-sm-1" for="txt_search_departmentname">课程名称</label>
+                    <label class="control-label col-sm-1" for="txt_search_userName">购买人姓名</label>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" id="txt_search_departmentname">
+                        <input type="text" class="form-control" id="txt_search_userName">
                     </div>
-                    <label class="control-label col-sm-1" for="txt_search_statu">校区</label>
+                    <label class="control-label col-sm-1" for="txt_search_phone">购买人手机号</label>
                     <div class="col-sm-3">
-                        <input type="text" class="form-control" id="txt_search_statu">
+                        <input type="text" class="form-control" id="txt_search_phone">
                     </div>
                     <div class="col-sm-4" style="text-align:left;">
                         <button type="button" style="margin-left:50px" id="btn_query" class="btn btn-primary">查询</button>
                     </div>
                 </div>
+                <!--<div class="form-group" style="margin-top:15px">
+                    <label class="control-label col-sm-1" for="txt_search_className">课程名称</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="txt_search_className">
+                    </div>
+                    <label class="control-label col-sm-1" for="txt_search_classType">课程类型</label>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control" id="txt_search_classType">
+                    </div>
+                </div>-->
+
             </form>
         </div>
     </div>
@@ -51,9 +60,9 @@
         <button id="btn_add" type="button" class="btn btn-success">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
         </button>
-        <button id="btn_edit" type="button" class="btn btn-primary">
+        <!--<button id="btn_edit" type="button" class="btn btn-primary">
             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>修改
-        </button>
+        </button>-->
         <button id="btn_delete" type="button" class="btn btn-danger">
             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
         </button>
@@ -75,22 +84,35 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <span>姓名:</span>
-                        <input type="text" class="form-control" name="userName" id="updatemainname" >
+                        <input type="text" class="form-control" name="clientUserName" id="updatemainname" >
                     </div>
                     <div class="form-group">
                         <span>手机号:</span>
-                        <input type="text" class="form-control" name="phone" id="updatephone" >
+                        <input type="text" class="form-control" name="clientUserPhone" id="updateclientUserPhone" >
                     </div>
                     <div class="form-group">
-                        <span>校区:</span>
-                        <input type="text" class="form-control" name="campus" id="updatecampus" >
+                        <span>选择课程:</span>
+                        <select id="classSelect" name="classId">
+                        </select>
+                        <!--                        <input type="text" class="form-control" name="phone" id="updatephone" >-->
                     </div>
                     <div class="form-group">
-                        <span>留言:</span>
-                        <textarea class="form-control" name="message" id="updatemessage">
-
-
-                        </textarea>
+                        <span>课程类型:</span>
+                        <select id="classTypeSelect" name="classType">
+                            <option value="">---请选择--</option>
+                            <option value="1">班课</option>
+                            <option value="2">小组课</option>
+                            <option value="3">一对一</option>
+                        </select>
+                        <!--                        <input type="text" class="form-control" name="phone" id="updatephone" >-->
+                    </div>
+                    <div class="form-group">
+                        <span>实付价格(元):</span>
+                        <input type="text" class="form-control" name="price" id="updateprice" >
+                    </div>
+                    <div class="form-group">
+                        <span>剩余课时:</span>
+                        <input type="text" class="form-control" name="classHourNum" id="updateclassHourNum" >
                     </div>
 
                 </div>
@@ -102,9 +124,62 @@
         </div>
     </div>
 </div>
+
+<!-- 审核的模态对话框 -->
+<div class="modal fade" id="sh_mainModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">确认审核</h4>
+            </div>
+            <form action="" id="sh_update-form" method="post">
+                <input type="text" class="form-control" name="id" id="sh_id" style="display: none">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <span>是否同意:</span>
+                        <input type="radio" value="1" name="agreeState">同意
+                        <input type="radio" value="0" name="agreeState">不同意
+                    </div>
+                    <span>审核意见:</span>
+                    <textarea class="form-control" name="examineIdea">
+                    </textarea>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="sh_cancel" class="btn btn-primary">取消</button>
+                    <button type="button" id="sh_submit" class="btn btn-primary">确认</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <script>
 
+
     $(function () {
+
+        //查询课程信息
+        $.ajax({
+            url:"/manager/class/findAll",
+            type:"post",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success:function(data){
+                debugger
+                $("#classSelect").empty();//首先清空select现在有的内容
+                $("#classSelect").append("<option selected='selected'  value=0>请选择..</option>");
+                for (var i = 0; i < data.length; i++) {
+                    var item = data[i];
+                    // var option = $("<option  value="+item.id+">"+item.name+"</option>");
+                    $("#classSelect").append("<option  value=" + item.id + ">" + item.className + "</option>");
+                }
+            },
+            error:function(e){
+                alert("错误！！");
+            }
+        });
 
         $.prototype.serializeObject = function() {
             var o = {};
@@ -138,7 +213,7 @@
         //初始化Table
         oTableInit.Init = function () {
             $('#tb_departments').bootstrapTable({
-                url: '/manager/class/findAll',         //请求后台的URL（*）
+                url: '/manager/userSignIn/findPage',         //请求后台的URL（*）
                 method: 'post',                      //请求方式（*）
                 dataType: 'json',
                 toolbar: '#toolbar',                //工具按钮用哪个容器
@@ -173,27 +248,39 @@
                 columns: [{
                     checkbox: true
                 }, {
+                    field: 'userName',
+                    title: '签到人',
+                    align: 'center'
+                }, {
                     field: 'className',
-                    title: '课程名称'
+                    title: '课程名称',
+                    align: 'center'
                 }, {
-                    field: 'phone',
-                    title: '手机号'
+                    field: 'classType',
+                    title: '购买类型',
+                    align: 'center'
                 }, {
-                    field: 'campus',
-                    title: '校区'
+                    field: 'flag',
+                    title: '签到/请假',
+                    align: 'center'
                 }, {
-                    field: 'message',
-                    title: '留言',
+                    field: 'examineFlag',
+                    title: '是否审核',
+                    align: 'center'
+                }, {
+                    field: 'feedbackFlag',
+                    title: '是否反馈',
                     align: 'center'
                 }, {
                     field: 'createTime',
-                    title: '预约时间'
+                    title: '操作时间',
+                    align: 'center'
                 }, {
                     field: 'operate',
                     title: '操作',
                     align: 'center',
-                    width : 100,
                     events: operateEvents,
+                    align: 'center',
                     formatter: operateFormatter
                 }],
                 pagination:true
@@ -201,24 +288,30 @@
         };
 
         function operateFormatter(value, row, index) {
+            var buttons = '<button type="button" class="RoleOfdelete btn btn-primary  btn-sm">修改</button>';
+            if(row.examineFlag==='未审核'){
+                buttons = buttons+'<button type="button" id="sh_button" class="Sh_RoleOfdelete btn btn-primary  btn-sm">审核</button>'
+            }
             return [
-                '<button type="button" class="RoleOfdelete btn btn-primary  btn-sm" style="margin-right:15px;">修改</button>'
+                buttons
             ].join('');
         }
 
         window.operateEvents = {
             'click .RoleOfdelete': function (e, value, row, index) {
                 $.ajax({
-                    url:"/manager/appointment/findById/"+row.id,
+                    url:"/manager/userSignIn/examine/"+row.id,
                     type:"get",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success:function(data){
-                        $("#updatemainname").val(data.userName)
                         $("#updatemainid").val(data.id)
-                        $("#updatephone").val(data.phone)
-                        $("#updatecampus").val(data.campus)
-                        $("#updatemessage").val(data.message)
+                        $("#updatemainname").val(data.clientUserName)
+                        $("#updateclientUserPhone").val(data.clientUserPhone)
+                        $("#classSelect option[value='"+data.classId+"']").attr("selected",true);
+                        $("#classTypeSelect option[value='"+data.classType+"']").attr("selected",true);
+                        $("#updateprice").val(data.price)
+                        $("#updateclassHourNum").val(data.classHourNum)
                         $('#mainModal').modal('show');
                     },
                     error:function(e){
@@ -227,6 +320,12 @@
                 });
 
 
+            },
+            'click .Sh_RoleOfdelete': function (e, value, row, index) {
+                debugger
+                var ids= row.id
+                $("#sh_id").val(row.id);
+                $('#sh_mainModal').modal('show');
             }
         };
 
@@ -239,7 +338,10 @@
             var temp = {
                 pageSize: params.pageSize,   //页面大小
                 pageNumber: params.pageNumber,  //页码
-                userName: $("#txt_search_departmentname").val(),
+                classType: $("#txt_search_classType").val(),
+                className: $("#txt_search_className").val(),
+                userName: $("#txt_search_userName").val(),
+                phone: $("#txt_search_phone").val(),
                 //statu: $("#txt_search_statu").val()
             };
             return temp;
@@ -254,7 +356,7 @@
 
         oInit.Init = function () {
             $("#btn_add").click(function () {
-                alert("add")
+                $("#mainModal").modal("show");
             });
 
             $("#btn_edit").click(function () {
@@ -269,26 +371,19 @@
                     return;
                 }
                 alert("edit")
-                //$("#myModalLabel").text("编辑");
-                //$("#txt_departmentname").val(arrselections[0].DEPARTMENT_NAME);
-                //$("#txt_parentdepartment").val(arrselections[0].PARENT_ID);
-                //$("#txt_departmentlevel").val(arrselections[0].DEPARTMENT_LEVEL);
-                //$("#txt_statu").val(arrselections[0].STATUS);
-
-                //postdata.DEPARTMENT_ID = arrselections[0].DEPARTMENT_ID;
-                //$('#myModal').modal();
             });
 
             $("#cancel").click(function () {
                 $('#mainModal').modal('hide');
             })
-
+            $("#sh_cancel").click(function () {
+                $('#mainModal').modal('hide');
+            })
             $("#submit").click(function () {
                 var d = $("#update-form").serializeObject()
                 var data = JSON.stringify(d);
-                alert(data);
                 $.ajax({
-                    url:"/manager/appointment/update/",
+                    url:"/manager/userClass/update",
                     type:"post",
                     data : data,
                     contentType: "application/json; charset=utf-8",
@@ -316,34 +411,81 @@
                     alert('请选择有效数据');
                     return;
                 }
-
-                Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
-                    if (!e) {
-                        return;
-                    }
+                var data = JSON.stringify(arrselections);
+                if(confirm("确认要删除选择的数据吗？")){
+                    // 确定操作
                     $.ajax({
+                        url: "/manager/userClass/delByIds",
                         type: "post",
-                        url: "/Home/Delete",
-                        data: { "": JSON.stringify(arrselections) },
-                        success: function (data, status) {
-                            if (status == "success") {
+                        data: data,
+                        contentType: "application/json; charset=utf-8",
+                        dataType:"json",
+                        success: function (data) {
+                            debugger;
+                            if (data.code===2000) {
                                 $('#tb_departments').bootstrapTable('refresh');
                             }
                         },
                         error: function () {
-                            toastr.error('Error');
+                            alert("系统错误")
                         },
-                        complete: function () {
-
-                        }
 
                     });
-                });
+                }else{
+
+                }
             });
 
             $("#btn_submit").click(function () {
+                //postdata.DEPARTMENT_NAME = $("#txt_departmentname").val();
+                //postdata.PARENT_ID = $("#txt_parentdepartment").val();
+                //postdata.DEPARTMENT_LEVEL = $("#txt_departmentlevel").val();
+                //postdata.STATUS = $("#txt_statu").val();
+                //$.ajax({
+                //    type: "post",
+                //    url: "/Home/GetEdit",
+                //    data: { "": JSON.stringify(postdata) },
+                //    success: function (data, status) {
+                //        if (status == "success") {
+                //            toastr.success('提交数据成功');
+                //            $("#tb_departments").bootstrapTable('refresh');
+                //        }
+                //    },
+                //    error: function () {
+                //        toastr.error('Error');
+                //    },
+                //    complete: function () {
 
+                //    }
+
+                //});
             });
+
+            $("#sh_submit").click(function () {
+                var d = $("#sh_update-form").serializeObject()
+                var data = JSON.stringify(d);
+                $.ajax({
+                    url:"/manager/userSignIn/examine",
+                    type:"post",
+                    data : data,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success:function(data){
+                        if (data.code != '2000') {
+                            alert(data.msg);
+                            return
+                        }else{
+                            $('#sh_mainModal').modal('hide');
+                            $('#tb_departments').bootstrapTable('refresh');
+                        }
+
+                    },
+                    error:function(e){
+                        alert("错误！！");
+                    }
+                });
+                $('#mainModal').modal('hide');
+            })
 
             $("#btn_query").click(function () {
                 $("#tb_departments").bootstrapTable('refresh');
@@ -353,6 +495,27 @@
         return oInit;
     };
 
+    /**
+     *  将form序列化Json对象
+     * {key1:"value1",key2:"value2"}
+     * @example
+     * <script>
+     * var formParams = $("#formId").serializeObject();
+     *
+    */
+    /*$.prototype.serializeObject = function() {
+        var a, o, h, i, e;
+        a = this.serializeArray();
+        o = {};
+        h = o.hasOwnProperty;
+        for (i = 0; i < a.length; i++) {
+            e = a[i];
+            if (!h.call(o, e.name)) {
+                o[e.name] = e.value;
+            }
+        }
+        return o;
+    };*/
 
 </script>
 </body>

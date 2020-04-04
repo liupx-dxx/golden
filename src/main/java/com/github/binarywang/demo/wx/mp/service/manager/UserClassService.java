@@ -4,6 +4,9 @@ import com.github.binarywang.demo.wx.mp.entity.surce.LsClass;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsClientUser;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsUserClass;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsUserSignIn;
+import com.github.binarywang.demo.wx.mp.enums.ExamineStateEnum;
+import com.github.binarywang.demo.wx.mp.enums.FeedbackStateEnum;
+import com.github.binarywang.demo.wx.mp.enums.OperationTypeEnum;
 import com.github.binarywang.demo.wx.mp.enums.ResultCodeEnum;
 import com.github.binarywang.demo.wx.mp.repository.client.ClientUserRepository;
 import com.github.binarywang.demo.wx.mp.repository.client.UserSignInRepository;
@@ -151,19 +154,52 @@ public class UserClassService {
         }
         //扣除相应的课时
         int classHourNum = userClass.getClassHourNum();
-        if(classHourNum<=0){
+        if(classHourNum<=1){
             return ResultUtils.fail(ResultCodeEnum.OPERATE_FAIL,"剩余课时不足");
         }
         //证明他购买的该课程还有剩余课时
         //课时扣除1
-        --classHourNum;
+        classHourNum = classHourNum-2;
         userClass.setClassHourNum(classHourNum);
         userClass.setUpdateTime(LocalDateTime.now());
         userClassRepository.save(userClass);
         //记录当前人签到记录
         LsUserSignIn lsUserSignIn = new LsUserSignIn();
         lsUserSignIn.setClassId(userClass.getClassId());
+        lsUserSignIn.setUserName(clientUser.getUserName());
+        lsUserSignIn.setClassType(userClass.getClassType());
         lsUserSignIn.setUserId(clientUser.getId());
+        lsUserSignIn.setClassName(userClass.getClassName());
+        lsUserSignIn.setFlag(OperationTypeEnum.SIGN_IN.getCode());
+        lsUserSignIn.setExamineFlag(ExamineStateEnum.NO_EXAMINE.getCode());
+        lsUserSignIn.setFeedbackFlag(FeedbackStateEnum.NO_FEEDBACK.getCode());
+        lsUserSignIn.setCreateTime(LocalDateTime.now());
+        userSignInRepository.save(lsUserSignIn);
+        return ResultUtils.success();
+    }
+
+
+    /**
+     * 用户请假  不应扣课时
+     *
+     * */
+    @Transactional
+    public ResultEntity leave(String id, LsClientUser clientUser) {
+        //查询该购买记录
+        LsUserClass userClass = userClassRepository.findOne(Long.valueOf(id));
+        if(userClass==null){
+            return ResultUtils.fail(ResultCodeEnum.PARAMETER_ERROR);
+        }
+        //记录当前人请假记录
+        LsUserSignIn lsUserSignIn = new LsUserSignIn();
+        lsUserSignIn.setClassId(userClass.getClassId());
+        lsUserSignIn.setClassName(userClass.getClassName());
+        lsUserSignIn.setUserName(clientUser.getUserName());
+        lsUserSignIn.setUserId(clientUser.getId());
+        lsUserSignIn.setClassType(userClass.getClassType());
+        lsUserSignIn.setFlag(OperationTypeEnum.LEAVE.getCode());
+        lsUserSignIn.setExamineFlag(ExamineStateEnum.UN_EXAMINE.getCode());
+        lsUserSignIn.setFeedbackFlag(FeedbackStateEnum.NO_FEEDBACK.getCode());
         lsUserSignIn.setCreateTime(LocalDateTime.now());
         userSignInRepository.save(lsUserSignIn);
         return ResultUtils.success();
@@ -177,5 +213,4 @@ public class UserClassService {
     public void delById(List<LsUserClass> userClassList) {
         userClassRepository.deleteAll(userClassList);
     }
-
 }

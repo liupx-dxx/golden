@@ -18,6 +18,7 @@ import java.util.Map;
 
 @Controller
 @AllArgsConstructor
+@RequestMapping("/manager")
 public class TeacherMangerController {
 
     TeacherManagerService teacherManagerService;
@@ -26,7 +27,7 @@ public class TeacherMangerController {
      * 跳转到课程页面
      *
      *  */
-    @RequestMapping("/manager/teacher/to-list")
+    @RequestMapping("/teacher/to-list")
     public String toList(){
         return "sys/teacher-list";
     }
@@ -35,7 +36,7 @@ public class TeacherMangerController {
      * 分页获取所有课程信息
      * @return
      */
-    @RequestMapping("/manager/teacher/findPage")
+    @RequestMapping("/teacher/findPage")
     @ResponseBody
     public PageUtils findPage(
         @NotNull(message = "请求参数不能为空")
@@ -63,7 +64,7 @@ public class TeacherMangerController {
      * 跳转到课程详情
      *
      *  */
-    @GetMapping("/manager/teacher/findById/{id}")
+    @GetMapping("/teacher/findById/{id}")
     @ResponseBody
     public LsTeacher findById(
         @NotNull(message = "id不可为空")
@@ -76,7 +77,7 @@ public class TeacherMangerController {
      * 新增预约信息
      * @return
      */
-    @PostMapping(value="/manager/teacher/update")
+    @PostMapping(value="/teacher/update")
     @ResponseBody
     public ResultEntity save(
         @NotNull(message = "对象不可为空")
@@ -88,7 +89,7 @@ public class TeacherMangerController {
      * 获取老师
      * @retu<></>rn
      */
-    @RequestMapping("/manager/teacher/findAll")
+    @RequestMapping("/teacher/findAll")
     @ResponseBody
     public List<LsTeacher> findAll() {
         return teacherManagerService.findAll();

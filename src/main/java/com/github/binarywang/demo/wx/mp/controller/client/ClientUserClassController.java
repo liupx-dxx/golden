@@ -27,6 +27,7 @@ import java.util.Map;
 
 @Controller
 @AllArgsConstructor
+@RequestMapping("/client")
 public class ClientUserClassController {
 
     UserClassService userClassService;
@@ -35,7 +36,7 @@ public class ClientUserClassController {
      * 跳转到用户课程页面
      *
      *  */
-    @RequestMapping("/client/userClass/to-list")
+    @RequestMapping("/userClass/to-list")
     public String toList(){
         return "sys/userClass-list";
     }
@@ -44,7 +45,7 @@ public class ClientUserClassController {
      * 分页获取所有购买信息
      * @return
      */
-    @RequestMapping("/client/userClass/findPage")
+    @RequestMapping("/userClass/findPage")
     @ResponseBody
     public PageUtils findPage(
         @NotNull(message = "请求参数不能为空")
@@ -84,7 +85,7 @@ public class ClientUserClassController {
      * 获取个人购买信息
      * @return
      */
-    @GetMapping("/client/userClass/findAllById")
+    @GetMapping("/userClass/findAllById")
     @ResponseBody
     public ResultEntity findAll(HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -117,7 +118,7 @@ public class ClientUserClassController {
      * 跳转到课程详情
      *
      *  */
-    @GetMapping("/client/userClass/findById/{id}")
+    @GetMapping("/userClass/findById/{id}")
     @ResponseBody
     public LsUserClass findById(
         @NotNull(message = "id不可为空")
@@ -130,7 +131,7 @@ public class ClientUserClassController {
      * 删除用户购买信息
      *
      *  */
-    @GetMapping("/client/userClass/delete/{id}")
+    @GetMapping("/userClass/delete/{id}")
     @ResponseBody
     public ResultEntity deleteById(
         @NotNull(message = "id不可为空")
@@ -143,7 +144,7 @@ public class ClientUserClassController {
      * 新增预约信息
      * @return
      */
-    @PostMapping(value="/client/userClass/update")
+    @PostMapping(value="/userClass/update")
     @ResponseBody
     public ResultEntity save(
         @NotNull(message = "对象不可为空")
@@ -156,7 +157,7 @@ public class ClientUserClassController {
      * 批量新增用户购买课程信息
      * @return
      */
-    @PostMapping(value="/client/userClass/saveAll")
+    @PostMapping(value="/userClass/saveAll")
     @ResponseBody
     public ResultEntity saveAll(
         @NotNull(message = "对象不可为空")
@@ -169,7 +170,7 @@ public class ClientUserClassController {
      * 签到
      *
      *  */
-    @GetMapping("/client/userClass/signIn/{id}")
+    @GetMapping("/userClass/signIn/{id}")
     @ResponseBody
     public ResultEntity signIn(
         @NotNull(message = "id不可为空")
@@ -177,6 +178,20 @@ public class ClientUserClassController {
         HttpSession session = request.getSession();
         LsClientUser clientUser = (LsClientUser) session.getAttribute(LoginInterceptor.CLIENT_SESSION_KEY);
         return userClassService.userSignIn(id,clientUser);
+    }
+
+    /**
+     * 请假
+     *
+     *  */
+    @GetMapping("/userClass/leave/{id}")
+    @ResponseBody
+    public ResultEntity leave(
+        @NotNull(message = "id不可为空")
+        @PathVariable("id") String id,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LsClientUser clientUser = (LsClientUser) session.getAttribute(LoginInterceptor.CLIENT_SESSION_KEY);
+        return userClassService.leave(id,clientUser);
     }
 
 }

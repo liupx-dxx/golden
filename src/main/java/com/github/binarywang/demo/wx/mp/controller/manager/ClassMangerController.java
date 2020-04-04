@@ -18,6 +18,7 @@ import java.util.Map;
 
 @Controller
 @AllArgsConstructor
+@RequestMapping("/manager")
 public class ClassMangerController {
 
     ClassManagerService classManagerService;
@@ -26,7 +27,7 @@ public class ClassMangerController {
      * 跳转课程页面
      *
      *  */
-    @RequestMapping("/manager/class/to-list")
+    @RequestMapping("/class/to-list")
     public String toList(){
         return "sys/userClass-list";
     }
@@ -35,7 +36,7 @@ public class ClassMangerController {
      * 分页获取所有课程信息
      * @return
      */
-    @RequestMapping("/manager/class/findPage")
+    @RequestMapping("/class/findPage")
     @ResponseBody
     public PageUtils findPage(
         @NotNull(message = "请求参数不能为空")
@@ -64,7 +65,7 @@ public class ClassMangerController {
      * 分页获取所有课程信息
      * @return
      */
-    @RequestMapping("/manager/class/findAll")
+    @RequestMapping("/class/findAll")
     @ResponseBody
     public List<LsClass> findAll() {
         return classManagerService.findAll();
@@ -74,7 +75,7 @@ public class ClassMangerController {
      * 跳转到课程详情
      *
      *  */
-    @GetMapping("/manager/class/findById/{id}")
+    @GetMapping("/class/findById/{id}")
     @ResponseBody
     public LsClass findById(
         @NotNull(message = "id不可为空")
@@ -87,7 +88,7 @@ public class ClassMangerController {
      * 新增课程信息
      * @return
      */
-    @PostMapping(value="/manager/class/update")
+    @PostMapping(value="/class/update")
     @ResponseBody
     public ResultEntity save(
         @NotNull(message = "对象不可为空")
@@ -100,7 +101,7 @@ public class ClassMangerController {
      * 批量删除该课程
      *
      *  */
-    @PostMapping("/manager/class/delByIds")
+    @PostMapping("/class/delByIds")
     @ResponseBody
     public ResultEntity delById(
         @NotNull(message = "请求参数不能为空") @RequestBody List<LsClass> lsClasses) {

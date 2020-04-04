@@ -8,34 +8,32 @@ import com.github.binarywang.demo.wx.mp.service.manager.UserService;
 import com.github.binarywang.demo.wx.mp.utils.ResultEntity;
 import com.github.binarywang.demo.wx.mp.utils.ResultUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/manager")
 public class UserController {
     UserService userService;
     ClientUserService clientUserService;
 
 
-    @GetMapping(value="manager/user/findAll")
+    @GetMapping(value="/user/findAll")
     public ResultEntity findAll() {
         List<SysUser> all = userService.findAll();
         return ResultUtils.success(all);
 
     }
 
-    @PostMapping(value="manager/user/save")
+    @PostMapping(value="/user/save")
     public ResultEntity save(@RequestBody SysUser sysUser) {
         userService.save(sysUser);
         return ResultUtils.success();
     }
 
-    @PostMapping(value="manager/clientUser/save")
+    @PostMapping(value="/clientUser/save")
     public ResultEntity saveClientUser(@RequestBody LsClientUser clientUser) {
         LsClientUser user = clientUserService.findByPhone(clientUser.getPhone());
         if(user!=null){
