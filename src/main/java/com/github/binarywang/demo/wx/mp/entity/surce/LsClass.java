@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  *
@@ -102,5 +103,12 @@ public class LsClass {
     @Setter
     @Getter
     private LocalDateTime createTime;
+
+    /**
+     * 课程类型  1、班课  2、小组课 3、一对一
+     * */
+    @Getter@Setter
+    @Transient
+    private List<LsClassTime> classTimes;
 
 }

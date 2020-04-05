@@ -94,12 +94,14 @@
                         <span>选择课程:</span>
                         <select id="classSelect" name="classId">
                         </select>
-                        <!--                        <input type="text" class="form-control" name="phone" id="updatephone" >-->
+                        <span style="margin-left: 20px">选择上课时间:</span>
+                        <select id="timeSelect" name="classTime">
+                        </select>
                     </div>
                     <div class="form-group">
-                        <span>课程类型:</span>
-                        <select id="classTypeSelect" name="classType">
-                            <option value="">---请选择--</option>
+                        <span>课程类型:</span><br/>
+                        <select class="form-control" id="classTypeSelect" name="classType">
+                            <option value="">请选择</option>
                             <option value="1">班课</option>
                             <option value="2">小组课</option>
                             <option value="3">一对一</option>
@@ -270,10 +272,10 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success:function(data){
-                        debugger
                         $("#updatemainid").val(data.id)
                         $("#updatemainname").val(data.clientUserName)
                         $("#updateclientUserPhone").val(data.clientUserPhone)
+                        $("#timeSelect").val(data.classTime)
                         $("#classSelect option[value='"+data.classId+"']").attr("selected",true);
                         $("#classTypeSelect option[value='"+data.classType+"']").attr("selected",true);
                         $("#updateprice").val(data.price)
@@ -379,7 +381,6 @@
                         contentType: "application/json; charset=utf-8",
                         dataType:"json",
                         success: function (data) {
-                            debugger;
                             if (data.code===2000) {
                                 $('#tb_departments').bootstrapTable('refresh');
                             }
@@ -393,6 +394,8 @@
 
                 }
             });
+
+
 
             $("#btn_submit").click(function () {
                 //postdata.DEPARTMENT_NAME = $("#txt_departmentname").val();
@@ -422,6 +425,43 @@
             $("#btn_query").click(function () {
                 $("#tb_departments").bootstrapTable('refresh');
             });
+
+
+            $("#classSelect").change(function () {
+                debugger
+                var classId = $('#classSelect  option:selected').val();
+                if(classId === ''){
+                    $("#timeSelect").empty();//首先清空select现在有的内容
+                }
+                //查询事件段信息
+                $.ajax({
+                    url:"/manager/classTime/findByClassId/"+classId,
+                    type:"get",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success:function(data){
+                        if(data.code != 2000){
+                            alert(data.msg);
+                        }
+                        var timeList = data.data;
+                        if(timeList!=null && timeList.length>0){
+                            debugger
+                            $("#timeSelect").empty();//首先清空select现在有的内容
+                            $("#timeSelect").append("<option selected='selected'  value=0>请选择..</option>");
+                            for (var i = 0; i < timeList.length; i++) {
+                                var item = timeList[i];
+                                // var option = $("<option  value="+item.id+">"+item.name+"</option>");
+                                $("#timeSelect").append("<option  value=" +item.week + '-'+ item.startTime+"-"+item.endTime+ ">" + "每"+item.week + item.startTime+"--"+item.endTime+"</option>");
+                            }
+                        }
+
+                    },
+                    error:function(e){
+                        alert("错误！！");
+                    }
+                });
+            });
+
         };
 
         return oInit;

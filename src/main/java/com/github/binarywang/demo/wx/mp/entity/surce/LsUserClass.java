@@ -57,6 +57,12 @@ public class LsUserClass {
     private String clientUserName;
 
     /**
+     * 客户端用户选择的上课时间
+     * */
+    @Getter@Setter
+    private String classTime;
+
+    /**
      * 实付价格
      * */
     @Getter@Setter

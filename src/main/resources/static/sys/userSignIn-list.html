@@ -167,7 +167,6 @@
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success:function(data){
-                debugger
                 $("#classSelect").empty();//首先清空select现在有的内容
                 $("#classSelect").append("<option selected='selected'  value=0>请选择..</option>");
                 for (var i = 0; i < data.length; i++) {
@@ -322,7 +321,6 @@
 
             },
             'click .Sh_RoleOfdelete': function (e, value, row, index) {
-                debugger
                 var ids= row.id
                 $("#sh_id").val(row.id);
                 $('#sh_mainModal').modal('show');
@@ -421,7 +419,6 @@
                         contentType: "application/json; charset=utf-8",
                         dataType:"json",
                         success: function (data) {
-                            debugger;
                             if (data.code===2000) {
                                 $('#tb_departments').bootstrapTable('refresh');
                             }

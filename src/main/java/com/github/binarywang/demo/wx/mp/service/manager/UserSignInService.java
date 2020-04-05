@@ -73,7 +73,7 @@ public class UserSignInService {
      *
      * 批量删除
      * */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void delById(List<LsUserSignIn> userSignInList) {
         userSignInRepository.deleteAll(userSignInList);
     }

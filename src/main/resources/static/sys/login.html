@@ -75,7 +75,6 @@
             data: JSON.stringify(saveDataForm),
             dataType: "json",
             success:function(data){
-                debugger
                 if (data.code != '2000') {
                     alert(data.msg);
                     return

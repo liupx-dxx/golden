@@ -1,19 +1,25 @@
 package com.github.binarywang.demo.wx.mp.service.manager;
 
 import com.github.binarywang.demo.wx.mp.entity.surce.LsClass;
+import com.github.binarywang.demo.wx.mp.entity.surce.LsClassTime;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsTeacher;
 import com.github.binarywang.demo.wx.mp.repository.manager.ClassManagerRepository;
+import com.github.binarywang.demo.wx.mp.repository.manager.ClassTimeRepository;
 import com.github.binarywang.demo.wx.mp.repository.manager.TeacherManagerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static com.github.binarywang.demo.wx.mp.entity.surce.QLsClassTime.lsClassTime;
 
 @Service
 @AllArgsConstructor
@@ -23,6 +29,8 @@ public class ClassManagerService {
     ClassManagerRepository classManagerRepository;
 
     TeacherManagerRepository teacherManagerRepository;
+
+    ClassTimeRepository classTimeRepository;
 
     /**
      * 分页获取所有信息
@@ -42,16 +50,30 @@ public class ClassManagerService {
      * 新增课程
      *
      * */
+    @Transactional(rollbackFor = Exception.class)
     public void save(LsClass lsClass) {
-        Long teacherId = lsClass.getTeacherId();
-        if(teacherId!=null){
-            LsTeacher one = teacherManagerRepository.findOne(teacherId);
-            if(one!=null){
-                lsClass.setTeacherName(one.getTeacherName());
-            }
-        }
+
         lsClass.setCreateTime(LocalDateTime.now());
-        classManagerRepository.save(lsClass);
+        LsClass classEntity = classManagerRepository.save(lsClass);
+        List<LsClassTime> timeList = classTimeRepository.findByclassId(classEntity.getId());
+        if(!CollectionUtils.isEmpty(timeList)){
+            //如果原先存在 就把之前的删除
+            classTimeRepository.deleteAll(timeList);
+        }
+        //增加课程上课时间
+        List<LsClassTime> classTimes = lsClass.getClassTimes();
+        List<LsClassTime> lsClassTimeList = new ArrayList<>();
+        if(!CollectionUtils.isEmpty(classTimes)){
+            classTimes.stream().forEach(item ->{
+                LsClassTime lsClassTime = new LsClassTime();
+                lsClassTime.setClassId(classEntity.getId());
+                lsClassTime.setWeek(item.getWeek());
+                lsClassTime.setStartTime(item.getStartTime());
+                lsClassTime.setEndTime(item.getEndTime());
+                lsClassTimeList.add(lsClassTime);
+            });
+            classTimeRepository.saveAll(lsClassTimeList);
+        }
     }
 
 
@@ -67,14 +89,24 @@ public class ClassManagerService {
         if(byId==null){
             return null;
         }
-        return byId.get();
+        LsClass lsClass = byId.get();
+        if(lsClass!=null){
+            Long classId = lsClass.getId();
+            List<LsClassTime> timeList = classTimeRepository.findByclassId(classId);
+            lsClass.setClassTimes(timeList);
+        }
+        return lsClass;
     }
     /**
      *
      * 批量删除
      * */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void delById(List<LsClass> lsClasses) {
         classManagerRepository.deleteAll(lsClasses);
+    }
+
+    public List<LsClass> findByIds(List<Long> classIds) {
+        return classManagerRepository.findByIds(classIds);
     }
 }

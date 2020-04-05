@@ -92,7 +92,7 @@ public class UserClassService {
      * 批量保存用户课程
      *
      * */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void saveAll(UserClassReq userClassReq) {
         List<LsUserClass> userClassList = userClassReq.getUserClassList();
         if(!CollectionUtils.isEmpty(userClassList)){
@@ -145,7 +145,7 @@ public class UserClassService {
      * 用户签到扣除相应的课时
      *
      * */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ResultEntity userSignIn(String id, LsClientUser clientUser) {
         //查询该购买记录
         LsUserClass userClass = userClassRepository.findOne(Long.valueOf(id));
@@ -183,7 +183,7 @@ public class UserClassService {
      * 用户请假  不应扣课时
      *
      * */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ResultEntity leave(String id, LsClientUser clientUser) {
         //查询该购买记录
         LsUserClass userClass = userClassRepository.findOne(Long.valueOf(id));
@@ -209,8 +209,12 @@ public class UserClassService {
      *
      * 批量删除
      * */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void delById(List<LsUserClass> userClassList) {
         userClassRepository.deleteAll(userClassList);
+    }
+
+    public List<LsUserClass> findByClassId(Long id) {
+        return userClassRepository.findByClassId(id);
     }
 }

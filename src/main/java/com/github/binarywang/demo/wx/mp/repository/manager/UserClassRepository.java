@@ -5,16 +5,30 @@ import com.github.binarywang.demo.wx.mp.entity.surce.QLsUserClass;
 import com.github.binarywang.demo.wx.mp.repository.common.BaseJpaRepository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Map;
 
 @Repository
 public class UserClassRepository extends BaseJpaRepository<LsUserClass,Long> {
+
+    @Bean
+    @Autowired
+    public JPAQueryFactory jpaQuery(EntityManager entityManager) {
+        return new JPAQueryFactory(entityManager);
+    }
+
+    @Autowired
+    JPAQueryFactory queryFactory;
 
 
     /**
@@ -86,5 +100,21 @@ public class UserClassRepository extends BaseJpaRepository<LsUserClass,Long> {
 
 
         return findAll(builder);
+    }
+
+    /**
+     * 根据批量查询
+     * @param
+     * @return
+     */
+    public List<LsUserClass> findByClassId(Long id) {
+        QLsUserClass qLsUserClass = QLsUserClass.lsUserClass;
+        BooleanBuilder builder = new BooleanBuilder();
+
+        builder.and(qLsUserClass.classId.eq(id+""));
+        builder.and(qLsUserClass.classHourNum.gt(0));
+        List<LsUserClass> lsUserClasses = queryFactory.selectDistinct(qLsUserClass.clientUserPhone).select(qLsUserClass).where(builder).fetch();
+
+        return lsUserClasses;
     }
 }

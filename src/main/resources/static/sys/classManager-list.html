@@ -77,8 +77,9 @@
                     </div>
                     <div class="form-group">
                         <span>课程老师:</span>
-                        <select id="teacherSelect" name="teacherId">
-                        </select>
+                        <input type="text" class="form-control" name="teacherName" id="updateteacherName" >
+                        <!--<select id="teacherSelect" name="teacherId">
+                        </select>-->
 <!--                        <input type="text" class="form-control" name="phone" id="updatephone" >-->
                     </div>
                     <div class="form-group">
@@ -90,8 +91,11 @@
                         <input type="text" class="form-control" name="classAddress" id="updateclassAddress" >
                     </div>
                     <div class="form-group">
-                        <span>价格(元):</span>
-                        <input type="text" class="form-control" name="price" id="updateprice" >
+                        <span>上课时间:</span>
+                        <button id="add_time" type="button" style="float: right" class="btn btn-success">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加时间段
+                        </button>
+                        <span id="appendStr"></span>
                     </div>
                     <div class="form-group">
                         <span>课程介绍:</span>
@@ -112,6 +116,30 @@
 </div>
 <script>
 
+    $(document).ready(function(){
+        //点击确定按钮给时间框赋值，然后删除动态生成的div
+        $('.time-label').on('click','.time-btn',function(event,len){
+            var len = $(this).parent().siblings('.time-ipt').attr('data-len');
+            if(len == 3){
+                var h = $(this).siblings('.hour').val();
+                var m = $(this).siblings('.minute').val();
+                var s = $(this).siblings('.second').val();
+                var nowtime = h + ':' + m + ':' + s
+                $(this).parent().siblings('.time-ipt').val(nowtime);
+            }else if(len == 2){
+                var h = $(this).siblings('.hour').val();
+                var m = $(this).siblings('.minute').val();
+                var nowtime = h + ':' + m
+                $(this).parent().siblings('.time-ipt').val(nowtime);
+            }
+            $(this).attr('disabled',true);
+            $(this).parent().siblings('.time-ipt').attr('disabled',false);
+            $(this).parent().remove();
+            return false;
+        })
+
+    });
+
     $(function () {
 
         $.prototype.serializeObject = function() {
@@ -130,7 +158,7 @@
             return o;
         };
 
-        //查询老师信息
+        /*//查询老师信息
         $.ajax({
             url:"/manager/teacher/findAll",
             type:"post",
@@ -149,7 +177,7 @@
             error:function(e){
                 alert("错误！！");
             }
-        });
+        });*/
 
 
         //1.初始化Table
@@ -218,11 +246,11 @@
                     field: 'teacherName',
                     title: '老师姓名',
                     align: 'center'
-                }, {
+                }/*, {
                     field: 'price',
                     title: '价格（元）',
                     align: 'center'
-                }/*, {
+                }*//*, {
                     field: 'startTime',
                     title: '开始时间',
                     align: 'center'
@@ -248,6 +276,7 @@
         }
 
         window.operateEvents = {
+            //清空
             'click .RoleOfdelete': function (e, value, row, index) {
                 $.ajax({
                     url:"/manager/class/findById/"+row.id,
@@ -255,13 +284,36 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success:function(data){
+                        $('#appendStr').text("");
                         $("#updatemainid").val(data.id);
                         $("#updateclassName").val(data.className);
-                        $("#teacherSelect option[value='"+data.teacherId+"']").attr("selected",true);
+                        //$("#teacherSelect option[value='"+data.teacherId+"']").attr("selected",true);
+                        $("#updateteacherName").val(data.teacherName);
                         $("#updatecampusName").val(data.campusName);
                         $("#updateclassAddress").val(data.classAddress);
                         $("#updateclassDetail").val(data.classDetail);
                         $("#updateprice").val(data.price);
+                        var classTimes = data.classTimes;
+                        for(var i=0;i < classTimes.length;i++) {
+                            var weekValue = classTimes[i]["week"];
+                            var startTime = classTimes[i]["startTime"];
+                            var endTime = classTimes[i]["endTime"];
+                            var input =
+                                '<div class="div_time">' +
+                                '   <select style="margin-top: 5px" class="week">' +
+                                '                            <option value="星期一">星期一</option>' +
+                                '                            <option value="星期二">星期二</option>' +
+                                '                            <option value="星期三">星期三</option>' +
+                                '                            <option value="星期四">星期四</option>' +
+                                '                            <option value="星期五">星期五</option>' +
+                                '                            <option value="星期六">星期六</option>' +
+                                '                            <option value="星期日">星期日</option>' +
+                                '   </select>' +
+                                '                       <input class="startTime" value="'+startTime+'" style="margin-left: 10px" type="time"> -- <input class="endTime" value="'+endTime+'" type="time">' +
+                                '</div>';
+                            $("#appendStr").append(input);
+                            $(".week option[value='" + weekValue + "']").attr("selected", true);
+                        }
                         $('#mainModal').modal('show');
                     },
                     error:function(e){
@@ -298,6 +350,7 @@
 
         oInit.Init = function () {
             $("#btn_add").click(function () {
+                $("#updatemainid").val("");
                 $("#mainModal").modal("show");
             });
 
@@ -320,8 +373,23 @@
             })
 
             $("#submit").click(function () {
-                debugger;
-                var d = $("#update-form").serializeObject()
+                var arrayTime = new Array();
+                //获取时间段
+                $("#appendStr").children(".div_time").each(function () {
+                    var weekValue = $(this).children(".week").val();
+                    var startTime = $(this).children(".startTime").val();
+                    var endTime = $(this).children(".endTime").val();
+                    var timeObjet =
+                        {
+                            "week":weekValue,
+                            "startTime":startTime,
+                            "endTime":endTime,
+                        };
+                    arrayTime.push(timeObjet);
+                })
+                var d = $("#update-form").serializeObject();
+                var classTimes = JSON.stringify(arrayTime);
+                eval("d.classTimes="+classTimes);
                 var data = JSON.stringify(d);
                 $.ajax({
                     url:"/manager/class/update",
@@ -348,7 +416,6 @@
 
             $("#btn_delete").click(function () {
                 var arrselections = $("#tb_departments").bootstrapTable('getSelections');
-                debugger;
                 if (arrselections.length <= 0) {
                     alert('请选择有效数据');
                     return;
@@ -363,8 +430,7 @@
                         contentType: "application/json; charset=utf-8",
                         dataType:"json",
                         success: function (data) {
-                            alert(data)
-                            if (data.code==='2000') {
+                            if (data.code===2000) {
                                 $('#tb_departments').bootstrapTable('refresh');
                             }
                         },
@@ -376,6 +442,23 @@
                     // 取消操作
                 }
 
+            });
+
+            $("#add_time").click(function () {
+                var input =
+                    '<div class="div_time">' +
+                    '   <select style="margin-top: 5px" class="week">' +
+                    '                            <option value="星期一">星期一</option>' +
+                    '                            <option value="星期二">星期二</option>' +
+                    '                            <option value="星期三">星期三</option>' +
+                    '                            <option value="星期四">星期四</option>' +
+                    '                            <option value="星期五">星期五</option>' +
+                    '                            <option value="星期六">星期六</option>' +
+                    '                            <option value="星期日">星期日</option>' +
+                    '   </select>' +
+                    '                       <input class="startTime" style="margin-left: 10px" type="time"> -- <input class="endTime" type="time">'+
+                    '</div>';
+                $("#appendStr").append(input);
             });
 
             $("#btn_submit").click(function () {
