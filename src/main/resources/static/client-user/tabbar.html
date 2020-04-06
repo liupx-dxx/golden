@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>jQuery WeUI</title>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <link rel="stylesheet" href="../lib/weui.min.css">
+    <link rel="stylesheet" href="../css/jquery-weui.css">
+    <link rel="stylesheet" href="../css/demos.css">
+      <link rel="stylesheet" href="../css/reset.css"/>
+      <link rel="stylesheet" href="../css/list.css"/>
+
+  </head>
+
+  <body ontouchstart>
+
+    <div class="weui-tab">
+      <div class="weui-tab__bd">
+        <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+          <h1>页面一</h1>
+        </div>
+        <div id="tab2" class="weui-tab__bd-item">
+            <!-- 列表 -->
+            <div id="list" style="padding-top: 0px"></div>
+            <div id="loading">加载完毕</div>
+        </div>
+        <div id="tab3" class="weui-tab__bd-item">
+            <div class="weui-cells">
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__hd"><img src="/images/weichat/iconweixinpengyouquan.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__bd">
+                        <p>朋友圈</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+
+            </div>
+            <div class="weui-cells">
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__hd"><img src="/images/weichat/saoyisao.png"  alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__bd">
+                        <p>扫一扫</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__hd"><img  src="/images/weichat/share.png"     alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__bd">
+                        <p>摇一摇</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+            </div>
+            <div class="weui-cells">
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__hd"><img  src="/images/weichat/Sercher.png"  alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__bd">
+                        <p>看一看</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__hd"><img  src="/images/weichat/select.png"  alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__bd">
+                        <p>搜一搜</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+
+            </div>
+            <div class="weui-cells">
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__hd"><img  src="/images/weichat/nearpeople.png"  alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__bd">
+                        <p>附近的人</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__hd"><img  src="/images/weichat/floatcup.png"  alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__bd">
+                        <p>漂流瓶</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+
+            </div>
+        </div>
+        <div id="tab4" class="weui-tab__bd-item">
+            <div class="weui-cells">
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__hd"><img   src="/images/weichat/package.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__bd">
+                        <p>钱包 </p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+            </div>
+            <div class="weui-cells">
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__hd"><img   src="/images/weichat/xiaochengxu.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__bd">
+                        <p>小程序</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__hd"><img   src="/images/weichat/bhj3dweixinqiang.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__bd">
+                        <p>收藏</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__hd"><img   src="/images/weichat/photo.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__bd">
+                        <p>相册</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__hd"><img   src="/images/weichat/cardpackage.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__bd">
+                        <p>卡包</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__hd"><img   src="/images/weichat/emotion.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__bd">
+                        <p>表情</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+
+
+            </div>
+            <div class="weui-cells">
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__hd"><img   src="/images/weichat/seting.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__bd">
+                        <p>设置</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+            </div>
+        </div>
+      </div>
+
+      <div class="weui-tabbar">
+        <a href="#tab1" class="weui-tabbar__item weui-bar__item--on">
+          <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
+          <div class="weui-tabbar__icon">
+            <img src="../images/icon_nav_button.png" alt="">
+          </div>
+          <p class="weui-tabbar__label">消息</p>
+        </a>
+        <a href="#tab2" class="weui-tabbar__item">
+          <div class="weui-tabbar__icon">
+            <img src="../images/icon_nav_msg.png" alt="">
+          </div>
+          <p class="weui-tabbar__label">课程列表</p>
+        </a>
+        <a href="#tab3" class="weui-tabbar__item">
+          <div class="weui-tabbar__icon">
+            <img src="../images/icon_nav_article.png" alt="">
+          </div>
+          <p class="weui-tabbar__label">发现</p>
+        </a>
+        <a href="#tab4" class="weui-tabbar__item">
+          <div class="weui-tabbar__icon">
+            <img src="../images/icon_nav_cell.png" alt="">
+          </div>
+          <p class="weui-tabbar__label">我的</p>
+        </a>
+      </div>
+    </div>
+
+    <script src="../lib/jquery-2.1.4.js"></script>
+    <script src="../lib/fastclick.js"></script>
+    <script src="../js/jquery-weui.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/detailList.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script src="../js/jquery-weui.js"></script>
+
+    <script>
+      $("#a").select({
+        title: "选择职业",
+        items: ["法官", "医生", "猎人", "学生", "记者", "其他"]
+      });
+
+      var userName = "user";
+
+      $(function() {
+          FastClick.attach(document.body);
+      });
+      var detailList = new h5Detail2list();
+      var loading = false;
+      var listnum = 0; //总加载条数
+      var num = 5 //每次加载条数
+      if ($.isEmptyObject(detailList.getLocalStorage()['extraData']) || !detailList.isBack()) {
+          //初始化
+          getList();
+      }
+      listnum = $.isEmptyObject(detailList.getLocalStorage()['extraData']) ? listnum : detailList.getLocalStorage()[
+          'extraData']['lastIndex'];
+
+      //模拟ajax数据请求
+      function getList() {
+          $.ajax({
+              url: "/client/userClass/findAllById",
+              type: "get",
+              dataType: 'json',
+              success: function(data) {
+                  var dataObjiect = data.data;
+                  var dataList = dataObjiect.userClassList;
+                  userName = dataObjiect.phone;
+                  var li = '';
+                  var data_length = dataList.length; //数据的总条数
+                  var remainder = data_length % num; //page 是每次加载的条数，利用数据的总条数/每次加载条数 取余数
+                  if (listnum <= data_length && dataList.length >= (num + listnum)) {
+                      loading = true
+                      for (i = listnum; i < (num + listnum); i++) {
+                          li
+                              += '' +
+                              '<div class="weui-form-preview">'+
+                              '   <div class="weui-form-preview__hd">'+
+                              '       <div class="weui-form-preview__item">'+
+                              '       <label class="weui-form-preview__label">课程名称</label>'+
+                              '       <em class="weui-form-preview__value">'+dataList[i]["className"]+'</em>'+
+                              // '           <a herf="javascript:" style="font-size: 10px" onclick="discuss('+dataList[i]["id"]+')">进入讨论区>>></a>'+
+                              '       </div>'+
+                              '   </div>'+
+                              '   <div class="weui-form-preview__bd">'+
+                              '       <div class="weui-form-preview__item">'+
+                              '           <label class="weui-form-preview__label">课程类型</label>'+
+                              '           <span class="weui-form-preview__value">'+dataList[i]["classType"]+'</span>'+
+                              '       </div>'+
+                              '       <div class="weui-form-preview__item">'+
+                              '           <label class="weui-form-preview__label">购买金额</label>'+
+                              '           <span class="weui-form-preview__value">'+dataList[i]["price"]+'</span>'+
+                              '       </div>'+
+                              '       <div class="weui-form-preview__item">'+
+                              '           <label class="weui-form-preview__label">上课时间</label>'+
+                              '           <span class="weui-form-preview__value">'+'每'+dataList[i]["classTime"]+'</span>'+
+                              '       </div>'+
+                              '       <div class="weui-form-preview__item">'+
+                              '           <label class="weui-form-preview__label">剩余课时</label>'+
+                              '           <span class="weui-form-preview__value" style="font-size: 24px">'+dataList[i]["classHourNum"]+'</span>'+
+                              '       </div>'+
+                              '   </div>'+
+                              '   <div class="weui-form-preview__ft">'+
+                              '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="leave('+dataList[i]["id"]+')">请假</a>'+
+                              '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="sign('+dataList[i]["id"]+')">签到</a>'+
+                              '   </div>'+
+                              '</div>';
+                      }
+                      $("#list").append(li);
+                      listnum += num;
+
+                  }else if (remainder != 0 && data_length - listnum == remainder) {
+                      loading = true
+                      for (i = listnum; i < (remainder + listnum); i++) {
+                          li
+                              += '' +
+                              '<div class="weui-form-preview">'+
+                              '   <div class="weui-form-preview__hd">'+
+                              '       <div class="weui-form-preview__item">'+
+                              '       <label class="weui-form-preview__label">课程名称</label>'+
+                              '       <em class="weui-form-preview__value">'+dataList[i]["className"]+'</em>'+
+                              // '           <a herf="javascript:" style="font-size: 10px" onclick="discuss('+dataList[i]["id"]+')">进入讨论区>>></a>'+
+                              '       </div>'+
+                              '   </div>'+
+                              '   <div class="weui-form-preview__bd">'+
+                              '       <div class="weui-form-preview__item">'+
+                              '           <label class="weui-form-preview__label">课程类型</label>'+
+                              '           <span class="weui-form-preview__value">'+dataList[i]["classType"]+'</span>'+
+                              '       </div>'+
+                              '       <div class="weui-form-preview__item">'+
+                              '           <label class="weui-form-preview__label">购买金额</label>'+
+                              '           <span class="weui-form-preview__value">'+dataList[i]["price"]+'</span>'+
+                              '       </div>'+
+                              '       <div class="weui-form-preview__item">'+
+                              '           <label class="weui-form-preview__label">上课时间</label>'+
+                              '           <span class="weui-form-preview__value">'+'每'+dataList[i]["classTime"]+'</span>'+
+                              '       </div>'+
+                              '       <div class="weui-form-preview__item">'+
+                              '           <label class="weui-form-preview__label">剩余课时</label>'+
+                              '           <span class="weui-form-preview__value" style="font-size: 24px">'+dataList[i]["classHourNum"]+'</span>'+
+                              '       </div>'+
+                              '   </div>'+
+                              '   <div class="weui-form-preview__ft">'+
+                              '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="leave('+dataList[i]["id"]+')">请假</a>'+
+                              '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="sign('+dataList[i]["id"]+')">签到</a>'+
+                              '   </div>'+
+                              '</div>';
+                      }
+                      $("#list").append(li);
+                      listnum += num;
+                  }  else {
+                      loading = false
+                      $('#loading').html("没有更多了哦~");
+                  }
+              },
+              error: function() {
+                  console.log("出错了");
+              }
+          });
+      }
+      //滚动加载
+      $(window).scroll(function() {
+          if ($(window).scrollTop() + $(window).height() - $(document).height() >= -1) {
+              if (!loading) {
+                  $('#loading').html("没有更多了哦~");
+                  return false;;
+              } else {
+                  setTimeout(function() {
+                      // 滚动加载
+                      $('#loading').html("正在加载中···");
+                      getList();
+                      detailList.insertHtmlStr($("#list").html(), {
+                          lastIndex: listnum
+                      });
+                  }, 1000);
+              }
+          }
+      });
+
+      function discuss(id) {
+          window.location.href = "/websocket/"+userName;
+      }
+      function sign(id){
+
+          $.confirm("您确定要签到吗?", "确认签到?", function() {
+              $.ajax({
+                  url: "/client/userClass/signIn/"+id,
+                  type: "get",
+                  contentType: "application/json; charset=utf-8",
+                  dataType: "json",
+                  success: function (data) {
+                      if (data.code != '2000') {
+                          alert(data.msg);
+                          return
+                      } else {
+                          $.toptip('签到成功', 'success');
+                          //window.location.reload();
+                          window.location.href = "/client/to-personal";
+                      }
+                  },
+                  error: function (e) {
+                      alert("错误！！");
+                  }
+              });
+          }, function() {
+              //取消操作
+          });
+
+      }
+      //请假
+      function leave(id){
+
+          $.confirm("您确定要请假吗?", "确认请假?", function() {
+              $.ajax({
+                  url: "/client/userClass/leave/"+id,
+                  type: "get",
+                  contentType: "application/json; charset=utf-8",
+                  dataType: "json",
+                  success: function (data) {
+                      if (data.code != '2000') {
+                          alert(data.msg);
+                          return
+                      } else {
+                          $.toptip('请假成功', 'success');
+                          //window.location.reload();
+                          window.location.href = "/client/to-personal";
+                      }
+                  },
+                  error: function (e) {
+                      alert("错误！！");
+                  }
+              });
+          }, function() {
+              //取消操作
+          });
+
+      }
+    </script>
+  </body>
+</html>
