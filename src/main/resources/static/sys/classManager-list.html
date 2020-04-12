@@ -190,6 +190,12 @@
 
     });
 
+    // 用来绑定事件(使用unbind避免重复绑定)
+    function bindListener(){
+        $("button[name=rmlink]").unbind().click(function(){
+            $(this).parent().remove();
+        })
+    }
 
     var TableInit = function () {
         var oTableInit = new Object();
@@ -295,24 +301,33 @@
                         $("#updateprice").val(data.price);
                         var classTimes = data.classTimes;
                         for(var i=0;i < classTimes.length;i++) {
+                            debugger;
+                            var timeId = classTimes[i]["id"];
                             var weekValue = classTimes[i]["week"];
                             var startTime = classTimes[i]["startTime"];
                             var endTime = classTimes[i]["endTime"];
+                            var seleted = "week"+i;
                             var input =
                                 '<div class="div_time">' +
-                                '   <select style="margin-top: 5px" class="week">' +
-                                '                            <option value="星期一">星期一</option>' +
-                                '                            <option value="星期二">星期二</option>' +
-                                '                            <option value="星期三">星期三</option>' +
-                                '                            <option value="星期四">星期四</option>' +
-                                '                            <option value="星期五">星期五</option>' +
-                                '                            <option value="星期六">星期六</option>' +
-                                '                            <option value="星期日">星期日</option>' +
+                                '   <input type="text" class="ids" value="'+timeId+'" hidden="hidden">'+
+                                '   <select style="margin-top: 5px" id="'+seleted+'" class="week">' +
+                                '                            <option value="周一">周一</option>' +
+                                '                            <option value="周二">周二</option>' +
+                                '                            <option value="周三">周三</option>' +
+                                '                            <option value="周四">周四</option>' +
+                                '                            <option value="周五">周五</option>' +
+                                '                            <option value="周六">周六</option>' +
+                                '                            <option value="周日">周日</option>' +
                                 '   </select>' +
                                 '                       <input class="startTime" value="'+startTime+'" style="margin-left: 10px" type="time"> -- <input class="endTime" value="'+endTime+'" type="time">' +
+                                '       <button name="rmlink" type="button" class="btn btn-danger">' +
+                                '            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除' +
+                                '        </button>'+
                                 '</div>';
                             $("#appendStr").append(input);
-                            $(".week option[value='" + weekValue + "']").attr("selected", true);
+                            // 为新元素节点添加事件侦听器
+                            bindListener();
+                            $("#"+seleted+" option[value='" + weekValue + "']").attr("selected", true);
                         }
                         $('#mainModal').modal('show');
                     },
@@ -376,11 +391,13 @@
                 var arrayTime = new Array();
                 //获取时间段
                 $("#appendStr").children(".div_time").each(function () {
+                    var id = $(this).children(".ids").val();
                     var weekValue = $(this).children(".week").val();
                     var startTime = $(this).children(".startTime").val();
                     var endTime = $(this).children(".endTime").val();
                     var timeObjet =
                         {
+                            "id":id,
                             "week":weekValue,
                             "startTime":startTime,
                             "endTime":endTime,
@@ -448,17 +465,22 @@
                 var input =
                     '<div class="div_time">' +
                     '   <select style="margin-top: 5px" class="week">' +
-                    '                            <option value="星期一">星期一</option>' +
-                    '                            <option value="星期二">星期二</option>' +
-                    '                            <option value="星期三">星期三</option>' +
-                    '                            <option value="星期四">星期四</option>' +
-                    '                            <option value="星期五">星期五</option>' +
-                    '                            <option value="星期六">星期六</option>' +
-                    '                            <option value="星期日">星期日</option>' +
+                    '                            <option value="周一">周一</option>' +
+                    '                            <option value="周二">周二</option>' +
+                    '                            <option value="周三">周三</option>' +
+                    '                            <option value="周四">周四</option>' +
+                    '                            <option value="周五">周五</option>' +
+                    '                            <option value="周六">周六</option>' +
+                    '                            <option value="周日">周日</option>' +
                     '   </select>' +
                     '                       <input class="startTime" style="margin-left: 10px" type="time"> -- <input class="endTime" type="time">'+
+                    '       <button type="button" name="rmlink" class="btn btn-danger">' +
+                    '            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除' +
+                    '        </button>'+
                     '</div>';
                 $("#appendStr").append(input);
+                // 为新元素节点添加事件侦听器
+                bindListener();
             });
 
             $("#btn_submit").click(function () {

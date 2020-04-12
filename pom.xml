@@ -182,6 +182,10 @@
             <id>dev</id>
             <properties>
                 <profiles.active>dev</profiles.active>
+                <spring.datasource.driverClassName>com.mysql.cj.jdbc.Driver</spring.datasource.driverClassName>
+                <spring.datasource.url>jdbc:mysql://rm-8vbubvp50xnv21fl31o.mysql.zhangbei.rds.aliyuncs.com:3306/education?useUnicode=true&amp;zeroDateTimeBehavior=convertToNull&amp;autoReconnect=true&amp;characterEncoding=utf-8</spring.datasource.url>
+                <spring.datasource.username>lpx_root</spring.datasource.username>
+                <spring.datasource.password>lpx_root</spring.datasource.password>
             </properties>
         </profile>
         <profile>
@@ -189,6 +193,10 @@
             <id>local</id>
             <properties>
                 <profiles.active>local</profiles.active>
+                <spring.datasource.driverClassName>com.mysql.cj.jdbc.Driver</spring.datasource.driverClassName>
+                <spring.datasource.url>jdbc:mysql://127.0.0.1:3306/education?useUnicode=true&amp;zeroDateTimeBehavior=convertToNull&amp;autoReconnect=true&amp;characterEncoding=utf-8</spring.datasource.url>
+                <spring.datasource.username>root</spring.datasource.username>
+                <spring.datasource.password>root</spring.datasource.password>
             </properties>
         </profile>
     </profiles>

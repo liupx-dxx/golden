@@ -30,7 +30,7 @@ public class ClientUserController {
         HttpSession session = request.getSession();
         LsClientUser attribute = (LsClientUser) session.getAttribute(LoginInterceptor.CLIENT_SESSION_KEY);
         model.addAttribute("user",attribute.getPhone());
-        return "client-user/personal";
+        return "client-user/tabbar";
     }
 
     @PostMapping(value="/personal")

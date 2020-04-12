@@ -1,11 +1,11 @@
 package com.github.binarywang.demo.wx.mp.scheduled;
 
 import com.github.binarywang.demo.wx.mp.entity.surce.LsClass;
-import com.github.binarywang.demo.wx.mp.entity.surce.LsClassTime;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsSignInRemind;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsUserClass;
 import com.github.binarywang.demo.wx.mp.service.manager.ClassManagerService;
 import com.github.binarywang.demo.wx.mp.service.manager.ClassTimeService;
+import com.github.binarywang.demo.wx.mp.service.manager.SignInRemindService;
 import com.github.binarywang.demo.wx.mp.service.manager.UserClassService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,6 +29,7 @@ import java.util.stream.Collectors;
 @Configuration      //1.主要用于标记配置类，兼备Component的效果。
 @EnableScheduling   // 2.开启定时任务
 public class UserClassTask {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(UserClassTask.class);
 
     @Autowired
@@ -32,45 +38,51 @@ public class UserClassTask {
     ClassManagerService classManagerService;
     @Autowired
     ClassTimeService classTimeService;
-    //每天半小时查询有没有半小时之后需要签到的用户
-    @Scheduled(cron = "0 0/30 * * * ?")
+    @Autowired
+    SignInRemindService signInRemindService;
+    //每天半小时查询有没有半小时之后需要签到的用户  半小时: 0 */30 * * * ?  十秒: 0/10 * *  * * ?
+    //@Scheduled(cron = "0 */30 * * * ?")
+    @Scheduled(cron = "0 */30 * * * ?")
     public void remind(){
+
         //查看今天是周几
         String week = getWeek();
-        //获取今天有那些课
-        List<LsClassTime> lsClassTimeList = classTimeService.findByWeek(week);
-        if(CollectionUtils.isEmpty(lsClassTimeList)){
-            LOGGER.info("今天"+week+"没有课程可以上哦!");
-            return;
-        }
-        //证明今天有课程可以上  查询当前有哪些课程
-        List<Long> classIds = lsClassTimeList.stream().map(LsClassTime::getClassId).collect(Collectors.toList());
-        if(CollectionUtils.isEmpty(classIds)){
-            LOGGER.info("你的数据问题哦！课程的ID为空了！");
-            return;
-        }
-        List<LsClass> classList = classManagerService.findByIds(classIds);
-        if(CollectionUtils.isEmpty(classList)){
-            LOGGER.info("你的数据问题哦！查询课程信息的为空了！");
-            return;
-        }
+        LOGGER.info("今天"+week+"开始提醒用户签到咯!");
+        //获取当前时间
+        String time = getDate();
         List<LsSignInRemind> signInRemindList = new ArrayList<>();
-        //查询正常 流程继续  获取购买该课程的学生  并且是课时大于0的
-        classList.stream().forEach(item ->{
-            List<LsUserClass> userClassList = userClassService.findByClassId(item.getId());
-            if(CollectionUtils.isEmpty(classList)){
-                LOGGER.info("该课程并没有学生报名哦!");
+        //查询所有用户
+        List<LsUserClass> classList = userClassService.findByWeek(week);
+        if(CollectionUtils.isEmpty(classList)){
+            LOGGER.info("今天没有需要提醒签到的学生");
+            return;
+        }
+        classList.stream().forEach(userClass ->{
+            //再去判断该学生是不是选择的该时间段
+            String classTime = userClass.getClassTime();
+            if(StringUtils.isEmpty(classTime)){
+                LOGGER.info("你的学生购买信息有误了 classTime 为 {}",classTime);
             }else{
-                //证明有学生报名了该课程
-                userClassList.stream().forEach(userClass ->{
+                String[] split = classTime.split("-");
+                //String weekValue = split[0];
+                String startTime = split[1];
+                //String minuteValue = split[2];
+                long calTime = calTime(startTime, time);
+                if((calTime > 0 && calTime <=30)){
+                    LsClass lsClass = classManagerService.findById(userClass.getClassId() + "");
+                    //证明今天该时间段有要上课的同学
                     LsSignInRemind lsSignInRemind = new LsSignInRemind();
                     lsSignInRemind.setUserPhone(userClass.getClientUserPhone());
                     lsSignInRemind.setClassTime(userClass.getClassTime());
                     lsSignInRemind.setClassName(userClass.getClassName());
                     lsSignInRemind.setClassType(userClass.getClassType());
-                    lsSignInRemind.setTeacherName(item.getTeacherName());
+                    lsSignInRemind.setTeacherName(lsClass.getTeacherName());
+                    lsSignInRemind.setCreateTime(LocalDateTime.now());
                     signInRemindList.add(lsSignInRemind);
-                });
+
+                }else{
+                    LOGGER.info("该时间段还没到提醒时间，或者已经过了上课时间了!");
+                }
             }
 
         });
@@ -80,17 +92,11 @@ public class UserClassTask {
             return;
         }
         //保存需要提醒的信息
-
-
-        //实时推送消息到客户
-
-
+        signInRemindService.saveAll(signInRemindList);
+        List<String> phones = signInRemindList.stream().map(LsSignInRemind::getUserPhone).collect(Collectors.toList());
+        LOGGER.info("已经给以下用户发送了提醒消息,{}",phones.toString());
     }
 
-    public static void main(String[] args) {
-        String week = getWeek();
-        System.out.println(week);
-    }
 
     /**
      *
@@ -119,7 +125,34 @@ public class UserClassTask {
         }
         return week;
     }
+    public static void main(String[] args) {
+        // 计算时间差
+        System.out.println(LocalDateTime.now());
 
+    }
+
+    // 计算两个时间差，返回为分钟。
+    private static long calTime(String time1, String time2) {
+        DateFormat df = new SimpleDateFormat("HH:mm");
+        long minutes = 0L;
+        try {
+            Date d1 = df.parse(time1);
+            Date d2 = df.parse(time2);
+            long diff = d1.getTime() - d2.getTime();// 这样得到的差值是微秒级别
+            minutes = diff / (1000 * 60);
+        } catch (ParseException e) {
+            System.out.println("抱歉，时间日期解析出错。");
+        }
+        return minutes;
+    }
+
+    private static String getDate(){
+        Date dd=new Date();
+        //格式化
+        SimpleDateFormat sim=new SimpleDateFormat("HH:mm");
+        String time=sim.format(dd);
+        return time;
+    }
 
 
 

@@ -22,12 +22,14 @@
     <div class="weui-tab">
       <div class="weui-tab__bd">
         <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
-          <h1>页面一</h1>
+            <!-- 列表 -->
+            <div id="remindList" style="padding-top: 0px"></div>
+            <div id="reminLoading"></div>
         </div>
         <div id="tab2" class="weui-tab__bd-item">
             <!-- 列表 -->
             <div id="list" style="padding-top: 0px"></div>
-            <div id="loading">加载完毕</div>
+            <div id="loading"></div>
         </div>
         <div id="tab3" class="weui-tab__bd-item">
             <div class="weui-cells">
@@ -137,8 +139,6 @@
                     </div>
                     <div class="weui-cell__ft"></div>
                 </a>
-
-
             </div>
             <div class="weui-cells">
                 <a class="weui-cell weui-cell_access" href="javascript:;">
@@ -158,7 +158,7 @@
           <div class="weui-tabbar__icon">
             <img src="../images/icon_nav_button.png" alt="">
           </div>
-          <p class="weui-tabbar__label">消息</p>
+          <p class="weui-tabbar__label" id="remindButton">最新消息</p>
         </a>
         <a href="#tab2" class="weui-tabbar__item">
           <div class="weui-tabbar__icon">
@@ -202,6 +202,7 @@
 
       $(function() {
           FastClick.attach(document.body);
+          getReimdlist();
       });
       var detailList = new h5Detail2list();
       var loading = false;
@@ -353,7 +354,9 @@
                       } else {
                           $.toptip('签到成功', 'success');
                           //window.location.reload();
-                          window.location.href = "/client/to-personal";
+                          $("#list").empty();
+                          getList();
+                          //window.location.href = "/client/to-personal";
                       }
                   },
                   error: function (e) {
@@ -392,6 +395,62 @@
               //取消操作
           });
 
+      }
+      //模拟ajax数据请求
+      function getReimdlist(){
+          debugger;
+          $.ajax({
+              url: "/client/signInRemind/findAllById",
+              type: "get",
+              dataType: 'json',
+              success: function(data) {
+                  var dataArray = data.data;
+                  var li = '';
+                  var data_length = dataArray.length; //数据的总条数
+                  if (dataArray!=null && data_length>0) {
+                      loading = true
+                      for (var i = 0; i < data_length; i++) {
+                          li
+                              += '' +
+                              '<div class="weui-form-preview">'+
+                              '   <div class="weui-form-preview__hd">'+
+                              '       <div class="weui-form-preview__item">'+
+                              '       <label class="weui-form-preview__label">课程名称</label>'+
+                              '       <em class="weui-form-preview__value">'+dataArray[i]["className"]+'</em>'+
+                              // '           <a herf="javascript:" style="font-size: 10px" onclick="discuss('+dataList[i]["id"]+')">进入讨论区>>></a>'+
+                              '       </div>'+
+                              '   </div>'+
+                              '   <div class="weui-form-preview__bd">'+
+                              '       <div class="weui-form-preview__item">'+
+                              '           <label class="weui-form-preview__label">课程类型</label>'+
+                              '           <span class="weui-form-preview__value">'+dataArray[i]["classType"]+'</span>'+
+                              '       </div>'+
+                              '       <div class="weui-form-preview__item">'+
+                              '           <label class="weui-form-preview__label">老师姓名</label>'+
+                              '           <span class="weui-form-preview__value">'+dataArray[i]["teacherName"]+'</span>'+
+                              '       </div>'+
+                              '       <div class="weui-form-preview__item">'+
+                              '           <label class="weui-form-preview__label">上课时间</label>'+
+                              '           <span class="weui-form-preview__value">'+'每'+dataArray[i]["classTime"]+'</span>'+
+                              '       </div>'+
+                              '   </div>'+
+                              '   <div class="weui-form-preview__ft">'+
+                              '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="leave('+dataArray[i]["id"]+')">去请假</a>'+
+                              '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="sign('+dataArray[i]["id"]+')">去签到</a>'+
+                              '   </div>'+
+                              '</div>';
+                      }
+                      $("#remindList").append(li);
+
+                  }else {
+                      loading = false
+                      $('#reminLoading').html("没有更多了哦~");
+                  }
+              },
+              error: function() {
+                  console.log("出错了");
+              }
+          });
       }
     </script>
   </body>

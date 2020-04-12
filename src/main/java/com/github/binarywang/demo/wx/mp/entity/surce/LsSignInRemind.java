@@ -8,7 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  *
@@ -44,8 +43,6 @@ public class LsSignInRemind {
     @Getter@Setter
     private String classTime;
 
-
-
     /**
      * 老师姓名
      * */
@@ -57,5 +54,14 @@ public class LsSignInRemind {
      * */
     @Getter@Setter
     private String classType;
+
+    /**
+     * 创建时间
+     * */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Setter
+    @Getter
+    private LocalDateTime createTime;
 
 }

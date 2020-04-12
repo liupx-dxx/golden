@@ -5,30 +5,22 @@ import com.github.binarywang.demo.wx.mp.entity.surce.QLsUserClass;
 import com.github.binarywang.demo.wx.mp.repository.common.BaseJpaRepository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
-import com.querydsl.jpa.impl.JPAQuery;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 import java.util.Map;
 
 @Repository
 public class UserClassRepository extends BaseJpaRepository<LsUserClass,Long> {
 
-    @Bean
-    @Autowired
-    public JPAQueryFactory jpaQuery(EntityManager entityManager) {
-        return new JPAQueryFactory(entityManager);
-    }
-
-    @Autowired
-    JPAQueryFactory queryFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
 
     /**
@@ -107,14 +99,33 @@ public class UserClassRepository extends BaseJpaRepository<LsUserClass,Long> {
      * @param
      * @return
      */
-    public List<LsUserClass> findByClassId(Long id) {
-        QLsUserClass qLsUserClass = QLsUserClass.lsUserClass;
+    public List<LsUserClass> findByClassId(String classId) {
+        /*QLsUserClass qLsUserClass = QLsUserClass.lsUserClass;
         BooleanBuilder builder = new BooleanBuilder();
 
-        builder.and(qLsUserClass.classId.eq(id+""));
-        builder.and(qLsUserClass.classHourNum.gt(0));
-        List<LsUserClass> lsUserClasses = queryFactory.selectDistinct(qLsUserClass.clientUserPhone).select(qLsUserClass).where(builder).fetch();
+        builder.and(qLsUserClass.classId.eq(classId));
+        builder.and(qLsUserClass.classHourNum.gt(0));*/
 
-        return lsUserClasses;
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT distinct client_user_phone,ID,CLASS_ID,class_name,create_time,update_time,id,");
+        sql.append("client_user_id,client_user_name,class_type,class_time,price,class_hour_num");
+        sql.append(" from cl_user_class");
+        sql.append(" where class_id ="+classId);
+        sql.append(" and class_hour_num > 0");
+        Query query = entityManager.createNativeQuery(sql.toString(), LsUserClass.class);
+        return query.getResultList();
+    }
+
+    /**
+     *
+     * 根据周单位查询
+     *
+     * */
+    public List<LsUserClass> findByWeek(String week) {
+        QLsUserClass qLsUserClass = QLsUserClass.lsUserClass;
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(qLsUserClass.classTime.contains(week));
+        builder.and(qLsUserClass.classHourNum.gt(0));
+        return findAll(builder);
     }
 }

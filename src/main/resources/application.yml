@@ -2,10 +2,10 @@ server:
     port: 8080
 spring:
     datasource:
-        driverClassName: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://127.0.0.1:3306/education?useUnicode=true&zeroDateTimeBehavior=convertToNull&autoReconnect=true&characterEncoding=utf-8
-        username: root
-        password: root
+        driverClassName: @spring.datasource.driverClassName@
+        url: @spring.datasource.url@
+        username: @spring.datasource.username@
+        password: @spring.datasource.password@
     jpa:
         show-sql: true # 默认false，在日志里显示执行的sql语句
         database: mysql

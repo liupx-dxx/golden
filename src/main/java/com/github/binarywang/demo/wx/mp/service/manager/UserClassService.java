@@ -214,7 +214,20 @@ public class UserClassService {
         userClassRepository.deleteAll(userClassList);
     }
 
+    /**
+     *
+     * 批量删除
+     * */
     public List<LsUserClass> findByClassId(Long id) {
-        return userClassRepository.findByClassId(id);
+        return userClassRepository.findByClassId(id+"");
+    }
+
+    /**
+     *
+     * 根据周单位查询
+     *
+     * */
+    public List<LsUserClass> findByWeek(String week) {
+        return userClassRepository.findByWeek(week);
     }
 }

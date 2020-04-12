@@ -56,23 +56,22 @@ public class ClassManagerService {
         lsClass.setCreateTime(LocalDateTime.now());
         LsClass classEntity = classManagerRepository.save(lsClass);
         List<LsClassTime> timeList = classTimeRepository.findByclassId(classEntity.getId());
-        if(!CollectionUtils.isEmpty(timeList)){
+        /*if(!CollectionUtils.isEmpty(timeList)){
             //如果原先存在 就把之前的删除
             classTimeRepository.deleteAll(timeList);
-        }
+        }*/
         //增加课程上课时间
         List<LsClassTime> classTimes = lsClass.getClassTimes();
-        List<LsClassTime> lsClassTimeList = new ArrayList<>();
         if(!CollectionUtils.isEmpty(classTimes)){
             classTimes.stream().forEach(item ->{
                 LsClassTime lsClassTime = new LsClassTime();
+                lsClassTime.setId(item.getId());
                 lsClassTime.setClassId(classEntity.getId());
                 lsClassTime.setWeek(item.getWeek());
                 lsClassTime.setStartTime(item.getStartTime());
                 lsClassTime.setEndTime(item.getEndTime());
-                lsClassTimeList.add(lsClassTime);
+                classTimeRepository.save(lsClassTime);
             });
-            classTimeRepository.saveAll(lsClassTimeList);
         }
     }
 
