@@ -171,7 +171,7 @@ textarea:focus {
 }
 
 .weui-tabbar__label {
-	font-size: 0.12rem;
+	font-size: 12px;
 }
 
 .weui-tabbar__item.weui-bar__item--on .weui-tabbar__label {

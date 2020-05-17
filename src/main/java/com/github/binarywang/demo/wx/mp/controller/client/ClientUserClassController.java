@@ -93,21 +93,7 @@ public class ClientUserClassController {
         if(clientUser==null){
             return ResultUtils.fail(ResultCodeEnum.INTERNAL_ERROR);
         }
-        List<LsUserClass> userClassList = userClassService.findByUserPhone(clientUser.getPhone());
-        if(!CollectionUtils.isEmpty(userClassList)){
-            userClassList.stream().forEach(item ->{
-                 String classType = item.getClassType();
-                 if(!StringUtils.isEmpty(classType)){
-                     if(ClassTypeEnum.CLASS.getCode().equals(classType)){
-                         item.setClassType(ClassTypeEnum.CLASS.getDesc());
-                     }else if(ClassTypeEnum.GROUP_COURSE.getCode().equals(classType)){
-                         item.setClassType(ClassTypeEnum.GROUP_COURSE.getDesc());
-                     }else if(ClassTypeEnum.ONE_ON_ONE.getCode().equals(classType)){
-                         item.setClassType(ClassTypeEnum.ONE_ON_ONE.getDesc());
-                     }
-                 }
-            });
-        }
+        List<LsUserClass> userClassList = userClassService.findByUserPhone(clientUser.getPhone(),clientUser.getId());
         UserClassReq userClassReq = new UserClassReq();
         userClassReq.setUserClassList(userClassList);
         userClassReq.setPhone(clientUser.getPhone());

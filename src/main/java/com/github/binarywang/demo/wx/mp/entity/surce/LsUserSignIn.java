@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * 用户课程签到表
+ * 用户课程签到、请假表
  *
  * */
 @Entity    // @Entity: 实体类, 必须

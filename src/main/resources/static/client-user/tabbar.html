@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>jQuery WeUI</title>
+    <title>个人中心</title>
     <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="../lib/weui.min.css">
     <link rel="stylesheet" href="../css/jquery-weui.css">
     <link rel="stylesheet" href="../css/demos.css">
-      <link rel="stylesheet" href="../css/reset.css"/>
+      <!--<link rel="stylesheet" href="../css/reset.css"/>-->
       <link rel="stylesheet" href="../css/list.css"/>
 
   </head>
@@ -22,17 +22,21 @@
     <div class="weui-tab">
       <div class="weui-tab__bd">
         <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
-            <!-- 列表 -->
+            <!--&lt;!&ndash; 列表 &ndash;&gt;
             <div id="remindList" style="padding-top: 0px"></div>
-            <div id="reminLoading"></div>
-        </div>
-        <div id="tab2" class="weui-tab__bd-item">
+            <div id="reminLoading"></div>-->
+
             <!-- 列表 -->
             <div id="list" style="padding-top: 0px"></div>
             <div id="loading"></div>
         </div>
+        <!--<div id="tab2" class="weui-tab__bd-item">
+            &lt;!&ndash; 列表 &ndash;&gt;
+            <div id="list" style="padding-top: 0px"></div>
+            <div id="loading"></div>
+        </div>-->
         <div id="tab3" class="weui-tab__bd-item">
-            <div class="weui-cells">
+            <!--<div class="weui-cells">
                 <a class="weui-cell weui-cell_access" href="javascript:;">
                     <div class="weui-cell__hd"><img src="/images/weichat/iconweixinpengyouquan.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
                     <div class="weui-cell__bd">
@@ -91,10 +95,11 @@
                     <div class="weui-cell__ft"></div>
                 </a>
 
-            </div>
+            </div>-->
         </div>
         <div id="tab4" class="weui-tab__bd-item">
-            <div class="weui-cells">
+            <span>正在开发中，敬请期待. . . </span>
+            <!--<div class="weui-cells">
                 <a class="weui-cell weui-cell_access" href="javascript:;">
                     <div class="weui-cell__hd"><img   src="/images/weichat/package.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
                     <div class="weui-cell__bd">
@@ -148,30 +153,29 @@
                     </div>
                     <div class="weui-cell__ft"></div>
                 </a>
-            </div>
+            </div>-->
         </div>
       </div>
-
       <div class="weui-tabbar">
-        <a href="#tab1" class="weui-tabbar__item weui-bar__item--on">
-          <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
+          <!--<a href="#tab1" class="weui-tabbar__item weui-bar__item--on">
+            <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
           <div class="weui-tabbar__icon">
             <img src="../images/icon_nav_button.png" alt="">
           </div>
           <p class="weui-tabbar__label" id="remindButton">最新消息</p>
-        </a>
-        <a href="#tab2" class="weui-tabbar__item">
+        </a>-->
+        <a href="#tab1" class="weui-tabbar__item">
           <div class="weui-tabbar__icon">
             <img src="../images/icon_nav_msg.png" alt="">
           </div>
           <p class="weui-tabbar__label">课程列表</p>
         </a>
-        <a href="#tab3" class="weui-tabbar__item">
+        <!--<a href="#tab3" class="weui-tabbar__item">
           <div class="weui-tabbar__icon">
             <img src="../images/icon_nav_article.png" alt="">
           </div>
           <p class="weui-tabbar__label">发现</p>
-        </a>
+        </a>-->
         <a href="#tab4" class="weui-tabbar__item">
           <div class="weui-tabbar__icon">
             <img src="../images/icon_nav_cell.png" alt="">
@@ -259,9 +263,25 @@
                               '           <span class="weui-form-preview__value" style="font-size: 24px">'+dataList[i]["classHourNum"]+'</span>'+
                               '       </div>'+
                               '   </div>'+
-                              '   <div class="weui-form-preview__ft">'+
-                              '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="leave('+dataList[i]["id"]+')">请假</a>'+
-                              '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="sign('+dataList[i]["id"]+')">签到</a>'+
+                              '   <div class="weui-form-preview__ft">';
+                              var signInFlag = dataList[i]["signInFlag"];
+                              if("1" === signInFlag){
+                                  li
+                                      += '' +
+                                      '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled" onclick="leave('+dataList[i]["id"]+')">该课程今天您已请假</a>';
+                              }else if("2" === signInFlag){
+                                  li
+                                      += '' +
+                                      '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled" onclick="leave('+dataList[i]["id"]+')">该课程今天您已签到</a>';
+
+                              }else {
+                                  li
+                                      += '' +
+                                      '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="leave('+dataList[i]["id"]+')">请假</a>'+
+                                      '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="sign('+dataList[i]["id"]+')">签到</a>';
+                              }
+                              li
+                              += '' +
                               '   </div>'+
                               '</div>';
                       }
@@ -299,9 +319,25 @@
                               '           <span class="weui-form-preview__value" style="font-size: 24px">'+dataList[i]["classHourNum"]+'</span>'+
                               '       </div>'+
                               '   </div>'+
-                              '   <div class="weui-form-preview__ft">'+
-                              '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="leave('+dataList[i]["id"]+')">请假</a>'+
-                              '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="sign('+dataList[i]["id"]+')">签到</a>'+
+                              '   <div class="weui-form-preview__ft">';
+                              var signInFlag = dataList[i]["signInFlag"];
+                              if("1" === signInFlag){
+                                  li
+                                      += '' +
+                                  '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled" onclick="leave('+dataList[i]["id"]+')">该课程今天您已请假</a>';
+                              }else if("2" === signInFlag){
+                                  li
+                                      += '' +
+                                  '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled" onclick="leave('+dataList[i]["id"]+')">该课程今天您已签到</a>';
+
+                              }else {
+                                  li
+                                      += '' +
+                                  '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="leave('+dataList[i]["id"]+')">请假</a>'+
+                                  '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="sign('+dataList[i]["id"]+')">签到</a>';
+                              }
+                              li
+                                  += '' +
                               '   </div>'+
                               '</div>';
                       }
@@ -355,8 +391,8 @@
                           $.toptip('签到成功', 'success');
                           //window.location.reload();
                           $("#list").empty();
-                          getList();
-                          //window.location.href = "/client/to-personal";
+                          //getList();
+                          window.location.href = "/client/to-personal";
                       }
                   },
                   error: function (e) {

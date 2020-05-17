@@ -75,6 +75,12 @@ public class LsUserClass {
     private int classHourNum;
 
     /**
+     * 今天该课程是否签到
+     * */
+    @Getter@Setter
+    private String signInFlag;
+
+    /**
      * 修改时间
      *
      * */

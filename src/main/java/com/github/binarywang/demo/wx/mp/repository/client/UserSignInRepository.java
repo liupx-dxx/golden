@@ -7,11 +7,19 @@ import com.github.binarywang.demo.wx.mp.entity.surce.QLsUserSignIn;
 import com.github.binarywang.demo.wx.mp.repository.common.BaseJpaRepository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
+import javafx.scene.input.DataFormat;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -86,5 +94,24 @@ public class UserSignInRepository extends BaseJpaRepository<LsUserSignIn,Long> {
         builder.and(qLsUserSignIn.phone.eq(phone));
 
         return findAll(builder);
+    }
+
+    /**
+     * 根据USERID、当前时间获取该用户的该课程今天是否
+     *
+     * */
+    public LsUserSignIn findByUserIdAndClassId(String userId,String classId) {
+        LocalDateTime after = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
+        LocalDateTime before = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
+
+        QLsUserSignIn qLsUserSignIn = QLsUserSignIn.lsUserSignIn;
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(qLsUserSignIn.userId.eq(Long.valueOf(userId)));
+        builder.and(qLsUserSignIn.classId.eq(classId));
+        builder.and(qLsUserSignIn.createTime.after(after));
+        builder.and(qLsUserSignIn.createTime.before(before));
+        List<LsUserSignIn> signInList = findAll(builder);
+
+        return signInList.size()>0?signInList.get(0):null;
     }
 }

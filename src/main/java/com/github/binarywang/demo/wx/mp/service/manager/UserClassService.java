@@ -4,10 +4,7 @@ import com.github.binarywang.demo.wx.mp.entity.surce.LsClass;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsClientUser;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsUserClass;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsUserSignIn;
-import com.github.binarywang.demo.wx.mp.enums.ExamineStateEnum;
-import com.github.binarywang.demo.wx.mp.enums.FeedbackStateEnum;
-import com.github.binarywang.demo.wx.mp.enums.OperationTypeEnum;
-import com.github.binarywang.demo.wx.mp.enums.ResultCodeEnum;
+import com.github.binarywang.demo.wx.mp.enums.*;
 import com.github.binarywang.demo.wx.mp.repository.client.ClientUserRepository;
 import com.github.binarywang.demo.wx.mp.repository.client.UserSignInRepository;
 import com.github.binarywang.demo.wx.mp.repository.manager.UserClassRepository;
@@ -15,6 +12,7 @@ import com.github.binarywang.demo.wx.mp.utils.ResultEntity;
 import com.github.binarywang.demo.wx.mp.utils.ResultUtils;
 import com.github.binarywang.demo.wx.mp.vo.UserClassReq;
 import lombok.AllArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,10 +21,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
-import java.util.Base64;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -138,8 +133,36 @@ public class UserClassService {
      * 根据用户查询个人购买课程
      *
      * */
-    public List<LsUserClass> findByUserPhone(String phone) {
-        return userClassRepository.findByUserPhone(phone);
+    public List<LsUserClass> findByUserPhone(String phone,Long userId) {
+        //获取当前时间
+        List<LsUserClass> userClassList = userClassRepository.findByUserPhone(phone);
+        if(!CollectionUtils.isEmpty(userClassList)){
+            userClassList.stream().forEach(item ->{
+                //查看该课程今天是否签到
+                LsUserSignIn lsUserSignIn = userSignInRepository.findByUserIdAndClassId(userId + "", item.getClassId());
+                if(lsUserSignIn!=null && !StringUtils.isEmpty(lsUserSignIn.getFlag())){
+                    String flag = lsUserSignIn.getFlag();
+                    if(OperationTypeEnum.SIGN_IN.getCode().equals(flag)){
+                        item.setSignInFlag(SignInStateEnum.SIGN_IN.getCode());
+                    }else{
+                        item.setSignInFlag(SignInStateEnum.LEAVE.getCode());
+                    }
+                }else{
+                    item.setSignInFlag(SignInStateEnum.NO_SIGN_IN_LEAVE.getCode());
+                }
+                String classType = item.getClassType();
+                if(!StringUtils.isEmpty(classType)){
+                    if(ClassTypeEnum.CLASS.getCode().equals(classType)){
+                        item.setClassType(ClassTypeEnum.CLASS.getDesc());
+                    }else if(ClassTypeEnum.GROUP_COURSE.getCode().equals(classType)){
+                        item.setClassType(ClassTypeEnum.GROUP_COURSE.getDesc());
+                    }else if(ClassTypeEnum.ONE_ON_ONE.getCode().equals(classType)){
+                        item.setClassType(ClassTypeEnum.ONE_ON_ONE.getDesc());
+                    }
+                }
+            });
+        }
+        return userClassList;
     }
     /**
      * 用户签到扣除相应的课时
