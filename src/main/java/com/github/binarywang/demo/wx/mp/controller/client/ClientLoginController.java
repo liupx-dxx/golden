@@ -35,6 +35,17 @@ public class ClientLoginController {
 
     /**
      *
+     * 用户登出
+     *
+     * */
+    @RequestMapping("/login-out")
+    public String loginOut(HttpSession session) {
+
+        return "client-user/login";
+    }
+
+    /**
+     *
      * 用户登陆
      *
      * */

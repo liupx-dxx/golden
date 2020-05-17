@@ -1,25 +1,18 @@
 package com.github.binarywang.demo.wx.mp.repository.client;
 
-import com.github.binarywang.demo.wx.mp.entity.surce.LsClass;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsUserSignIn;
-import com.github.binarywang.demo.wx.mp.entity.surce.QLsClass;
 import com.github.binarywang.demo.wx.mp.entity.surce.QLsUserSignIn;
 import com.github.binarywang.demo.wx.mp.repository.common.BaseJpaRepository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
-import javafx.scene.input.DataFormat;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -40,13 +33,20 @@ public class UserSignInRepository extends BaseJpaRepository<LsUserSignIn,Long> {
         String className;
         String phone;
         String userName;
-        String classType;
+        String flag;
         if (params.containsKey("phone")) {
             phone = params.get("phone");
             if (StringUtils.hasText(phone)) {
                 builder.and(qLsUserSignIn.phone.eq(phone));
             }
         }
+        if (params.containsKey("flag")) {
+            flag = params.get("flag");
+            if (StringUtils.hasText(flag)) {
+                builder.and(qLsUserSignIn.flag.eq(flag));
+            }
+        }
+
 
         if (params.containsKey("userName")) {
             userName = params.get("userName");
@@ -113,5 +113,19 @@ public class UserSignInRepository extends BaseJpaRepository<LsUserSignIn,Long> {
         List<LsUserSignIn> signInList = findAll(builder);
 
         return signInList.size()>0?signInList.get(0):null;
+    }
+
+    public List<LsUserSignIn> findByUserId(Long userId) {
+        LocalDateTime after = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
+        LocalDateTime before = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
+
+        QLsUserSignIn qLsUserSignIn = QLsUserSignIn.lsUserSignIn;
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(qLsUserSignIn.userId.eq(Long.valueOf(userId)));
+        builder.and(qLsUserSignIn.createTime.after(after));
+        builder.and(qLsUserSignIn.createTime.before(before));
+        List<LsUserSignIn> signInList = findAll(builder);
+
+        return signInList;
     }
 }

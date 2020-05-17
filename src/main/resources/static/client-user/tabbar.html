@@ -20,7 +20,7 @@
   <body ontouchstart>
 
     <div class="weui-tab">
-      <div class="weui-tab__bd">
+      <div class="weui-tab__bd weui-tab__panel">
         <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
             <!--&lt;!&ndash; 列表 &ndash;&gt;
             <div id="remindList" style="padding-top: 0px"></div>
@@ -28,7 +28,7 @@
 
             <!-- 列表 -->
             <div id="list" style="padding-top: 0px"></div>
-            <div id="loading"></div>
+            <div id="loading" style="font-size: 12px"></div>
         </div>
         <!--<div id="tab2" class="weui-tab__bd-item">
             &lt;!&ndash; 列表 &ndash;&gt;
@@ -98,10 +98,9 @@
             </div>-->
         </div>
         <div id="tab4" class="weui-tab__bd-item">
-            <span>正在开发中，敬请期待. . . </span>
-            <!--<div class="weui-cells">
+            <div class="weui-cells">
                 <a class="weui-cell weui-cell_access" href="javascript:;">
-                    <div class="weui-cell__hd"><img   src="/images/weichat/package.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__hd"><img   src="/images/1.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
                     <div class="weui-cell__bd">
                         <p>钱包 </p>
                     </div>
@@ -110,35 +109,35 @@
             </div>
             <div class="weui-cells">
                 <a class="weui-cell weui-cell_access" href="javascript:;">
-                    <div class="weui-cell__hd"><img   src="/images/weichat/xiaochengxu.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__hd"><img   src="/images/1.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
                     <div class="weui-cell__bd">
                         <p>小程序</p>
                     </div>
                     <div class="weui-cell__ft"></div>
                 </a>
                 <a class="weui-cell weui-cell_access" href="javascript:;">
-                    <div class="weui-cell__hd"><img   src="/images/weichat/bhj3dweixinqiang.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__hd"><img   src="/images/1.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
                     <div class="weui-cell__bd">
                         <p>收藏</p>
                     </div>
                     <div class="weui-cell__ft"></div>
                 </a>
                 <a class="weui-cell weui-cell_access" href="javascript:;">
-                    <div class="weui-cell__hd"><img   src="/images/weichat/photo.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__hd"><img   src="/images/1.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
                     <div class="weui-cell__bd">
                         <p>相册</p>
                     </div>
                     <div class="weui-cell__ft"></div>
                 </a>
                 <a class="weui-cell weui-cell_access" href="javascript:;">
-                    <div class="weui-cell__hd"><img   src="/images/weichat/cardpackage.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__hd"><img   src="/images/1.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
                     <div class="weui-cell__bd">
                         <p>卡包</p>
                     </div>
                     <div class="weui-cell__ft"></div>
                 </a>
                 <a class="weui-cell weui-cell_access" href="javascript:;">
-                    <div class="weui-cell__hd"><img   src="/images/weichat/emotion.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__hd"><img   src="/images/1.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
                     <div class="weui-cell__bd">
                         <p>表情</p>
                     </div>
@@ -147,16 +146,25 @@
             </div>
             <div class="weui-cells">
                 <a class="weui-cell weui-cell_access" href="javascript:;">
-                    <div class="weui-cell__hd"><img   src="/images/weichat/seting.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__hd"><img   src="/images/1.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
                     <div class="weui-cell__bd">
                         <p>设置</p>
                     </div>
                     <div class="weui-cell__ft"></div>
                 </a>
-            </div>-->
+            </div>
+            <div class="weui-cells">
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__hd"><img   src="/images/1.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__bd">
+                        <p style="color: red" id="login-out">退出登录</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+            </div>
         </div>
       </div>
-      <div class="weui-tabbar">
+      <div class="weui-tabbar" style="position: fixed">
           <!--<a href="#tab1" class="weui-tabbar__item weui-bar__item--on">
             <span class="weui-badge" style="position: absolute;top: -.4em;right: 1em;">8</span>
           <div class="weui-tabbar__icon">
@@ -205,6 +213,13 @@
       var userName = "user";
 
       $(function() {
+          $("#login-out").click(function () {
+              $.confirm("您确定要退出吗?", "确认", function() {
+                  window.location.href="/client/login-out";
+              }, function() {
+                  //取消操作
+              });
+          })
           FastClick.attach(document.body);
           getReimdlist();
       });
@@ -268,11 +283,11 @@
                               if("1" === signInFlag){
                                   li
                                       += '' +
-                                      '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled" onclick="leave('+dataList[i]["id"]+')">该课程今天您已请假</a>';
+                                      '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已签到</a>';
                               }else if("2" === signInFlag){
                                   li
                                       += '' +
-                                      '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled" onclick="leave('+dataList[i]["id"]+')">该课程今天您已签到</a>';
+                                      '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已请假</a>';
 
                               }else {
                                   li
@@ -324,11 +339,11 @@
                               if("1" === signInFlag){
                                   li
                                       += '' +
-                                  '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled" onclick="leave('+dataList[i]["id"]+')">该课程今天您已请假</a>';
+                                  '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已签到</a>';
                               }else if("2" === signInFlag){
                                   li
                                       += '' +
-                                  '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled" onclick="leave('+dataList[i]["id"]+')">该课程今天您已签到</a>';
+                                  '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已请假</a>';
 
                               }else {
                                   li

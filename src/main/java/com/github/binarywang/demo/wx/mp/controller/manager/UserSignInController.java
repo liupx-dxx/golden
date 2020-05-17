@@ -1,5 +1,6 @@
 package com.github.binarywang.demo.wx.mp.controller.manager;
 
+import com.github.binarywang.demo.wx.mp.entity.surce.LsUserClass;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsUserSignIn;
 import com.github.binarywang.demo.wx.mp.enums.*;
 import com.github.binarywang.demo.wx.mp.service.manager.UserSignInService;
@@ -88,6 +89,20 @@ public class UserSignInController {
         @NotNull(message = "id不可为空")
         @PathVariable("id") String id) {
         userSignInService.deleteById(id);
+        return ResultUtils.success();
+    }
+
+    /**
+     * 批量删除该课程
+     *
+     *  */
+    @PostMapping("/userSignIn/delByIds")
+    @ResponseBody
+    public ResultEntity delById(
+        @NotNull(message = "请求参数不能为空")
+        @RequestBody
+            List<LsUserSignIn> userSignInList) {
+        userSignInService.delByIds(userSignInList);
         return ResultUtils.success();
     }
 

@@ -11,21 +11,14 @@
 
     <link rel="stylesheet" href="../lib/weui.min.css">
     <link rel="stylesheet" href="../css/jquery-weui.css">
-    <style>
-        .buttons{
-            position:absolute;
-            bottom:0;
-            width:100%;
-        }
-    </style>
 
 </head>
 
 <body ontouchstart>
 
 
-<header class='demos-header'>
-    <h1 class="demos-title">易趣学教育登陆</h1>
+<header class='demos-header' style="text-align: center">
+    <h1 class="demos-title" >易趣学教育登陆</h1>
 </header>
 <div class="weui-cells weui-cells_form" style="padding-top: 5%">
     <div class="weui-cell">
@@ -44,12 +37,12 @@
     </div>
 </div>
 
-<label for="weuiAgree" class="weui-agree">
+<!--<label for="weuiAgree" class="weui-agree">
     <input id="weuiAgree" type="checkbox" class="weui-agree__checkbox">
     <span class="weui-agree__text">
         阅读并同意<a href="javascript:void(0);">《相关条款》</a>
       </span>
-</label>
+</label>-->
 
 <div class="weui-btn-area" style="padding-top: 10%">
     <a class="weui-btn weui-btn_primary" href="javascript:" id="showTooltips">确定</a>
@@ -66,12 +59,25 @@
 
 
 <script>
+    function isPoneAvailable($poneInput) {
+        var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+        if (!myreg.test($poneInput.val())) {
+            return false;
+        } else {
+            return true;
+        }
+    }
     $("#showTooltips").click(function() {
         var phone = $('#phone').val();
         var password = $('#password').val();
-        if(!phone || !/1[3|4|5|7|8]\d{9}/.test(phone)) $.toptip('请输入手机号');
-        else if(!password) $.toptip('请输入密码');
-        else
+        var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+        if (!myreg.test(phone)) {
+            $.toptip('请输入正确的手机号');
+            return;
+        }else if(!password){
+            $.toptip('请输入密码');
+            return;
+        }
 
         var saveDataForm = {
             phone,
@@ -86,7 +92,7 @@
             dataType: "json",
             success: function (data) {
                 if (data.code != '2000') {
-                    alert(data.msg);
+                    $.toptip(data.msg);
                     return
                 } else {
                     $.toptip('登陆成功', 'success');

@@ -53,6 +53,7 @@ public class UserClassService {
      * 新增用户课程
      *
      * */
+    @Transactional(rollbackFor = Exception.class)
     public void save(LsUserClass userClass) {
         userClass.setCreateTime(LocalDateTime.now());
         userClass.setUpdateTime(LocalDateTime.now());
@@ -134,12 +135,29 @@ public class UserClassService {
      *
      * */
     public List<LsUserClass> findByUserPhone(String phone,Long userId) {
-        //获取当前时间
+        //获取该用户今天签到、请假的课程
+        List<LsUserSignIn> userSignIns = userSignInRepository.findByUserId(userId);
+
         List<LsUserClass> userClassList = userClassRepository.findByUserPhone(phone);
         if(!CollectionUtils.isEmpty(userClassList)){
             userClassList.stream().forEach(item ->{
+                if(!CollectionUtils.isEmpty(userSignIns)){
+                    userSignIns.stream().forEach(userSignIn ->{
+                        if(item.getClassId().equals(userSignIn.getClassId())){
+                            String flag = userSignIn.getFlag();
+                            if(OperationTypeEnum.SIGN_IN.getCode().equals(flag)){
+                                item.setSignInFlag(SignInStateEnum.SIGN_IN.getCode());
+                            }else{
+                                item.setSignInFlag(SignInStateEnum.LEAVE.getCode());
+                            }
+                        }
+                    });
+                }else{
+                    item.setSignInFlag(SignInStateEnum.NO_SIGN_IN_LEAVE.getCode());
+                }
+
                 //查看该课程今天是否签到
-                LsUserSignIn lsUserSignIn = userSignInRepository.findByUserIdAndClassId(userId + "", item.getClassId());
+                /*LsUserSignIn lsUserSignIn = userSignInRepository.findByUserIdAndClassId(userId + "", item.getClassId());
                 if(lsUserSignIn!=null && !StringUtils.isEmpty(lsUserSignIn.getFlag())){
                     String flag = lsUserSignIn.getFlag();
                     if(OperationTypeEnum.SIGN_IN.getCode().equals(flag)){
@@ -149,7 +167,7 @@ public class UserClassService {
                     }
                 }else{
                     item.setSignInFlag(SignInStateEnum.NO_SIGN_IN_LEAVE.getCode());
-                }
+                }*/
                 String classType = item.getClassType();
                 if(!StringUtils.isEmpty(classType)){
                     if(ClassTypeEnum.CLASS.getCode().equals(classType)){

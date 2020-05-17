@@ -56,4 +56,11 @@ public class LoginController {
         map.put("pathUrl",url);
         return ResultUtils.success(map);
     }
+    /**
+     * 登出
+     * */
+    @RequestMapping("/login-out")
+    public String loginOut(HttpSession session) {
+        return "sys/login";
+    }
 }

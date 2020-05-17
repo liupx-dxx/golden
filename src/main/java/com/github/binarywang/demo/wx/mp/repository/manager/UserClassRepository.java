@@ -41,7 +41,7 @@ public class UserClassRepository extends BaseJpaRepository<LsUserClass,Long> {
         if (params.containsKey("phone")) {
             phone = params.get("phone");
             if (StringUtils.hasText(phone)) {
-                builder.and(qLsUserClass.clientUserPhone.eq(phone));
+                builder.and(qLsUserClass.clientUserPhone.contains(phone));
             }
         }
 

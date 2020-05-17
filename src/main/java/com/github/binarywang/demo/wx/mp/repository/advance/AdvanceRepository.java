@@ -33,6 +33,13 @@ public class AdvanceRepository extends BaseJpaRepository<Advance,Long> {
                 builder.and(advance.userName.like("%" + userName + "%"));
             }
         }
+        String phone;
+        if (params.containsKey("phone")) {
+            phone = params.get("phone");
+            if (StringUtils.hasText(phone)) {
+                builder.and(advance.phone.like("%" + phone + "%"));
+            }
+        }
         query.where(builder).orderBy(advance.createTime.desc());
 
         return findAll(query, pageable);

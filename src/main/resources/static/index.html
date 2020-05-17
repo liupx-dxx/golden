@@ -233,7 +233,7 @@ desired effect
                                     <a href="#" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="#" id="login-out" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
                             </li>
                         </ul>
@@ -442,6 +442,10 @@ desired effect
             var url = $(this).attr('data');
             //  console.log(url);
             $('#container').load(url);
+        });
+
+        $('#login-out').click(function (e) {
+            window.location.href="/manager/login-out"
         });
     })
 </script>

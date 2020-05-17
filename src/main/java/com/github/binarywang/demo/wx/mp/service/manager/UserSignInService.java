@@ -92,4 +92,13 @@ public class UserSignInService {
         userSignIn.setExamineTime(LocalDateTime.now());
         userSignInRepository.save(userSignIn);
     }
+
+    /**
+     * 批量删除
+     *
+     * */
+    @Transactional(rollbackFor = Exception.class)
+    public void delByIds(List<LsUserSignIn> userSignInList) {
+        userSignInRepository.deleteAll(userSignInList);
+    }
 }
