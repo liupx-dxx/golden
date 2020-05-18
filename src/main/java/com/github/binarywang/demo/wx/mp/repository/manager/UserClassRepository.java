@@ -137,6 +137,6 @@ public class UserClassRepository extends BaseJpaRepository<LsUserClass,Long> {
     public String getUserSurplusByPhone(String phone) {
         Query query = entityManager.createQuery("select sum(classHourNum) from LsUserClass where clientUserPhone=" + phone);
         Object singleResult = query.getSingleResult();
-        return singleResult+"";
+        return singleResult==null?"0":singleResult+"";
     }
 }
