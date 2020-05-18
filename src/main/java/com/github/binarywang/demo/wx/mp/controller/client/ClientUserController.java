@@ -4,6 +4,7 @@ import com.github.binarywang.demo.wx.mp.config.intercepors.LoginInterceptor;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsClientUser;
 import com.github.binarywang.demo.wx.mp.enums.ResultCodeEnum;
 import com.github.binarywang.demo.wx.mp.service.client.ClientUserService;
+import com.github.binarywang.demo.wx.mp.service.manager.UserClassService;
 import com.github.binarywang.demo.wx.mp.utils.ResultEntity;
 import com.github.binarywang.demo.wx.mp.utils.ResultUtils;
 import lombok.AllArgsConstructor;
@@ -18,12 +19,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @AllArgsConstructor
 @RequestMapping("/client")
 public class ClientUserController {
     ClientUserService userService;
+
+    UserClassService userClassService;
 
     @RequestMapping("/to-personal")
     public String toPersonal(HttpServletRequest request, Model model) {
@@ -53,6 +58,16 @@ public class ClientUserController {
         //证明密码正确  将用户信息放入到session
         session.setAttribute("client-user",user);
         return ResultUtils.success();
+    }
+
+    @PostMapping("/getUserInfo")
+    @ResponseBody
+    public ResultEntity getUserInfo(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LsClientUser lsClientUser = (LsClientUser) session.getAttribute(LoginInterceptor.CLIENT_SESSION_KEY);
+        String num = userClassService.getUserSurplusByPhone(lsClientUser.getPhone());
+        lsClientUser.setSurplus(num);
+        return ResultUtils.success(lsClientUser);
     }
 
     public static void main(String[] args) {

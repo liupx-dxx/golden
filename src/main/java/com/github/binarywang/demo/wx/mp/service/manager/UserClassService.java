@@ -271,4 +271,13 @@ public class UserClassService {
     public List<LsUserClass> findByWeek(String week) {
         return userClassRepository.findByWeek(week);
     }
+
+    /**
+     *
+     * 获取总课时
+     *
+     * */
+    public String getUserSurplusByPhone(String phone) {
+        return userClassRepository.getUserSurplusByPhone(phone);
+    }
 }

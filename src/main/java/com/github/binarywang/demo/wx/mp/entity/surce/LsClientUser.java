@@ -35,6 +35,13 @@ public class LsClientUser {
     private String phone;
 
     /**
+     * 剩余课时
+     * */
+    @Getter@Setter
+    @Transient
+    private String surplus;
+
+    /**
      * 密码
      * */
     @Getter@Setter

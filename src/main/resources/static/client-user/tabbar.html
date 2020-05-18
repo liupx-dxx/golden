@@ -100,9 +100,10 @@
         <div id="tab4" class="weui-tab__bd-item">
             <div class="weui-cells">
                 <a class="weui-cell weui-cell_access" href="javascript:;">
-                    <div class="weui-cell__hd"><img   src="/images/1.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__hd"><img  src="/images/1.png" alt="" style="width:70px;margin-right:5px;display:block"></div>
                     <div class="weui-cell__bd">
-                        <p>钱包 </p>
+                        <p style="color: #7a869d">用户名 &nbsp;: &nbsp;<span id="phone"></span></p>
+                        <p style="color: #7a869d">剩余总课时 &nbsp;: &nbsp;&nbsp;<span id="surplus"></span></p>
                     </div>
                     <div class="weui-cell__ft"></div>
                 </a>
@@ -157,7 +158,16 @@
                 <a class="weui-cell weui-cell_access" href="javascript:;">
                     <div class="weui-cell__hd"><img   src="/images/1.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
                     <div class="weui-cell__bd">
-                        <p style="color: red" id="login-out">退出登录</p>
+                        <p id="login-switch" style="color: red">切换账号</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+            </div>
+            <div class="weui-cells">
+                <a class="weui-cell weui-cell_access" href="javascript:;">
+                    <div class="weui-cell__hd"><img   src="/images/1.png" alt="" style="width:20px;margin-right:5px;display:block"></div>
+                    <div class="weui-cell__bd">
+                        <p id="login-out" style="color: red">退出登录</p>
                     </div>
                     <div class="weui-cell__ft"></div>
                 </a>
@@ -211,10 +221,36 @@
       });
 
       var userName = "user";
-
+      //获取个人信息
       $(function() {
+          $.ajax({
+              url: "/client/getUserInfo",
+              type: "post",
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              success: function (data) {
+                  if (data.code != '2000') {
+                      $.toptip(data.msg);
+                      return
+                  } else {
+                      $("#phone").text(data.data.phone);
+                      $("#surplus").text(data.data.surplus);
+                  }
+              },
+              error: function (e) {
+                  alert("错误！！");
+              }
+          });
           $("#login-out").click(function () {
               $.confirm("您确定要退出吗?", "确认", function() {
+                  window.location.href="/client/login-out";
+              }, function() {
+                  //取消操作
+              });
+          })
+
+          $("#login-switch").click(function () {
+              $.confirm("您确定要切换账号吗?", "确认", function() {
                   window.location.href="/client/login-out";
               }, function() {
                   //取消操作

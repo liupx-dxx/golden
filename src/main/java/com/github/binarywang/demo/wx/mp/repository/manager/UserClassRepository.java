@@ -128,4 +128,15 @@ public class UserClassRepository extends BaseJpaRepository<LsUserClass,Long> {
         builder.and(qLsUserClass.classHourNum.gt(0));
         return findAll(builder);
     }
+
+    /**
+     *
+     * 获取总课时
+     *
+     * */
+    public String getUserSurplusByPhone(String phone) {
+        Query query = entityManager.createQuery("select sum(classHourNum) from LsUserClass where clientUserPhone=" + phone);
+        Object singleResult = query.getSingleResult();
+        return singleResult+"";
+    }
 }
