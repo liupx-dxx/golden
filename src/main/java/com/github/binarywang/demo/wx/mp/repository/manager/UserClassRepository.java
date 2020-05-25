@@ -65,7 +65,7 @@ public class UserClassRepository extends BaseJpaRepository<LsUserClass,Long> {
                 builder.and(qLsUserClass.className.like("%" + className + "%"));
             }
         }
-        query.where(builder).orderBy(qLsUserClass.updateTime.desc());
+        query.where(builder).orderBy(qLsUserClass.createTime.desc());
 
         return findAll(query, pageable);
     }
@@ -75,8 +75,10 @@ public class UserClassRepository extends BaseJpaRepository<LsUserClass,Long> {
         QLsUserClass qLsUserClass = QLsUserClass.lsUserClass;
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(qLsUserClass.clientUserPhone.eq(phone));
+        JPQLQuery<LsUserClass> query = from(qLsUserClass);
+        query.where(builder).orderBy(qLsUserClass.createTime.desc());
 
-        return findAll(builder);
+        return findAll(query);
     }
 
     /**

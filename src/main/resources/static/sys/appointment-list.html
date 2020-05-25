@@ -2,6 +2,7 @@
 <meta charset="UTF-8">
 <!--适配IE -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv = "X-UA-Compatible" content = "chrome=1" >
 <!-- 适配移动端 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -47,7 +48,7 @@
     </div>
 
     <div id="toolbar" class="btn-group">
-        <button id="btn_add" type="button" class="btn btn-success">
+        <!--<button id="btn_add" type="button" class="btn btn-success">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
         </button>
         <button id="btn_edit" type="button" class="btn btn-primary">
@@ -55,7 +56,7 @@
         </button>
         <button id="btn_delete" type="button" class="btn btn-danger">
             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
-        </button>
+        </button>-->
     </div>
     <table id="tb_departments"></table>
 </div>
@@ -80,16 +81,13 @@
                         <span>手机号:</span>
                         <input type="text" class="form-control" name="phone" id="updatephone" >
                     </div>
-                    <div class="form-group">
+                    <!--<div class="form-group">
                         <span>校区:</span>
                         <input type="text" class="form-control" name="campus" id="updatecampus" >
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <span>留言:</span>
-                        <textarea class="form-control" name="message" id="updatemessage">
-
-
-                        </textarea>
+                        <textarea class="form-control" name="message" id="updatemessage"></textarea>
                     </div>
 
                 </div>
@@ -173,20 +171,23 @@
                     checkbox: true
                 }, {
                     field: 'userName',
-                    title: '用户姓名'
+                    title: '用户姓名',
+                    align: 'center'
                 }, {
                     field: 'phone',
-                    title: '手机号'
-                }, {
+                    title: '手机号',
+                    align: 'center'
+                }/*, {
                     field: 'campus',
                     title: '校区'
-                }, {
+                }*/, {
                     field: 'message',
                     title: '留言',
                     align: 'center'
                 }, {
                     field: 'createTime',
-                    title: '预约时间'
+                    title: '预约时间',
+                    align: 'center'
                 }, {
                     field: 'operate',
                     title: '操作',
@@ -201,7 +202,7 @@
 
         function operateFormatter(value, row, index) {
             return [
-                '<button type="button" class="RoleOfdelete btn btn-primary  btn-sm" style="margin-right:15px;">修改</button>'
+                '<button type="button" class="RoleOfdelete btn btn-primary  btn-sm" style="margin-right:15px;">查看/修改</button>'
             ].join('');
         }
 
@@ -216,7 +217,7 @@
                         $("#updatemainname").val(data.userName)
                         $("#updatemainid").val(data.id)
                         $("#updatephone").val(data.phone)
-                        $("#updatecampus").val(data.campus)
+                        //$("#updatecampus").val(data.campus)
                         $("#updatemessage").val(data.message)
                         $('#mainModal').modal('show');
                     },

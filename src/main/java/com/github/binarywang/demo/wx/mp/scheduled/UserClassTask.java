@@ -79,12 +79,10 @@ public class UserClassTask {
                     lsSignInRemind.setTeacherName(lsClass.getTeacherName());
                     lsSignInRemind.setCreateTime(LocalDateTime.now());
                     signInRemindList.add(lsSignInRemind);
-
                 }else{
                     LOGGER.info("该时间段还没到提醒时间，或者已经过了上课时间了!");
                 }
             }
-
         });
         //判断该时间段有没有学生需要提醒
         if(CollectionUtils.isEmpty(signInRemindList)){
@@ -141,7 +139,7 @@ public class UserClassTask {
             long diff = d1.getTime() - d2.getTime();// 这样得到的差值是微秒级别
             minutes = diff / (1000 * 60);
         } catch (ParseException e) {
-            System.out.println("抱歉，时间日期解析出错。");
+            LOGGER.info("*******   抱歉，时间日期解析出错   *******");
         }
         return minutes;
     }

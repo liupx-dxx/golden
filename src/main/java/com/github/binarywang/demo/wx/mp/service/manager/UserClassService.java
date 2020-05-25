@@ -214,6 +214,7 @@ public class UserClassService {
         lsUserSignIn.setFlag(OperationTypeEnum.SIGN_IN.getCode());
         lsUserSignIn.setExamineFlag(ExamineStateEnum.NO_EXAMINE.getCode());
         lsUserSignIn.setFeedbackFlag(FeedbackStateEnum.NO_FEEDBACK.getCode());
+        lsUserSignIn.setExamineIdea("自动审核");
         lsUserSignIn.setCreateTime(LocalDateTime.now());
         userSignInRepository.save(lsUserSignIn);
         return ResultUtils.success();

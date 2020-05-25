@@ -99,10 +99,7 @@
                     </div>
                     <div class="form-group">
                         <span>课程介绍:</span>
-                        <textarea class="form-control" name="classDetail" id="updateclassDetail">
-
-
-                        </textarea>
+                        <textarea class="form-control" name="classDetail" id="updateclassDetail"></textarea>
                     </div>
 
                 </div>
@@ -193,6 +190,7 @@
     // 用来绑定事件(使用unbind避免重复绑定)
     function bindListener(){
         $("button[name=rmlink]").unbind().click(function(){
+            var div = $(this).parent();
             $(this).parent().remove();
         })
     }
@@ -301,7 +299,6 @@
                         $("#updateprice").val(data.price);
                         var classTimes = data.classTimes;
                         for(var i=0;i < classTimes.length;i++) {
-                            debugger;
                             var timeId = classTimes[i]["id"];
                             var weekValue = classTimes[i]["week"];
                             var startTime = classTimes[i]["startTime"];
@@ -389,6 +386,7 @@
 
             $("#submit").click(function () {
                 var arrayTime = new Array();
+                debugger;
                 //获取时间段
                 $("#appendStr").children(".div_time").each(function () {
                     var id = $(this).children(".ids").val();
