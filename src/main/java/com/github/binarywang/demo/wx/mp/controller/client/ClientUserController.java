@@ -4,6 +4,7 @@ import com.github.binarywang.demo.wx.mp.config.intercepors.LoginInterceptor;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsClientUser;
 import com.github.binarywang.demo.wx.mp.enums.ResultCodeEnum;
 import com.github.binarywang.demo.wx.mp.service.client.ClientUserService;
+import com.github.binarywang.demo.wx.mp.service.manager.SignInRemindService;
 import com.github.binarywang.demo.wx.mp.service.manager.UserClassService;
 import com.github.binarywang.demo.wx.mp.utils.ResultEntity;
 import com.github.binarywang.demo.wx.mp.utils.ResultUtils;
@@ -29,6 +30,8 @@ public class ClientUserController {
     ClientUserService userService;
 
     UserClassService userClassService;
+
+    SignInRemindService signInRemindService;
 
     @RequestMapping("/to-personal")
     public String toPersonal(HttpServletRequest request, Model model) {
@@ -66,7 +69,9 @@ public class ClientUserController {
         HttpSession session = request.getSession();
         LsClientUser lsClientUser = (LsClientUser) session.getAttribute(LoginInterceptor.CLIENT_SESSION_KEY);
         String num = userClassService.getUserSurplusByPhone(lsClientUser.getPhone());
+        String noReadNum = signInRemindService.findNumByPhone(lsClientUser.getPhone());
         lsClientUser.setSurplus(num);
+        lsClientUser.setNoReadNum(noReadNum);
         return ResultUtils.success(lsClientUser);
     }
 

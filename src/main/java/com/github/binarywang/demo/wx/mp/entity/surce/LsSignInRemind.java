@@ -56,6 +56,12 @@ public class LsSignInRemind {
     private String classType;
 
     /**
+     * 课程类型  0、未读  1、已读
+     * */
+    @Getter@Setter
+    private String readState;
+
+    /**
      * 创建时间
      * */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

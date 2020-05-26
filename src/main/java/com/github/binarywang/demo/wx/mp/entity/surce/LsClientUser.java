@@ -42,6 +42,13 @@ public class LsClientUser {
     private String surplus;
 
     /**
+     * 未点击数量
+     * */
+    @Getter@Setter
+    @Transient
+    private String noReadNum;
+
+    /**
      * 密码
      * */
     @Getter@Setter

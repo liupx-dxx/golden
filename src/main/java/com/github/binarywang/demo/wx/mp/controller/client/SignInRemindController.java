@@ -74,4 +74,33 @@ public class SignInRemindController {
         return ResultUtils.success(signInReminds);
     }
 
+    /**
+     * 跳转到提醒详情
+     *
+     *  */
+    @GetMapping("/signInRemind/findById/{id}")
+    @ResponseBody
+    public LsSignInRemind findById(
+        @NotNull(message = "id不可为空")
+        @PathVariable("id") String id) {
+        LsSignInRemind signInRemind = signInRemindService.findById(id);
+        return signInRemind;
+    }
+
+    /**
+     * 跳转到提醒详情
+     *
+     *  */
+    @GetMapping("/signInRemind/findNumById")
+    @ResponseBody
+    public ResultEntity findNumById(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        LsClientUser clientUser = (LsClientUser) session.getAttribute(LoginInterceptor.CLIENT_SESSION_KEY);
+        if(clientUser==null){
+            return ResultUtils.fail(ResultCodeEnum.INTERNAL_ERROR);
+        }
+        String num = signInRemindService.findNumByPhone(clientUser.getPhone());
+        return ResultUtils.success(num);
+    }
+
 }

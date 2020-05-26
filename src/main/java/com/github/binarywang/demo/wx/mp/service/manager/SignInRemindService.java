@@ -1,10 +1,7 @@
 package com.github.binarywang.demo.wx.mp.service.manager;
 
 import com.github.binarywang.demo.wx.mp.entity.surce.*;
-import com.github.binarywang.demo.wx.mp.enums.ExamineStateEnum;
-import com.github.binarywang.demo.wx.mp.enums.FeedbackStateEnum;
-import com.github.binarywang.demo.wx.mp.enums.OperationTypeEnum;
-import com.github.binarywang.demo.wx.mp.enums.ResultCodeEnum;
+import com.github.binarywang.demo.wx.mp.enums.*;
 import com.github.binarywang.demo.wx.mp.repository.client.ClientUserRepository;
 import com.github.binarywang.demo.wx.mp.repository.client.UserSignInRepository;
 import com.github.binarywang.demo.wx.mp.repository.manager.SignInRemindRepository;
@@ -67,7 +64,33 @@ public class SignInRemindService {
      * 批量保存用户课程
      *
      * */
+    @Transactional(rollbackFor = Exception.class)
     public List<LsSignInRemind> findByUserPhone(String phone) {
         return signInRemindRepository.findByUserPhone(phone);
+    }
+
+    /**
+     * 获取详情
+     *
+     * */
+    @Transactional(rollbackFor = Exception.class)
+    public LsSignInRemind findById(String id) {
+        Optional<LsSignInRemind> byId = signInRemindRepository.findById(Long.valueOf(id));
+        if(byId==null){
+            return null;
+        }
+        LsSignInRemind signInRemind = byId.get();
+        //修改已读状态
+        signInRemind.setReadState(ReadStateEnum.READ.getCode());
+        signInRemind = signInRemindRepository.save(signInRemind);
+        return signInRemind;
+
+    }
+    /**
+     * 获取详情
+     *
+     * */
+    public String findNumByPhone(String phone) {
+        return signInRemindRepository.findNumByPhone(phone);
     }
 }

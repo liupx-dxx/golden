@@ -21,6 +21,19 @@
 
     <div class="weui-tab">
       <div class="weui-tab__bd weui-tab__panel">
+          <div class="weui-pull-to-refresh__layer">
+              <div class='weui-pull-to-refresh__arrow'></div>
+              <div class='weui-pull-to-refresh__preloader'></div>
+              <div class="down">下拉刷新</div>
+              <div class="up">释放刷新</div>
+              <div class="refresh">正在刷新</div>
+          </div>
+
+          <!--<h1 class="demos-title">下拉刷新</h1>
+          <p>Time: <span id="time">下拉我试试</span></p>-->
+          <p>
+              <a href="javascript:;" class="weui-btn weui-btn_primary" id="trigger"></a>
+          </p>
         <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
             <!-- 列表 -->
             <div id="remindList" style="padding-top: 0px"></div>
@@ -175,14 +188,14 @@
         </div>
       </div>
       <div class="weui-tabbar" style="position: fixed">
-         <a href="#tab1" class="weui-tabbar__item weui-bar__item--on">
+         <a href="#tab1" class="weui-tabbar__item weui-bar__item--on" onclick="setValue(1)">
             <span class="weui-badge" id="dataNum" style="position: absolute;top: -.4em;right: 1em;"></span>
           <div class="weui-tabbar__icon">
             <img src="../images/icon_nav_button.png" alt="">
           </div>
           <p class="weui-tabbar__label" id="remindButton">最新消息</p>
           </a>
-        <a href="#tab2" class="weui-tabbar__item">
+        <a href="#tab2" class="weui-tabbar__item" onclick="setValue(2)">
           <div class="weui-tabbar__icon">
             <img src="../images/icon_nav_msg.png" alt="">
           </div>
@@ -194,7 +207,7 @@
           </div>
           <p class="weui-tabbar__label">发现</p>
         </a>-->
-        <a href="#tab4" class="weui-tabbar__item">
+        <a href="#tab4" class="weui-tabbar__item" onclick="setValue(3)">
           <div class="weui-tabbar__icon">
             <img src="../images/icon_nav_cell.png" alt="">
           </div>
@@ -215,10 +228,30 @@
 <script src="../js/jquery-weui.js"></script>
 
     <script>
+
+    </script>
+
+    <script>
+        //记录当前在哪个标签下
+        flag = 1;
+        function setValue(value){
+            flag = value;
+        }
       $("#a").select({
         title: "选择职业",
         items: ["法官", "医生", "猎人", "学生", "记者", "其他"]
       });
+        //下拉刷新
+        $(document.body).pullToRefresh(function() {
+            setTimeout(function() {
+                $("#time").text(new Date);
+                $(document.body).pullToRefreshDone();
+                window.location.reload();
+            }, 2000);
+        });
+        $("#trigger").click(function () {
+            $(document.body).pullToRefresh('triggerPullToRefresh')
+        })
 
       var userName = "user";
       //获取个人信息
@@ -236,6 +269,13 @@
                   } else {
                       $("#phone").text(data.data.phone);
                       $("#surplus").text(data.data.surplus);
+                      var noReadNum = data.data.noReadNum;
+                      if(noReadNum<="0"){
+                          $("#dataNum").hide()
+                      }else{
+                          $("#dataNum").text(data.data.noReadNum);
+                      }
+
                   }
               },
               error: function (e) {
@@ -562,9 +602,22 @@
           });
 
       }
+      function details(id) {
+          $.ajax({
+              url:"/client/signInRemind/findById/"+id,
+              type:"get",
+              contentType: "application/json; charset=utf-8",
+              dataType: "json",
+              success:function(data){
+                  window.location.href="/client-user/remindDetails.html";
+              },
+              error:function(e){
+                  alert("错误！！");
+              }
+          });
+      }
       //模拟ajax数据请求
       function getReimdlist(){
-          debugger;
           $.ajax({
               url: "/client/signInRemind/findAllById",
               type: "get",
@@ -573,13 +626,21 @@
                   var dataArray = data.data;
                   var li = '';
                   var data_length = dataArray.length; //数据的总条数
-                  $("#dataNum").text(data_length);
                   if (dataArray!=null && data_length>0) {
                       loading = true
                       for (var i = 0; i < data_length; i++) {
+                          var id = dataArray[i]["id"]
                           li
                               += '' +
-                              '<div class="weui-form-preview">'+
+                              '<div class="weui-form-preview" onclick="details('+id+')">';
+                                var readState = dataArray[i]["readState"]
+                                if(readState === "0"){
+                                    li
+                                    += '' +
+                                    '   <span class="weui-badge" id="dataNum" style="position: absolute;right: 1em;"></span>';
+                                }
+                          li
+                              += '' +
                               '   <div class="weui-form-preview__ft">'+
                               '       <span class="weui-form-preview__btn weui-form-preview__btn_primary" style="color: #7a869d;font-size: 8px" href="javascript:">'+dataArray[i]["createTime"]+'</span>'+
                               '   </div>'+
