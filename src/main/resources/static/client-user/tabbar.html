@@ -18,6 +18,11 @@
   </head>
 
   <body ontouchstart>
+  <script type="text/css">
+      .bg{
+        background-image: url(/images/empty.jpg);
+      }
+  </script>
   <!--<div class="weui-pull-to-refresh__layer">
       <div class='weui-pull-to-refresh__arrow'></div>
       <div class='weui-pull-to-refresh__preloader'></div>
@@ -37,7 +42,7 @@
         <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
             <!-- 列表 -->
             <div id="remindList" style="padding-top: 0px"></div>
-            <div id="reminLoading" style="font-size: 12px"></div>
+            <div id="reminLoading" style="font-size: 16px;color: #7a869d;text-align: center;"></div>
         </div>
         <div id="tab2" class="weui-tab__bd-item">
           <!--&lt;!&ndash; 列表 &ndash;&gt;
@@ -46,14 +51,8 @@
 
           <!-- 列表 -->
           <div id="list" style="padding-top: 0px"></div>
-          <div id="loading" style="font-size: 12px"></div>
+          <div id="loading" style="font-size: 16px;color: #7a869d;text-align: center;"></div>
         </div>
-<!--
-          <div id="html_1">
-              <iframe align="center" width="950" height="170" src="/client-user/remindDetails.html"
-                      frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no">
-              </iframe>
-          </div>-->
         <div id="tab3" class="weui-tab__bd-item">
             <!--<div class="weui-cells">
                 <a class="weui-cell weui-cell_access" href="javascript:;">
@@ -383,11 +382,8 @@
                               '</div>';
                       }
                       $("#list").append(li);
-                      listnum += num;
-
                   } else {
-                      loading = false
-                      $('#loading').html("没有更多了哦~");
+                      $('#loading').html("这里空空如也~~~");
                   }
               },
               error: function() {
@@ -677,10 +673,8 @@
                               '</div>';
                       }
                       $("#remindList").append(li);
-
                   }else {
-                      loading = false
-                      $('#reminLoading').html("没有更多了哦~");
+                      $('#reminLoading').html("这里空空如也~~~");
                   }
               },
               error: function() {
