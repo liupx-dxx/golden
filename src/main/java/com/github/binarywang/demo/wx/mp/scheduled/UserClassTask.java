@@ -77,6 +77,7 @@ public class UserClassTask {
                     lsSignInRemind.setClassTime(userClass.getClassTime());
                     lsSignInRemind.setClassName(userClass.getClassName());
                     lsSignInRemind.setClassType(userClass.getClassType());
+                    lsSignInRemind.setUserClassId(userClass.getId());
                     lsSignInRemind.setTeacherName(lsClass.getTeacherName());
                     lsSignInRemind.setReadState(ReadStateEnum.NO_READ.getCode());
                     lsSignInRemind.setCreateTime(LocalDateTime.now());

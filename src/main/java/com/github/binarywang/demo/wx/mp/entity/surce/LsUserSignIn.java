@@ -31,6 +31,12 @@ public class LsUserSignIn {
     private Long userId;
 
     /**
+     * 购买ID
+     * */
+    @Getter@Setter
+    private Long userClassId;
+
+    /**
      * 用户姓名
      * */
     @Getter@Setter

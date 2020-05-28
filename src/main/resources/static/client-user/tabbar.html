@@ -18,22 +18,22 @@
   </head>
 
   <body ontouchstart>
+  <!--<div class="weui-pull-to-refresh__layer">
+      <div class='weui-pull-to-refresh__arrow'></div>
+      <div class='weui-pull-to-refresh__preloader'></div>
+      <div class="down">下拉刷新</div>
+      <div class="up">释放刷新</div>
+      <div class="refresh">正在刷新</div>
+  </div>
+
+  &lt;!&ndash;<h1 class="demos-title">下拉刷新</h1>
+  <p>Time: <span id="time">下拉我试试</span></p>&ndash;&gt;
+  <p>
+      <a href="javascript:;" class="weui-btn weui-btn_primary" id="trigger"></a>
+  </p>-->
 
     <div class="weui-tab">
       <div class="weui-tab__bd weui-tab__panel">
-          <div class="weui-pull-to-refresh__layer">
-              <div class='weui-pull-to-refresh__arrow'></div>
-              <div class='weui-pull-to-refresh__preloader'></div>
-              <div class="down">下拉刷新</div>
-              <div class="up">释放刷新</div>
-              <div class="refresh">正在刷新</div>
-          </div>
-
-          <!--<h1 class="demos-title">下拉刷新</h1>
-          <p>Time: <span id="time">下拉我试试</span></p>-->
-          <p>
-              <a href="javascript:;" class="weui-btn weui-btn_primary" id="trigger"></a>
-          </p>
         <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
             <!-- 列表 -->
             <div id="remindList" style="padding-top: 0px"></div>
@@ -48,6 +48,12 @@
           <div id="list" style="padding-top: 0px"></div>
           <div id="loading" style="font-size: 12px"></div>
         </div>
+<!--
+          <div id="html_1">
+              <iframe align="center" width="950" height="170" src="/client-user/remindDetails.html"
+                      frameborder="no" border="0" marginwidth="0" marginheight="0" scrolling="no">
+              </iframe>
+          </div>-->
         <div id="tab3" class="weui-tab__bd-item">
             <!--<div class="weui-cells">
                 <a class="weui-cell weui-cell_access" href="javascript:;">
@@ -195,6 +201,7 @@
           </div>
           <p class="weui-tabbar__label" id="remindButton">最新消息</p>
           </a>
+
         <a href="#tab2" class="weui-tabbar__item" onclick="setValue(2)">
           <div class="weui-tabbar__icon">
             <img src="../images/icon_nav_msg.png" alt="">
@@ -241,7 +248,7 @@
         title: "选择职业",
         items: ["法官", "医生", "猎人", "学生", "记者", "其他"]
       });
-        //下拉刷新
+        /*//下拉刷新
         $(document.body).pullToRefresh(function() {
             setTimeout(function() {
                 $("#time").text(new Date);
@@ -251,7 +258,7 @@
         });
         $("#trigger").click(function () {
             $(document.body).pullToRefresh('triggerPullToRefresh')
-        })
+        })*/
 
       var userName = "user";
       //获取个人信息
@@ -555,7 +562,7 @@
                   dataType: "json",
                   success: function (data) {
                       if (data.code != '2000') {
-                          alert(data.msg);
+                          $.toptip(data.msg);
                           return
                       } else {
                           $.toptip('签到成功', 'success');
@@ -585,7 +592,7 @@
                   dataType: "json",
                   success: function (data) {
                       if (data.code != '2000') {
-                          alert(data.msg);
+                          $.toptip(data.msg);
                           return
                       } else {
                           $.toptip('请假成功', 'success');
@@ -614,6 +621,7 @@
               error:function(e){
                   alert("错误！！");
               }
+
           });
       }
       //模拟ajax数据请求
@@ -630,6 +638,7 @@
                       loading = true
                       for (var i = 0; i < data_length; i++) {
                           var id = dataArray[i]["id"]
+                          var userClassId = dataArray[i]["userClassId"]
                           li
                               += '' +
                               '<div class="weui-form-preview" onclick="details('+id+')">';
@@ -637,7 +646,7 @@
                                 if(readState === "0"){
                                     li
                                     += '' +
-                                    '   <span class="weui-badge" id="dataNum" style="position: absolute;right: 1em;"></span>';
+                                    '   <span class="weui-badge" style="position: absolute;right: 1em;font-size: 6px;padding-top: 10px">未读</span>';
                                 }
                           li
                               += '' +

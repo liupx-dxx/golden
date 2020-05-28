@@ -31,6 +31,13 @@ public class LsSignInRemind {
     private String userPhone;
 
     /**
+     * 用户购买ID
+     *
+     * */
+    @Getter@Setter
+    private Long userClassId;
+
+    /**
      * 课程名称
      *
      * */

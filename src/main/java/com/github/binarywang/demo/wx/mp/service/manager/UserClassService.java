@@ -143,7 +143,7 @@ public class UserClassService {
             userClassList.stream().forEach(item ->{
                 if(!CollectionUtils.isEmpty(userSignIns)){
                     userSignIns.stream().forEach(userSignIn ->{
-                        if(item.getClassId().equals(userSignIn.getClassId())){
+                        if(item.getId().equals(userSignIn.getUserClassId())){
                             String flag = userSignIn.getFlag();
                             if(OperationTypeEnum.SIGN_IN.getCode().equals(flag)){
                                 item.setSignInFlag(SignInStateEnum.SIGN_IN.getCode());
@@ -202,6 +202,7 @@ public class UserClassService {
         //课时扣除1
         classHourNum = classHourNum-2;
         userClass.setClassHourNum(classHourNum);
+        userClass.setSignInFlag(OperationTypeEnum.SIGN_IN.getCode());
         userClass.setUpdateTime(LocalDateTime.now());
         userClassRepository.save(userClass);
         //记录当前人签到记录
@@ -210,6 +211,7 @@ public class UserClassService {
         lsUserSignIn.setUserName(clientUser.getUserName());
         lsUserSignIn.setClassType(userClass.getClassType());
         lsUserSignIn.setUserId(clientUser.getId());
+        lsUserSignIn.setUserClassId(userClass.getId());
         lsUserSignIn.setClassName(userClass.getClassName());
         lsUserSignIn.setFlag(OperationTypeEnum.SIGN_IN.getCode());
         lsUserSignIn.setExamineFlag(ExamineStateEnum.NO_EXAMINE.getCode());
@@ -232,12 +234,16 @@ public class UserClassService {
         if(userClass==null){
             return ResultUtils.fail(ResultCodeEnum.PARAMETER_ERROR);
         }
+        userClass.setSignInFlag(OperationTypeEnum.SIGN_IN.getCode());
+        userClass.setUpdateTime(LocalDateTime.now());
+        userClassRepository.save(userClass);
         //记录当前人请假记录
         LsUserSignIn lsUserSignIn = new LsUserSignIn();
         lsUserSignIn.setClassId(userClass.getClassId());
         lsUserSignIn.setClassName(userClass.getClassName());
         lsUserSignIn.setUserName(clientUser.getUserName());
         lsUserSignIn.setUserId(clientUser.getId());
+        lsUserSignIn.setUserClassId(userClass.getId());
         lsUserSignIn.setClassType(userClass.getClassType());
         lsUserSignIn.setFlag(OperationTypeEnum.LEAVE.getCode());
         lsUserSignIn.setExamineFlag(ExamineStateEnum.UN_EXAMINE.getCode());
