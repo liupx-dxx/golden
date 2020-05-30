@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -51,6 +52,7 @@ public class SignInRemindController {
     @GetMapping("/signInRemind/findAllById")
     @ResponseBody
     public ResultEntity findAll(HttpServletRequest request) {
+        Map<String,Object> map = new HashMap<>();
         HttpSession session = request.getSession();
         LsClientUser clientUser = (LsClientUser) session.getAttribute(LoginInterceptor.CLIENT_SESSION_KEY);
         if(clientUser==null){
@@ -71,7 +73,11 @@ public class SignInRemindController {
                  }
             });
         }
-        return ResultUtils.success(signInReminds);
+        map.put("remindList",signInReminds);
+        long noReadNum = signInRemindService.findNumByPhone(clientUser.getPhone());
+        map.put("noReadNum",noReadNum);
+
+        return ResultUtils.success(map);
     }
 
     /**
@@ -99,7 +105,7 @@ public class SignInRemindController {
         if(clientUser==null){
             return ResultUtils.fail(ResultCodeEnum.INTERNAL_ERROR);
         }
-        String num = signInRemindService.findNumByPhone(clientUser.getPhone());
+        long num = signInRemindService.findNumByPhone(clientUser.getPhone());
         return ResultUtils.success(num);
     }
 

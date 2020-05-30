@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -52,14 +53,15 @@ public class ClassManagerService {
      * */
     @Transactional(rollbackFor = Exception.class)
     public void save(LsClass lsClass) {
-
-        lsClass.setCreateTime(LocalDateTime.now());
+        if(StringUtils.isEmpty(lsClass.getId())){
+            lsClass.setCreateTime(LocalDateTime.now());
+        }
         LsClass classEntity = classManagerRepository.save(lsClass);
         List<LsClassTime> timeList = classTimeRepository.findByclassId(classEntity.getId());
-        /*if(!CollectionUtils.isEmpty(timeList)){
+        if(!CollectionUtils.isEmpty(timeList)){
             //如果原先存在 就把之前的删除
             classTimeRepository.deleteAll(timeList);
-        }*/
+        }
         //增加课程上课时间
         List<LsClassTime> classTimes = lsClass.getClassTimes();
         if(!CollectionUtils.isEmpty(classTimes)){

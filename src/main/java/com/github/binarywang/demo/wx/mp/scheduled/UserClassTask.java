@@ -42,8 +42,8 @@ public class UserClassTask {
     @Autowired
     SignInRemindService signInRemindService;
     //每天半小时查询有没有半小时之后需要签到的用户  半小时: 0 */30 * * * ?  十秒: 0/10 * *  * * ?
-    //@Scheduled(cron = "0 */30 * * * ?")
     @Scheduled(cron = "0 */30 * * * ?")
+    //@Scheduled(cron = "0/10 * *  * * ?")
     public void remind(){
 
         //查看今天是周几

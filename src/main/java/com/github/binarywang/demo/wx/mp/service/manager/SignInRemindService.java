@@ -90,7 +90,7 @@ public class SignInRemindService {
      * 获取详情
      *
      * */
-    public String findNumByPhone(String phone) {
+    public long findNumByPhone(String phone) {
         return signInRemindRepository.findNumByPhone(phone);
     }
 }

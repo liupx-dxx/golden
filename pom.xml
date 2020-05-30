@@ -199,6 +199,17 @@
                 <spring.datasource.password>root</spring.datasource.password>
             </properties>
         </profile>
+        <profile>
+            <!-- 部署环境 -->
+            <id>yqx</id>
+            <properties>
+                <profiles.active>yqx</profiles.active>
+                <spring.datasource.driverClassName>com.mysql.cj.jdbc.Driver</spring.datasource.driverClassName>
+                <spring.datasource.url>jdbc:mysql://rm-2ze506qu4yv708s1g125010.mysql.rds.aliyuncs.com:3306/education?useUnicode=true&amp;zeroDateTimeBehavior=convertToNull&amp;autoReconnect=true&amp;characterEncoding=utf-8</spring.datasource.url>
+                <spring.datasource.username>yqx_root</spring.datasource.username>
+                <spring.datasource.password>yqx_root</spring.datasource.password>
+            </properties>
+        </profile>
     </profiles>
 
 </project>

@@ -29,6 +29,7 @@
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
     <script src="/js/html5shiv.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
     <script src="/js/respond.min.js"></script>
     <![endif]-->
 
@@ -202,7 +203,7 @@ desired effect
                             <!-- hidden-xs hides the username on small devices so only the img appears. -->
                             <span class="hidden-xs" id="userName">Alexander Pierce</span>
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" id="outView" hidden="hidden">
                             <!-- The user img in the menu -->
                             <li class="user-header">
                                 <img src="../images/1.png" class="img-circle" alt="User Image">
@@ -419,7 +420,7 @@ desired effect
 <!-- jQuery 3 -->
 <script src="/js/jquery-3.3.1.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
-<script src="/js/bootstrap.min.js"></script>
+<!--<script src="/js/bootstrap.min.js"></script>-->
 <!-- AdminLTE App -->
 <!--<script src="../js/adminlte.js"></script>-->
 <script src="/js/jquery.params.js"></script>
@@ -449,6 +450,11 @@ desired effect
             var url = $(this).attr('data');
             //  console.log(url);
             $('#container').load(url);
+        });
+
+        $('#showOut').click(function () {
+            alert(111)
+            $('#outView').show();
         });
     })
 </script>

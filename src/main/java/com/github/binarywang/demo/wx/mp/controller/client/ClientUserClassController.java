@@ -5,12 +5,15 @@ import com.github.binarywang.demo.wx.mp.entity.surce.LsClientUser;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsUserClass;
 import com.github.binarywang.demo.wx.mp.enums.ClassTypeEnum;
 import com.github.binarywang.demo.wx.mp.enums.ResultCodeEnum;
+import com.github.binarywang.demo.wx.mp.scheduled.UserClassTask;
 import com.github.binarywang.demo.wx.mp.service.manager.UserClassService;
 import com.github.binarywang.demo.wx.mp.utils.PageUtils;
 import com.github.binarywang.demo.wx.mp.utils.ResultEntity;
 import com.github.binarywang.demo.wx.mp.utils.ResultUtils;
 import com.github.binarywang.demo.wx.mp.vo.UserClassReq;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +33,7 @@ import java.util.Map;
 @AllArgsConstructor
 @RequestMapping("/client")
 public class ClientUserClassController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientUserClassController.class);
 
     UserClassService userClassService;
 
@@ -88,13 +92,14 @@ public class ClientUserClassController {
      */
     @GetMapping("/userClass/findAllById")
     @ResponseBody
-    public ResultEntity findAll(HttpServletRequest request) {
+    public ResultEntity findAll(HttpServletRequest request,@RequestParam("param") String param) {
+        LOGGER.info("*********请求参数param为,{}",param);
         HttpSession session = request.getSession();
         LsClientUser clientUser = (LsClientUser) session.getAttribute(LoginInterceptor.CLIENT_SESSION_KEY);
         if(clientUser==null){
             return ResultUtils.fail(ResultCodeEnum.INTERNAL_ERROR);
         }
-        List<LsUserClass> userClassList = userClassService.findByUserPhone(clientUser.getPhone(),clientUser.getId());
+        List<LsUserClass> userClassList = userClassService.findByUserPhone(param,clientUser.getPhone(),clientUser.getId());
         UserClassReq userClassReq = new UserClassReq();
         userClassReq.setUserClassList(userClassList);
         userClassReq.setPhone(clientUser.getPhone());

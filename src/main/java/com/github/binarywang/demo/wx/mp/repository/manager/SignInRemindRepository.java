@@ -65,9 +65,9 @@ public class SignInRemindRepository extends BaseJpaRepository<LsSignInRemind,Lon
      * 获取总数量
      *
      * */
-    public String findNumByPhone(String phone) {
+    public long findNumByPhone(String phone) {
         Query query = entityManager.createQuery("select count(1) from LsSignInRemind where userPhone=" + phone+"and readState = "+ ReadStateEnum.NO_READ.getCode());
         Object singleResult = query.getSingleResult();
-        return singleResult==null?"0":singleResult+"";
+        return singleResult==null?0: (long) singleResult;
     }
 }

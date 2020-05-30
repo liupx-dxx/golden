@@ -70,11 +70,14 @@ public class UserClassRepository extends BaseJpaRepository<LsUserClass,Long> {
         return findAll(query, pageable);
     }
 
-    public List<LsUserClass> findByUserPhone(String phone) {
+    public List<LsUserClass> findByUserPhone(String phone,String param) {
 
         QLsUserClass qLsUserClass = QLsUserClass.lsUserClass;
         BooleanBuilder builder = new BooleanBuilder();
         builder.and(qLsUserClass.clientUserPhone.eq(phone));
+        if (!StringUtils.isEmpty(param)){
+            builder.and(qLsUserClass.className.contains(param));
+        }
         JPQLQuery<LsUserClass> query = from(qLsUserClass);
         query.where(builder).orderBy(qLsUserClass.createTime.desc());
 

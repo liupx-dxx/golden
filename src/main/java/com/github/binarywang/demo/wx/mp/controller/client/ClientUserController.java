@@ -69,9 +69,7 @@ public class ClientUserController {
         HttpSession session = request.getSession();
         LsClientUser lsClientUser = (LsClientUser) session.getAttribute(LoginInterceptor.CLIENT_SESSION_KEY);
         String num = userClassService.getUserSurplusByPhone(lsClientUser.getPhone());
-        String noReadNum = signInRemindService.findNumByPhone(lsClientUser.getPhone());
         lsClientUser.setSurplus(num);
-        lsClientUser.setNoReadNum(noReadNum);
         return ResultUtils.success(lsClientUser);
     }
 

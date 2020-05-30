@@ -134,11 +134,10 @@ public class UserClassService {
      * 根据用户查询个人购买课程
      *
      * */
-    public List<LsUserClass> findByUserPhone(String phone,Long userId) {
+    public List<LsUserClass> findByUserPhone(String param,String phone,Long userId) {
         //获取该用户今天签到、请假的课程
         List<LsUserSignIn> userSignIns = userSignInRepository.findByUserId(userId);
-
-        List<LsUserClass> userClassList = userClassRepository.findByUserPhone(phone);
+        List<LsUserClass> userClassList = userClassRepository.findByUserPhone(phone,param);
         if(!CollectionUtils.isEmpty(userClassList)){
             userClassList.stream().forEach(item ->{
                 if(!CollectionUtils.isEmpty(userSignIns)){
