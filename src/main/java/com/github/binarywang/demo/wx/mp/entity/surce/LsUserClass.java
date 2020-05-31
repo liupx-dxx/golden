@@ -78,6 +78,7 @@ public class LsUserClass {
      * 今天该课程是否签到/请假
      * */
     @Getter@Setter
+    @Transient
     private String signInFlag;
 
     /**

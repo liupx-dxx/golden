@@ -126,6 +126,20 @@ public class UserClassService {
         if(byId==null){
             return null;
         }
+        LsUserClass lsUserClass = byId.get();
+        if(lsUserClass!=null){
+            LsUserSignIn userSignIn = userSignInRepository.findByUserIdAndUserClassId(lsUserClass.getId());
+            if(userSignIn!=null){
+                String flag = userSignIn.getFlag();
+                if(OperationTypeEnum.SIGN_IN.getCode().equals(flag)){
+                    lsUserClass.setSignInFlag(SignInStateEnum.SIGN_IN.getCode());
+                }else{
+                    lsUserClass.setSignInFlag(SignInStateEnum.LEAVE.getCode());
+                }
+            }else{
+                lsUserClass.setSignInFlag(SignInStateEnum.NO_SIGN_IN_LEAVE.getCode());
+            }
+        }
         return byId.get();
     }
 
@@ -154,9 +168,8 @@ public class UserClassService {
                 }else{
                     item.setSignInFlag(SignInStateEnum.NO_SIGN_IN_LEAVE.getCode());
                 }
-
                 //查看该课程今天是否签到
-                /*LsUserSignIn lsUserSignIn = userSignInRepository.findByUserIdAndClassId(userId + "", item.getClassId());
+                /*LsUserSignIn lsUserSignIn = userSignInRepository.findByUserIdAndUserClassId(userId + "", item.getId());
                 if(lsUserSignIn!=null && !StringUtils.isEmpty(lsUserSignIn.getFlag())){
                     String flag = lsUserSignIn.getFlag();
                     if(OperationTypeEnum.SIGN_IN.getCode().equals(flag)){
@@ -201,7 +214,6 @@ public class UserClassService {
         //课时扣除1
         classHourNum = classHourNum-2;
         userClass.setClassHourNum(classHourNum);
-        userClass.setSignInFlag(OperationTypeEnum.SIGN_IN.getCode());
         userClass.setUpdateTime(LocalDateTime.now());
         userClassRepository.save(userClass);
         //记录当前人签到记录
@@ -233,7 +245,6 @@ public class UserClassService {
         if(userClass==null){
             return ResultUtils.fail(ResultCodeEnum.PARAMETER_ERROR);
         }
-        userClass.setSignInFlag(OperationTypeEnum.SIGN_IN.getCode());
         userClass.setUpdateTime(LocalDateTime.now());
         userClassRepository.save(userClass);
         //记录当前人请假记录

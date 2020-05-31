@@ -440,7 +440,7 @@
                                 // '           <a herf="javascript:" style="font-size: 10px" onclick="discuss('+dataList[i]["id"]+')">进入讨论区>>></a>'+
                                 '       </div>' +
                                 '   </div>' +
-                                '   <div class="weui-form-preview__bd">' +
+                                '   <div class="weui-form-preview__bd parent-div-flag">' +
                                 '       <div class="weui-form-preview__item">' +
                                 '           <label class="weui-form-preview__label">课程类型</label>' +
                                 '           <span class="weui-form-preview__value">' + dataList[i]["classType"] + '</span>' +
@@ -453,9 +453,9 @@
                                 '           <label class="weui-form-preview__label">上课时间</label>' +
                                 '           <span class="weui-form-preview__value">' + '每' + dataList[i]["classTime"] + '</span>' +
                                 '       </div>' +
-                                '       <div class="weui-form-preview__item">' +
+                                '       <div class="weui-form-preview__item ">' +
                                 '           <label class="weui-form-preview__label">剩余课时</label>' +
-                                '           <span class="weui-form-preview__value" style="font-size: 24px">' + dataList[i]["classHourNum"] + '</span>' +
+                                '           <span class="weui-form-preview__value classHourNumFlag" style="font-size: 24px">' + dataList[i]["classHourNum"] + '</span>' +
                                 '       </div>' +
                                 '   </div>' +
                                 '   <div class="weui-form-preview__ft">';
@@ -473,7 +473,10 @@
                                 li
                                     += '' +
                                     '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="leave(' + dataList[i]["id"] + ',this' + ')">请假</a>' +
+/*
                                     '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="sign(' + dataList[i]["id"] + ',this' + ')">签到</a>';
+*/
+                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="sign('+dataList[i]["classHourNum"]+ ',' + dataList[i]["id"]+ ',this' +')">签到</a>';
                             }
                             li
                                 += '' +
@@ -627,7 +630,7 @@
             });
         }
 
-        function sign(id, dataVla) {
+        function sign(classHourNum,id, dataVla) {
 
             $.confirm("扣除2课时,您确定要签到吗?", "确认签到?", function () {
                 $.ajax({
@@ -640,10 +643,11 @@
                             $.toptip(data.msg);
                             return
                         } else {
-                            $.toptip('签到成功', 'success');
                             //$("#tab2").addClass('weui-tab__bd-item--active').siblings('.weui-tab__bd-item').removeClass('weui-tab__bd-item--active');
                             //window.location.href = "/client/to-personal";
+                            $(dataVla).parent().siblings(".parent-div-flag").find(".classHourNumFlag").html(classHourNum-2);
                             $(dataVla).parent().html('<a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已签到</a>');
+                            $.toptip('签到成功', 'success');
                         }
                     },
                     error: function (e) {

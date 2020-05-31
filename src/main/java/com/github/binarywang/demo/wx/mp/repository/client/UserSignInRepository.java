@@ -100,14 +100,13 @@ public class UserSignInRepository extends BaseJpaRepository<LsUserSignIn,Long> {
      * 根据USERID、当前时间获取该用户的该课程今天是否
      *
      * */
-    public LsUserSignIn findByUserIdAndClassId(String userId,String classId) {
+    public LsUserSignIn findByUserIdAndUserClassId(long userClassId) {
         LocalDateTime after = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
         LocalDateTime before = LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
 
         QLsUserSignIn qLsUserSignIn = QLsUserSignIn.lsUserSignIn;
         BooleanBuilder builder = new BooleanBuilder();
-        builder.and(qLsUserSignIn.userId.eq(Long.valueOf(userId)));
-        builder.and(qLsUserSignIn.classId.eq(classId));
+        builder.and(qLsUserSignIn.userClassId.eq(userClassId));
         builder.and(qLsUserSignIn.createTime.after(after));
         builder.and(qLsUserSignIn.createTime.before(before));
         List<LsUserSignIn> signInList = findAll(builder);
