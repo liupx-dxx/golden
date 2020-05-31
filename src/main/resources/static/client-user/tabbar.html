@@ -202,7 +202,7 @@
             <p class="weui-tabbar__label" id="remindButton">最新消息</p>
         </a>
 
-        <a href="#tab2" class="weui-tabbar__item" onclick="flag=2;" ondblclick="classListInfo()">
+        <a href="#tab2" class="weui-tabbar__item" onclick="classListInfo()">
             <div class="weui-tabbar__icon">
                 <img src="../images/icon_nav_msg.png" alt="">
             </div>
@@ -223,128 +223,25 @@
     </div>
 </div>
 
-<!--<div id="cart" class='weui-popup__container popup-bottom'>
-    <div class="weui-popup__overlay"></div>
-    <div class="weui-popup__modal">
-        <div class="toolbar">
-            <div class="toolbar-inner">
-                <a href="javascript:;" class="picker-button close-popup">关闭</a>
-                <h1 class="title">我的购物车</h1>
-            </div>
-        </div>
-        <div class="modal-content">
-            <div class="weui-cells">
-                <div class="weui-cell weui-cell_swiped">
-                    <div class="weui-cell__bd">
-                        <div class="weui-cell">
-                            <div class="weui-cell__hd"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAuCAMAAABgZ9sFAAAAVFBMVEXx8fHMzMzr6+vn5+fv7+/t7e3d3d2+vr7W1tbHx8eysrKdnZ3p6enk5OTR0dG7u7u3t7ejo6PY2Njh4eHf39/T09PExMSvr6+goKCqqqqnp6e4uLgcLY/OAAAAnklEQVRIx+3RSRLDIAxE0QYhAbGZPNu5/z0zrXHiqiz5W72FqhqtVuuXAl3iOV7iPV/iSsAqZa9BS7YOmMXnNNX4TWGxRMn3R6SxRNgy0bzXOW8EBO8SAClsPdB3psqlvG+Lw7ONXg/pTld52BjgSSkA3PV2OOemjIDcZQWgVvONw60q7sIpR38EnHPSMDQ4MjDjLPozhAkGrVbr/z0ANjAF4AcbXmYAAAAASUVORK5CYII=" alt="" style="width:20px;margin-right:5px;display:block"></div>
-                            <div class="weui-cell__bd">
-                                <p>清风纸巾12包装</p>
-                            </div>
-                            <div class="weui-cell__ft">
-                                <span class="price">￥24.00</span>
-                                <div class="weui-count">
-                                    <a class="weui-count__btn weui-count__decrease"></a>
-                                    <input class="weui-count__number" type="number" value="1" />
-                                    <a class="weui-count__btn weui-count__increase"></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="weui-cell__ft">
-                        <a class="weui-swiped-btn weui-swiped-btn_warn delete-swipeout" href="javascript:">删除</a>
-                        <a class="weui-swiped-btn weui-swiped-btn_default close-swipeout" href="javascript:">关闭</a>
-                    </div>
-                </div>
-                <div class="weui-cell weui-cell_swiped">
-                    <div class="weui-cell__bd">
-                        <div class="weui-cell">
-                            <div class="weui-cell__hd"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAuCAMAAABgZ9sFAAAAVFBMVEXx8fHMzMzr6+vn5+fv7+/t7e3d3d2+vr7W1tbHx8eysrKdnZ3p6enk5OTR0dG7u7u3t7ejo6PY2Njh4eHf39/T09PExMSvr6+goKCqqqqnp6e4uLgcLY/OAAAAnklEQVRIx+3RSRLDIAxE0QYhAbGZPNu5/z0zrXHiqiz5W72FqhqtVuuXAl3iOV7iPV/iSsAqZa9BS7YOmMXnNNX4TWGxRMn3R6SxRNgy0bzXOW8EBO8SAClsPdB3psqlvG+Lw7ONXg/pTld52BjgSSkA3PV2OOemjIDcZQWgVvONw60q7sIpR38EnHPSMDQ4MjDjLPozhAkGrVbr/z0ANjAF4AcbXmYAAAAASUVORK5CYII=" alt="" style="width:20px;margin-right:5px;display:block"></div>
-                            <div class="weui-cell__bd">
-                                <p>七匹狼男士长筒袜</p>
-                            </div>
-                            <div class="weui-cell__ft">
-                                <span class="price">￥35.00</span>
-                                <div class="weui-count">
-                                    <a class="weui-count__btn weui-count__decrease"></a>
-                                    <input class="weui-count__number" type="number" value="1" />
-                                    <a class="weui-count__btn weui-count__increase"></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="weui-cell__ft">
-                        <a class="weui-swiped-btn weui-swiped-btn_warn delete-swipeout" href="javascript:">删除</a>
-                        <a class="weui-swiped-btn weui-swiped-btn_default close-swipeout" href="javascript:">关闭</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <p class="summary" style="padding-bottom: 50px" >
-            2 件商品, 共计 <strong>123.5</strong> 元
-        </p>
-
-    </div>
-</div>-->
 <div id="cart" class='weui-popup__container popup-bottom'>
     <div class="weui-popup__overlay"></div>
     <div class="weui-popup__modal">
         <div class="toolbar">
-            <div class="toolbar-inner">
+            <div class="toolbar-inner" style="margin-bottom: 35px">
                 <a href="javascript:;" class="picker-button close-popup">关闭</a>
-                <h1 class="title">标题</h1>
+                <input hidden="hidden" id="remindUserClassId">
+                <h1 style="padding-top: 30px" class="title" id="className"></h1>
+                <span style="font-size: 12px">上课时间 ：</span>
+                <span id="classTime" style="font-size: 12px;color: #7a869d"></span>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <span style="font-size: 12px">剩余课时 ：</span>
+                <span id="classHourNum" style="font-size: 12px;color: #7a869d"></span>
             </div>
         </div>
-        <div class="modal-content">
-            <div class="weui-grids">
-                <a href="javascript:;" class="weui-grid js_grid" data-id="dialog">
-                    <div class="weui-grid__icon">
-                        <img src="../images/icon_nav_dialog.png" alt="">
-                    </div>
-                    <p class="weui-grid__label">
-                        发布
-                    </p>
-                </a>
-                <a href="javascript:;" class="weui-grid js_grid" data-id="progress">
-                    <div class="weui-grid__icon">
-                        <img src="../images/icon_nav_progress.png" alt="">
-                    </div>
-                    <p class="weui-grid__label">
-                        编辑
-                    </p>
-                </a>
-                <a href="javascript:;" class="weui-grid js_grid" data-id="msg">
-                    <div class="weui-grid__icon">
-                        <img src="../images/icon_nav_msg.png" alt="">
-                    </div>
-                    <p class="weui-grid__label">
-                        保存
-                    </p>
-                </a>
-                <a href="javascript:;" class="weui-grid js_grid" data-id="dialog">
-                    <div class="weui-grid__icon">
-                        <img src="../images/icon_nav_dialog.png" alt="">
-                    </div>
-                    <p class="weui-grid__label">
-                        发布
-                    </p>
-                </a>
-                <a href="javascript:;" class="weui-grid js_grid" data-id="progress">
-                    <div class="weui-grid__icon">
-                        <img src="../images/icon_nav_progress.png" alt="">
-                    </div>
-                    <p class="weui-grid__label">
-                        编辑
-                    </p>
-                </a>
-                <a href="javascript:;" class="weui-grid js_grid" data-id="msg" style="padding-bottom: 73px">
-                    <div class="weui-grid__icon">
-                        <img src="../images/icon_nav_msg.png" alt="">
-                    </div>
-                    <p class="weui-grid__label">
-                        保存
-                    </p>
-                </a>
+        <div class="modal-content" style="padding-top: 90px">
+            <div class="weui-grids" id="remindDiv" style="padding-bottom: 70px">
+                <a href="javascript:;" class="weui-btn weui-btn_primary" id="remindSign">签到</a>
+                <a href="javascript:;" class="weui-btn weui-btn_primary" id="remindLeave">请假</a>
             </div>
         </div>
     </div>
@@ -418,6 +315,7 @@
 
     //获取我的课程列表
     function classListInfo() {
+        flag = 2;
         $("#list").html("");
         new_getList("");
     }
@@ -440,10 +338,6 @@
             });
         })
 
-        $("#to_sign").click(function () {
-
-        })
-
         $("#login-switch").click(function () {
             $.confirm("您确定要切换账号吗?", "确认", function () {
                 window.location.href = "/client/login-out";
@@ -451,379 +345,470 @@
                 //取消操作
             });
         })
+        //提醒页面签到
+        $("#remindSign").click(function () {
+            var userClassId = $("#remindUserClassId").val();
+            $.confirm("扣除2课时,您确定要签到吗?", "确认签到?", function () {
+                $.ajax({
+                    url: "/client/userClass/signIn/" + userClassId,
+                    type: "get",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code != '2000') {
+                            $.toptip(data.msg);
+                            return
+                        } else {
+                            $.toptip('签到成功', 'success');
+                            //计算剩余课时
+                            var classHourNum = $("#classHourNum").text();
+                            var vlaue = eval(classHourNum-2);
+                            $("#classHourNum").html(vlaue);
+                            $("#remindDiv").html('<a href="javascript:;" class="weui-btn weui-btn_primary" disabled="true">今天以签到</a>');
+                        }
+                    },
+                    error: function (e) {
+                        alert("错误！！");
+                    }
+                });
+            }, function () {
+                //取消操作
+            });
+        })
+
+        //提醒页面请假
+        $("#remindLeave").click(function () {
+            var userClassId = $("#remindUserClassId").val();
+            $.confirm("您确定要请假吗?", "确认请假?", function () {
+                $.ajax({
+                    url: "/client/userClass/leave/" + userClassId,
+                    type: "get",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code != '2000') {
+                            $.toptip(data.msg);
+                            return
+                        } else {
+                            $.toptip('请假成功', 'success');
+                            $("#remindDiv").html('<a href="javascript:;" class="weui-btn weui-btn_primary" disabled="true">今天以签到</a>');
+                        }
+                    },
+                    error: function (e) {
+                        alert("错误！！");
+                    }
+                });
+            }, function () {
+                //取消操作
+            });
+            });
         FastClick.attach(document.body);
-    });
-    var detailList = new h5Detail2list();
-    var loading = false;
-    var listnum = 0; //总加载条数
-    var num = 25 //每次加载条数
-    if ($.isEmptyObject(detailList.getLocalStorage()['extraData']) || !detailList.isBack()) {
-        //初始化
-        new_getList("");
-    }
-    listnum = $.isEmptyObject(detailList.getLocalStorage()['extraData']) ? listnum : detailList.getLocalStorage()[
-        'extraData']['lastIndex'];
-
-
-    function new_getList(param) {
-        $.ajax({
-            url: "/client/userClass/findAllById?param="+param,
-            type: "get",
-            dataType: 'json',
-            success: function (data) {
-                var dataObjiect = data.data;
-                var dataList = dataObjiect.userClassList;
-                userName = dataObjiect.phone;
-                var li = '';
-                var data_length = dataList.length; //数据的总条数
-                var remainder = data_length % num; //page 是每次加载的条数，利用数据的总条数/每次加载条数 取余数
-                if (data_length >= 0 && data_length != null) {
-                    for (i = 0; i < data_length; i++) {
-                        li
-                            += '' +
-                            '<div class="weui-form-preview">' +
-                            '   <div class="weui-form-preview__hd">' +
-                            '       <div class="weui-form-preview__item">' +
-                            '       <label class="weui-form-preview__label">课程名称</label>' +
-                            '       <em class="weui-form-preview__value">' + dataList[i]["className"] + '</em>' +
-                            // '           <a herf="javascript:" style="font-size: 10px" onclick="discuss('+dataList[i]["id"]+')">进入讨论区>>></a>'+
-                            '       </div>' +
-                            '   </div>' +
-                            '   <div class="weui-form-preview__bd">' +
-                            '       <div class="weui-form-preview__item">' +
-                            '           <label class="weui-form-preview__label">课程类型</label>' +
-                            '           <span class="weui-form-preview__value">' + dataList[i]["classType"] + '</span>' +
-                            '       </div>' +
-                            '       <div class="weui-form-preview__item">' +
-                            '           <label class="weui-form-preview__label">购买金额</label>' +
-                            '           <span class="weui-form-preview__value">' + dataList[i]["price"] + "" + '</span>' +
-                            '       </div>' +
-                            '       <div class="weui-form-preview__item">' +
-                            '           <label class="weui-form-preview__label">上课时间</label>' +
-                            '           <span class="weui-form-preview__value">' + '每' + dataList[i]["classTime"] + '</span>' +
-                            '       </div>' +
-                            '       <div class="weui-form-preview__item">' +
-                            '           <label class="weui-form-preview__label">剩余课时</label>' +
-                            '           <span class="weui-form-preview__value" style="font-size: 24px">' + dataList[i]["classHourNum"] + '</span>' +
-                            '       </div>' +
-                            '   </div>' +
-                            '   <div class="weui-form-preview__ft">';
-                        var signInFlag = dataList[i]["signInFlag"];
-                        if ("1" === signInFlag) {
-                            li
-                                += '' +
-                                '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已签到</a>';
-                        } else if ("2" === signInFlag) {
-                            li
-                                += '' +
-                                '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已请假</a>';
-
-                        } else {
-                            li
-                                += '' +
-                                '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="leave(' + dataList[i]["id"] + ',this' + ')">请假</a>' +
-                                '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="sign(' + dataList[i]["id"] + ',this' + ')">签到</a>';
-                        }
-                        li
-                            += '' +
-                            '   </div>' +
-                            '</div>';
-                    }
-                    $("#list").append(li);
-                } else {
-                    $('#loading').html("您还没有购买的课程哦~~~");
-                    $('#loading').show();
-                }
-            },
-            error: function () {
-                console.log("出错了");
-            }
         });
-    }
+        var detailList = new h5Detail2list();
+        var loading = false;
+        var listnum = 0; //总加载条数
+        var num = 25 //每次加载条数
+        if ($.isEmptyObject(detailList.getLocalStorage()['extraData']) || !detailList.isBack()) {
+            //初始化
+            new_getList("");
+        }
+        listnum = $.isEmptyObject(detailList.getLocalStorage()['extraData']) ? listnum : detailList.getLocalStorage()[
+            'extraData']['lastIndex'];
 
-    //模拟ajax数据请求
-    function getList() {
-        $.ajax({
-            url: "/client/userClass/findAllById",
-            type: "get",
-            dataType: 'json',
-            success: function (data) {
-                var dataObjiect = data.data;
-                var dataList = dataObjiect.userClassList;
-                userName = dataObjiect.phone;
-                var li = '';
-                var data_length = dataList.length; //数据的总条数
-                var remainder = data_length % num; //page 是每次加载的条数，利用数据的总条数/每次加载条数 取余数
-                if (listnum <= data_length && dataList.length >= (num + listnum)) {
-                    loading = true
-                    for (i = listnum; i < (num + listnum); i++) {
-                        li
-                            += '' +
-                            '<div class="weui-form-preview">' +
-                            '   <div class="weui-form-preview__hd">' +
-                            '       <div class="weui-form-preview__item">' +
-                            '       <label class="weui-form-preview__label">课程名称</label>' +
-                            '       <em class="weui-form-preview__value">' + dataList[i]["className"] + '</em>' +
-                            // '           <a herf="javascript:" style="font-size: 10px" onclick="discuss('+dataList[i]["id"]+')">进入讨论区>>></a>'+
-                            '       </div>' +
-                            '   </div>' +
-                            '   <div class="weui-form-preview__bd">' +
-                            '       <div class="weui-form-preview__item">' +
-                            '           <label class="weui-form-preview__label">课程类型</label>' +
-                            '           <span class="weui-form-preview__value">' + dataList[i]["classType"] + '</span>' +
-                            '       </div>' +
-                            '       <div class="weui-form-preview__item">' +
-                            '           <label class="weui-form-preview__label">购买金额</label>' +
-                            '           <span class="weui-form-preview__value">' + dataList[i]["price"] + '</span>' +
-                            '       </div>' +
-                            '       <div class="weui-form-preview__item">' +
-                            '           <label class="weui-form-preview__label">上课时间</label>' +
-                            '           <span class="weui-form-preview__value">' + '每' + dataList[i]["classTime"] + '</span>' +
-                            '       </div>' +
-                            '       <div class="weui-form-preview__item">' +
-                            '           <label class="weui-form-preview__label">剩余课时</label>' +
-                            '           <span class="weui-form-preview__value" style="font-size: 24px">' + dataList[i]["classHourNum"] + '</span>' +
-                            '       </div>' +
-                            '   </div>' +
-                            '   <div class="weui-form-preview__ft">';
-                        var signInFlag = dataList[i]["signInFlag"];
-                        if ("1" === signInFlag) {
-                            li
-                                += '' +
-                                '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已签到</a>';
-                        } else if ("2" === signInFlag) {
-                            li
-                                += '' +
-                                '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已请假</a>';
 
-                        } else {
-                            li
-                                += '' +
-                                '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="leave(' + dataList[i]["id"] + ')">请假</a>' +
-                                '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="sign(' + dataList[i]["id"] + ')">签到</a>';
-                        }
-                        li
-                            += '' +
-                            '   </div>' +
-                            '</div>';
-                    }
-                    $("#list").append(li);
-                    listnum += num;
-
-                } else if (remainder != 0 && data_length - listnum == remainder) {
-                    loading = true
-                    for (i = listnum; i < (remainder + listnum); i++) {
-                        li
-                            += '' +
-                            '<div class="weui-form-preview">' +
-                            '   <div class="weui-form-preview__hd">' +
-                            '       <div class="weui-form-preview__item">' +
-                            '       <label class="weui-form-preview__label">课程名称</label>' +
-                            '       <em class="weui-form-preview__value">' + dataList[i]["className"] + '</em>' +
-                            // '           <a herf="javascript:" style="font-size: 10px" onclick="discuss('+dataList[i]["id"]+')">进入讨论区>>></a>'+
-                            '       </div>' +
-                            '   </div>' +
-                            '   <div class="weui-form-preview__bd">' +
-                            '       <div class="weui-form-preview__item">' +
-                            '           <label class="weui-form-preview__label">课程类型</label>' +
-                            '           <span class="weui-form-preview__value">' + dataList[i]["classType"] + '</span>' +
-                            '       </div>' +
-                            '       <div class="weui-form-preview__item">' +
-                            '           <label class="weui-form-preview__label">购买金额</label>' +
-                            '           <span class="weui-form-preview__value">' + dataList[i]["price"] + '</span>' +
-                            '       </div>' +
-                            '       <div class="weui-form-preview__item">' +
-                            '           <label class="weui-form-preview__label">上课时间</label>' +
-                            '           <span class="weui-form-preview__value">' + '每' + dataList[i]["classTime"] + '</span>' +
-                            '       </div>' +
-                            '       <div class="weui-form-preview__item">' +
-                            '           <label class="weui-form-preview__label">剩余课时</label>' +
-                            '           <span class="weui-form-preview__value" style="font-size: 24px">' + dataList[i]["classHourNum"] + '</span>' +
-                            '       </div>' +
-                            '   </div>' +
-                            '   <div class="weui-form-preview__ft">';
-                        var signInFlag = dataList[i]["signInFlag"];
-                        if ("1" === signInFlag) {
-                            li
-                                += '' +
-                                '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已签到</a>';
-                        } else if ("2" === signInFlag) {
-                            li
-                                += '' +
-                                '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已请假</a>';
-
-                        } else {
-                            li
-                                += '' +
-                                '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="leave(' + dataList[i]["id"] + ')">请假</a>' +
-                                '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="sign(' + dataList[i]["id"] + ')">签到</a>';
-                        }
-                        li
-                            += '' +
-                            '   </div>' +
-                            '</div>';
-                    }
-                    $("#list").append(li);
-                    listnum += num;
-                } else {
-                    loading = false
-                    $('#loading').html("没有更多了哦~");
-                }
-            },
-            error: function () {
-                console.log("出错了");
-            }
-        });
-    }
-
-    function sign(id, dataVla) {
-
-        $.confirm("扣除2课时,您确定要签到吗?", "确认签到?", function () {
+        function new_getList(param) {
             $.ajax({
-                url: "/client/userClass/signIn/" + id,
+                url: "/client/userClass/findAllById?param=" + param,
+                type: "get",
+                dataType: 'json',
+                success: function (data) {
+                    var dataObjiect = data.data;
+                    var dataList = dataObjiect.userClassList;
+                    userName = dataObjiect.phone;
+                    var li = '';
+                    var data_length = dataList.length; //数据的总条数
+                    var remainder = data_length % num; //page 是每次加载的条数，利用数据的总条数/每次加载条数 取余数
+                    if (data_length >= 0 && data_length != null) {
+                        for (i = 0; i < data_length; i++) {
+                            li
+                                += '' +
+                                '<div class="weui-form-preview">' +
+                                '   <div class="weui-form-preview__hd">' +
+                                '       <div class="weui-form-preview__item">' +
+                                '       <label class="weui-form-preview__label">课程名称</label>' +
+                                '       <em class="weui-form-preview__value">' + dataList[i]["className"] + '</em>' +
+                                // '           <a herf="javascript:" style="font-size: 10px" onclick="discuss('+dataList[i]["id"]+')">进入讨论区>>></a>'+
+                                '       </div>' +
+                                '   </div>' +
+                                '   <div class="weui-form-preview__bd">' +
+                                '       <div class="weui-form-preview__item">' +
+                                '           <label class="weui-form-preview__label">课程类型</label>' +
+                                '           <span class="weui-form-preview__value">' + dataList[i]["classType"] + '</span>' +
+                                '       </div>' +
+                                '       <div class="weui-form-preview__item">' +
+                                '           <label class="weui-form-preview__label">购买金额</label>' +
+                                '           <span class="weui-form-preview__value">' + dataList[i]["price"] + "" + '</span>' +
+                                '       </div>' +
+                                '       <div class="weui-form-preview__item">' +
+                                '           <label class="weui-form-preview__label">上课时间</label>' +
+                                '           <span class="weui-form-preview__value">' + '每' + dataList[i]["classTime"] + '</span>' +
+                                '       </div>' +
+                                '       <div class="weui-form-preview__item">' +
+                                '           <label class="weui-form-preview__label">剩余课时</label>' +
+                                '           <span class="weui-form-preview__value" style="font-size: 24px">' + dataList[i]["classHourNum"] + '</span>' +
+                                '       </div>' +
+                                '   </div>' +
+                                '   <div class="weui-form-preview__ft">';
+                            var signInFlag = dataList[i]["signInFlag"];
+                            if ("1" === signInFlag) {
+                                li
+                                    += '' +
+                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已签到</a>';
+                            } else if ("2" === signInFlag) {
+                                li
+                                    += '' +
+                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已请假</a>';
+
+                            } else {
+                                li
+                                    += '' +
+                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="leave(' + dataList[i]["id"] + ',this' + ')">请假</a>' +
+                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="sign(' + dataList[i]["id"] + ',this' + ')">签到</a>';
+                            }
+                            li
+                                += '' +
+                                '   </div>' +
+                                '</div>';
+                        }
+                        $("#list").append(li);
+                    } else {
+                        $('#loading').html("您还没有购买的课程哦~~~");
+                        $('#loading').show();
+                    }
+                },
+                error: function () {
+                    console.log("出错了");
+                }
+            });
+        }
+
+        //模拟ajax数据请求
+        function getList() {
+            $.ajax({
+                url: "/client/userClass/findAllById",
+                type: "get",
+                dataType: 'json',
+                success: function (data) {
+                    var dataObjiect = data.data;
+                    var dataList = dataObjiect.userClassList;
+                    userName = dataObjiect.phone;
+                    var li = '';
+                    var data_length = dataList.length; //数据的总条数
+                    var remainder = data_length % num; //page 是每次加载的条数，利用数据的总条数/每次加载条数 取余数
+                    if (listnum <= data_length && dataList.length >= (num + listnum)) {
+                        loading = true
+                        for (i = listnum; i < (num + listnum); i++) {
+                            li
+                                += '' +
+                                '<div class="weui-form-preview">' +
+                                '   <div class="weui-form-preview__hd">' +
+                                '       <div class="weui-form-preview__item">' +
+                                '       <label class="weui-form-preview__label">课程名称</label>' +
+                                '       <em class="weui-form-preview__value">' + dataList[i]["className"] + '</em>' +
+                                // '           <a herf="javascript:" style="font-size: 10px" onclick="discuss('+dataList[i]["id"]+')">进入讨论区>>></a>'+
+                                '       </div>' +
+                                '   </div>' +
+                                '   <div class="weui-form-preview__bd">' +
+                                '       <div class="weui-form-preview__item">' +
+                                '           <label class="weui-form-preview__label">课程类型</label>' +
+                                '           <span class="weui-form-preview__value">' + dataList[i]["classType"] + '</span>' +
+                                '       </div>' +
+                                '       <div class="weui-form-preview__item">' +
+                                '           <label class="weui-form-preview__label">购买金额</label>' +
+                                '           <span class="weui-form-preview__value">' + dataList[i]["price"] + '</span>' +
+                                '       </div>' +
+                                '       <div class="weui-form-preview__item">' +
+                                '           <label class="weui-form-preview__label">上课时间</label>' +
+                                '           <span class="weui-form-preview__value">' + '每' + dataList[i]["classTime"] + '</span>' +
+                                '       </div>' +
+                                '       <div class="weui-form-preview__item">' +
+                                '           <label class="weui-form-preview__label">剩余课时</label>' +
+                                '           <span class="weui-form-preview__value" style="font-size: 24px">' + dataList[i]["classHourNum"] + '</span>' +
+                                '       </div>' +
+                                '   </div>' +
+                                '   <div class="weui-form-preview__ft">';
+                            var signInFlag = dataList[i]["signInFlag"];
+                            if ("1" === signInFlag) {
+                                li
+                                    += '' +
+                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已签到</a>';
+                            } else if ("2" === signInFlag) {
+                                li
+                                    += '' +
+                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已请假</a>';
+
+                            } else {
+                                li
+                                    += '' +
+                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="leave(' + dataList[i]["id"] + ')">请假</a>' +
+                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="sign(' + dataList[i]["id"] + ')">签到</a>';
+                            }
+                            li
+                                += '' +
+                                '   </div>' +
+                                '</div>';
+                        }
+                        $("#list").append(li);
+                        listnum += num;
+
+                    } else if (remainder != 0 && data_length - listnum == remainder) {
+                        loading = true
+                        for (i = listnum; i < (remainder + listnum); i++) {
+                            li
+                                += '' +
+                                '<div class="weui-form-preview">' +
+                                '   <div class="weui-form-preview__hd">' +
+                                '       <div class="weui-form-preview__item">' +
+                                '       <label class="weui-form-preview__label">课程名称</label>' +
+                                '       <em class="weui-form-preview__value">' + dataList[i]["className"] + '</em>' +
+                                // '           <a herf="javascript:" style="font-size: 10px" onclick="discuss('+dataList[i]["id"]+')">进入讨论区>>></a>'+
+                                '       </div>' +
+                                '   </div>' +
+                                '   <div class="weui-form-preview__bd">' +
+                                '       <div class="weui-form-preview__item">' +
+                                '           <label class="weui-form-preview__label">课程类型</label>' +
+                                '           <span class="weui-form-preview__value">' + dataList[i]["classType"] + '</span>' +
+                                '       </div>' +
+                                '       <div class="weui-form-preview__item">' +
+                                '           <label class="weui-form-preview__label">购买金额</label>' +
+                                '           <span class="weui-form-preview__value">' + dataList[i]["price"] + '</span>' +
+                                '       </div>' +
+                                '       <div class="weui-form-preview__item">' +
+                                '           <label class="weui-form-preview__label">上课时间</label>' +
+                                '           <span class="weui-form-preview__value">' + '每' + dataList[i]["classTime"] + '</span>' +
+                                '       </div>' +
+                                '       <div class="weui-form-preview__item">' +
+                                '           <label class="weui-form-preview__label">剩余课时</label>' +
+                                '           <span class="weui-form-preview__value" style="font-size: 24px">' + dataList[i]["classHourNum"] + '</span>' +
+                                '       </div>' +
+                                '   </div>' +
+                                '   <div class="weui-form-preview__ft">';
+                            var signInFlag = dataList[i]["signInFlag"];
+                            if ("1" === signInFlag) {
+                                li
+                                    += '' +
+                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已签到</a>';
+                            } else if ("2" === signInFlag) {
+                                li
+                                    += '' +
+                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已请假</a>';
+
+                            } else {
+                                li
+                                    += '' +
+                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="leave(' + dataList[i]["id"] + ')">请假</a>' +
+                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" onclick="sign(' + dataList[i]["id"] + ')">签到</a>';
+                            }
+                            li
+                                += '' +
+                                '   </div>' +
+                                '</div>';
+                        }
+                        $("#list").append(li);
+                        listnum += num;
+                    } else {
+                        loading = false
+                        $('#loading').html("没有更多了哦~");
+                    }
+                },
+                error: function () {
+                    console.log("出错了");
+                }
+            });
+        }
+
+        function sign(id, dataVla) {
+
+            $.confirm("扣除2课时,您确定要签到吗?", "确认签到?", function () {
+                $.ajax({
+                    url: "/client/userClass/signIn/" + id,
+                    type: "get",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code != '2000') {
+                            $.toptip(data.msg);
+                            return
+                        } else {
+                            $.toptip('签到成功', 'success');
+                            //$("#tab2").addClass('weui-tab__bd-item--active').siblings('.weui-tab__bd-item').removeClass('weui-tab__bd-item--active');
+                            //window.location.href = "/client/to-personal";
+                            $(dataVla).parent().html('<a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已签到</a>');
+                        }
+                    },
+                    error: function (e) {
+                        alert("错误！！");
+                    }
+                });
+            }, function () {
+                //取消操作
+            });
+
+        }
+
+        //请假
+        function leave(id, dataVla) {
+
+            $.confirm("您确定要请假吗?", "确认请假?", function () {
+                $.ajax({
+                    url: "/client/userClass/leave/" + id,
+                    type: "get",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code != '2000') {
+                            $.toptip(data.msg);
+                            return
+                        } else {
+                            $.toptip('请假成功', 'success');
+                            $(dataVla).parent().html('<a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已请假</a>');
+                        }
+                    },
+                    error: function (e) {
+                        alert("错误！！");
+                    }
+                });
+            }, function () {
+                //取消操作
+            });
+
+        }
+        //模拟ajax数据请求
+        function getReimdlist() {
+            $.ajax({
+                url: "/client/signInRemind/findAllById",
+                type: "get",
+                dataType: 'json',
+                success: function (data) {
+                    var noReadNum = data.data.noReadNum;
+                    if (noReadNum <= 0) {
+                        $("#dataNum").hide();
+                    } else {
+                        $("#dataNum").text(noReadNum);
+                    }
+                    var dataArray = data.data.remindList;
+                    var li = '';
+                    var data_length = dataArray.length; //数据的总条数
+                    if (dataArray != null && data_length > 0) {
+                        loading = true
+                        for (var i = 0; i < data_length; i++) {
+                            var remingId = dataArray[i]["id"];
+                            var userClassId = dataArray[i]["userClassId"];
+                            var className = dataArray[i]["className"];
+                            var classTime = dataArray[i]["classTime"];
+                            var classHourNum = dataArray[i]["classHourNum"];
+                            li
+                                += '' +
+                                '<div class="weui-form-preview">';
+                            var readState = dataArray[i]["readState"]
+                            if (readState === "0") {
+                                li
+                                    += '' +
+                                    '   <span class="weui-badge" style="position: absolute;right: 1em;">1</span>';
+                            }
+                            li
+                                += '' +
+                                '   <div class="weui-form-preview__ft">' +
+                                '       <span class="weui-form-preview__btn weui-form-preview__btn_primary" style="color: #7a869d;font-size: 8px" href="javascript:">' + dataArray[i]["createTime"] + '</span>' +
+                                '   </div>' +
+                                '   <div class="weui-form-preview__hd">' +
+                                '       <div class="weui-form-preview__item">' +
+                                '       <label class="weui-form-preview__label">课程名称</label>' +
+                                '       <em class="weui-form-preview__value">' + dataArray[i]["className"] + '</em>' +
+                                // '           <a herf="javascript:" style="font-size: 10px" onclick="discuss('+dataList[i]["id"]+')">进入讨论区>>></a>'+
+                                '       </div>' +
+                                '   </div>' +
+                                '   <div class="weui-form-preview__bd">' +
+                                '       <div class="weui-form-preview__item">' +
+                                '           <label class="weui-form-preview__label">课程类型</label>' +
+                                '           <span class="weui-form-preview__value">' + dataArray[i]["classType"] + '</span>' +
+                                '       </div>' +
+                                '       <div class="weui-form-preview__item">' +
+                                '           <label class="weui-form-preview__label">老师姓名</label>' +
+                                '           <span class="weui-form-preview__value">' + dataArray[i]["teacherName"] + '</span>' +
+                                '       </div>' +
+                                '       <div class="weui-form-preview__item">' +
+                                '           <label class="weui-form-preview__label">上课时间</label>' +
+                                '           <span class="weui-form-preview__value">' + '每' + dataArray[i]["classTime"] + '</span>' +
+                                '       </div>' +
+                                '   </div>' +
+                                '   <div class="weui-form-preview__ft">' +
+                                '       <a class="weui-form-preview__btn weui-form-preview__btn_primary open-popup" onclick="to_sign('+remingId+ ',' + userClassId+ ',this' + ','+readState+')" data-target="#cart" href="javascript:">查看详情</a>' +
+                                '   </div>' +
+                                '</div>';
+                        }
+                        $("#remindList").append(li);
+                    } else {
+                        $("#reminLoading").html("您还没有要提醒的课程哦~~~")
+                        $("#reminLoading").show();
+                    }
+                },
+                error: function () {
+                    console.log("出错了");
+                }
+            });
+        }
+
+
+        function to_sign(remindId,userClassId,remindThis,readState) {
+            //清楚小红点
+            if(readState === 0){
+                $(remindThis).parent().siblings(".weui-badge").hide();
+                var dataNum = $("#dataNum").text();
+                if(dataNum != "0"){
+                    $("#dataNum").html(eval(dataNum-1));
+                }
+                $.ajax({
+                    url: "/client/signInRemind/remindAlreadySee/" + remindId,
+                    type: "get",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                    },
+                    error: function (e) {
+                        alert("错误！！");
+                    }
+
+                });
+            }
+            //获取课程信息
+            $.ajax({
+                url: "/client/userClass/findById/" + userClassId,
                 type: "get",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    if (data.code != '2000') {
-                        $.toptip(data.msg);
-                        return
-                    } else {
-                        $.toptip('签到成功', 'success');
-                        //$("#tab2").addClass('weui-tab__bd-item--active').siblings('.weui-tab__bd-item').removeClass('weui-tab__bd-item--active');
-                        //window.location.href = "/client/to-personal";
-                        $(dataVla).parent().html('<a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已签到</a>');
+                    $("#className").html(data.className);
+                    $("#classTime").html(data.classTime);
+                    $("#classHourNum").html(data.classHourNum);
+                    $("#remindUserClassId").val(data.id);
+                    var signInFlag = data.signInFlag;
+                    if (signInFlag === "1") {
+                        //已签到
+                        $("#remindDiv").html('<a href="javascript:;" class="weui-btn weui-btn_primary" disabled="true">今天以签到</a>');
+                    } else if (signInFlag === "2") {
+                        //已请假
+                        $("#remindDiv").html('<a href="javascript:;" class="weui-btn weui-btn_primary" disabled="true">今天以请假</a>');
                     }
+
                 },
                 error: function (e) {
                     alert("错误！！");
                 }
             });
-        }, function () {
-            //取消操作
-        });
+        }
 
-    }
-
-    //请假
-    function leave(id, dataVla) {
-
-        $.confirm("您确定要请假吗?", "确认请假?", function () {
-            $.ajax({
-                url: "/client/userClass/leave/" + id,
-                type: "get",
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    if (data.code != '2000') {
-                        $.toptip(data.msg);
-                        return
-                    } else {
-                        $.toptip('请假成功', 'success');
-                        $(dataVla).parent().html('<a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已请假</a>');
-
-                    }
-                },
-                error: function (e) {
-                    alert("错误！！");
-                }
-            });
-        }, function () {
-            //取消操作
-        });
-
-    }
-
-    function details(id,remindThis) {
-        $(remindThis).children(".weui-badge").hide();
-        $.ajax({
-            url: "/client/signInRemind/findById/" + id,
-            type: "get",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                window.location.href = "/client-user/remindDetails.html";
-            },
-            error: function (e) {
-                alert("错误！！");
-            }
-
-        });
-    }
-
-
-    //模拟ajax数据请求
-    function getReimdlist() {
-        $.ajax({
-            url: "/client/signInRemind/findAllById",
-            type: "get",
-            dataType: 'json',
-            success: function (data) {
-                var noReadNum = data.data.noReadNum;
-                if (noReadNum <= 0) {
-                    $("#dataNum").hide();
-                } else {
-                    $("#dataNum").text(noReadNum);
-                }
-                var dataArray = data.data.remindList;
-                var li = '';
-                var data_length = dataArray.length; //数据的总条数
-                if (dataArray != null && data_length > 0) {
-                    loading = true
-                    for (var i = 0; i < data_length; i++) {
-                        var id = dataArray[i]["id"]
-                        var userClassId = dataArray[i]["userClassId"]
-                        li
-                            += '' +
-                            '<div class="weui-form-preview">';
-                        var readState = dataArray[i]["readState"]
-                        if (readState === "0") {
-                            li
-                                += '' +
-                                '   <span class="weui-badge" style="position: absolute;right: 1em;">1</span>';
-                        }
-                        li
-                            += '' +
-                            '   <div class="weui-form-preview__ft">' +
-                            '       <span class="weui-form-preview__btn weui-form-preview__btn_primary" style="color: #7a869d;font-size: 8px" href="javascript:">' + dataArray[i]["createTime"] + '</span>' +
-                            '   </div>' +
-                            '   <div class="weui-form-preview__hd">' +
-                            '       <div class="weui-form-preview__item">' +
-                            '       <label class="weui-form-preview__label">课程名称</label>' +
-                            '       <em class="weui-form-preview__value">' + dataArray[i]["className"] + '</em>' +
-                            // '           <a herf="javascript:" style="font-size: 10px" onclick="discuss('+dataList[i]["id"]+')">进入讨论区>>></a>'+
-                            '       </div>' +
-                            '   </div>' +
-                            '   <div class="weui-form-preview__bd">' +
-                            '       <div class="weui-form-preview__item">' +
-                            '           <label class="weui-form-preview__label">课程类型</label>' +
-                            '           <span class="weui-form-preview__value">' + dataArray[i]["classType"] + '</span>' +
-                            '       </div>' +
-                            '       <div class="weui-form-preview__item">' +
-                            '           <label class="weui-form-preview__label">老师姓名</label>' +
-                            '           <span class="weui-form-preview__value">' + dataArray[i]["teacherName"] + '</span>' +
-                            '       </div>' +
-                            '       <div class="weui-form-preview__item">' +
-                            '           <label class="weui-form-preview__label">上课时间</label>' +
-                            '           <span class="weui-form-preview__value">' + '每' + dataArray[i]["classTime"] + '</span>' +
-                            '       </div>' +
-                            '   </div>' +
-                            '   <div class="weui-form-preview__ft">'+
-                            '       <a class="weui-form-preview__btn weui-form-preview__btn_primary open-popup" id="to_sign" data-target="#cart" href="javascript:">去签到</a>'+
-                            '   </div>' +
-                        '</div>';
-                    }
-                    $("#remindList").append(li);
-                } else {
-                    $("#reminLoading").html("您还没有要提醒的课程哦~~~")
-                    $("#reminLoading").show();
-                }
-            },
-            error: function () {
-                console.log("出错了");
-            }
-        });
-    }
 </script>
 </body>
 </html>

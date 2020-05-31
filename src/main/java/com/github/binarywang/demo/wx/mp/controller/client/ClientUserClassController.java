@@ -133,7 +133,7 @@ public class ClientUserClassController {
     }
 
     /**
-     * 新增预约信息
+     * 新增购买信息
      * @return
      */
     @PostMapping(value="/userClass/update")

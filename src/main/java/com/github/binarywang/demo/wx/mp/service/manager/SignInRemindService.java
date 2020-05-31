@@ -80,9 +80,6 @@ public class SignInRemindService {
             return null;
         }
         LsSignInRemind signInRemind = byId.get();
-        //修改已读状态
-        signInRemind.setReadState(ReadStateEnum.READ.getCode());
-        signInRemind = signInRemindRepository.save(signInRemind);
         return signInRemind;
 
     }
@@ -92,5 +89,14 @@ public class SignInRemindService {
      * */
     public long findNumByPhone(String phone) {
         return signInRemindRepository.findNumByPhone(phone);
+    }
+    /**
+     * 修改已读状态
+     *
+     * */
+    public void remindAlreadySee(LsSignInRemind signInRemind) {
+        //修改已读状态
+        signInRemind.setReadState(ReadStateEnum.READ.getCode());
+        signInRemindRepository.save(signInRemind);
     }
 }

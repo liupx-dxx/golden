@@ -93,6 +93,23 @@ public class SignInRemindController {
         return signInRemind;
     }
 
+    /*读
+     * 设置提醒已度
+     *
+     *  */
+    @GetMapping("/signInRemind/remindAlreadySee/{id}")
+    @ResponseBody
+    public ResultEntity remindAlreadySee(
+        @NotNull(message = "id不可为空")
+        @PathVariable("id") String id) {
+        LsSignInRemind signInRemind = signInRemindService.findById(id);
+        if(signInRemind==null){
+            return ResultUtils.fail(ResultCodeEnum.PARAMETER_ERROR);
+        }
+        signInRemindService.remindAlreadySee(signInRemind);
+        return ResultUtils.success();
+    }
+
     /**
      * 跳转到提醒详情
      *
