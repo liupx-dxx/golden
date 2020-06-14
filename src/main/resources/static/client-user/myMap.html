@@ -37,7 +37,8 @@
 
     var map = new BMapGL.Map("container");
     // 创建地图实例
-    var point = new BMapGL.Point(116.479061,40.027986);
+    //var point = new BMapGL.Point(116.479061,40.027986);
+    var point = new BMapGL.Point(117.078606,39.323648);
     // 创建点坐标
     map.centerAndZoom(point, 15);
     map.enableScrollWheelZoom(true);
@@ -49,7 +50,7 @@
         position : point,    // 指定文本标注所在的地理位置
         offset   : new BMapGL.Size(30, -30)   //设置文本偏移量
     }
-    var label = new BMapGL.Label("来广营地铁c口往东步行500M", opts);  // 创建文本标注对象
+    var label = new BMapGL.Label("天津市武清区下朱庄街道恒茂生活广场10#227-235", opts);  // 创建文本标注对象
     label.setStyle({
         fontSize : '12px',
         height : '20px',
