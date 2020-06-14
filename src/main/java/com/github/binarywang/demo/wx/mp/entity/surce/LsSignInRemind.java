@@ -4,6 +4,7 @@ package com.github.binarywang.demo.wx.mp.entity.surce;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -42,6 +43,7 @@ public class LsSignInRemind {
      *
      * */
     @Getter@Setter
+    @Length(max = 36)
     private String className;
 
     /**
@@ -54,6 +56,7 @@ public class LsSignInRemind {
      * 老师姓名
      * */
     @Getter@Setter
+    @Length(max = 36)
     private String teacherName;
 
     /**
@@ -66,7 +69,14 @@ public class LsSignInRemind {
      * 课程类型  0、未读  1、已读
      * */
     @Getter@Setter
+    @Length(max = 2)
     private String readState;
+
+    /**
+     * 是否操作  0、未操作 1、签到  2、请假
+     * */
+    @Getter@Setter
+    private String flag;
 
     /**
      * 创建时间

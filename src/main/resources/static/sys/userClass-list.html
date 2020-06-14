@@ -77,7 +77,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">预约详情</h4>
+                <h4 class="modal-title">购买详情</h4>
             </div>
             <form action="" id="update-form" method="post">
                 <input type="text" class="form-control" name="id" id="updatemainid" style="display: none">
@@ -274,7 +274,11 @@
                         $("#updatemainid").val(data.id)
                         $("#updatemainname").val(data.clientUserName)
                         $("#updateclientUserPhone").val(data.clientUserPhone)
-                        $("#timeSelect").val(data.classTime)
+                        //$("#timeSelect").val(data.classTime)
+                        $("#timeSelect").empty();//首先清空select现在有的内容
+
+                        $("#timeSelect").append("<option selected='selected' value=" +data.classTime+ ">" + data.classTime+"</option>");
+                        //$("#timeSelect  option[value='"+data.classTime+"']").attr("selected",true);
                         $("#classSelect option[value='"+data.classId+"']").attr("selected",true);
                         $("#classTypeSelect option[value='"+data.classType+"']").attr("selected",true);
                         $("#updateprice").val(data.price)
@@ -463,28 +467,6 @@
 
         return oInit;
     };
-
-    /**
-     *  将form序列化Json对象
-     * {key1:"value1",key2:"value2"}
-     * @example
-     * <script>
-     * var formParams = $("#formId").serializeObject();
-     *
-    */
-    /*$.prototype.serializeObject = function() {
-        var a, o, h, i, e;
-        a = this.serializeArray();
-        o = {};
-        h = o.hasOwnProperty;
-        for (i = 0; i < a.length; i++) {
-            e = a[i];
-            if (!h.call(o, e.name)) {
-                o[e.name] = e.value;
-            }
-        }
-        return o;
-    };*/
 
 </script>
 </body>

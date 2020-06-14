@@ -6,6 +6,7 @@ import com.github.binarywang.demo.wx.mp.entity.surce.LsTeacher;
 import com.github.binarywang.demo.wx.mp.repository.manager.ClassManagerRepository;
 import com.github.binarywang.demo.wx.mp.repository.manager.ClassTimeRepository;
 import com.github.binarywang.demo.wx.mp.repository.manager.TeacherManagerRepository;
+import com.github.binarywang.demo.wx.mp.utils.UpdateToolUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,7 +56,11 @@ public class ClassManagerService {
     public void save(LsClass lsClass) {
         if(StringUtils.isEmpty(lsClass.getId())){
             lsClass.setCreateTime(LocalDateTime.now());
+        }else{
+            LsClass entity = classManagerRepository.findOne(lsClass.getId());
+            UpdateToolUtil.copyNullProperties(entity,lsClass);
         }
+
         LsClass classEntity = classManagerRepository.save(lsClass);
         List<LsClassTime> timeList = classTimeRepository.findByclassId(classEntity.getId());
         if(!CollectionUtils.isEmpty(timeList)){

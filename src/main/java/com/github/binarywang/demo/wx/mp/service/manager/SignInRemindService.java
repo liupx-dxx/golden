@@ -29,6 +29,8 @@ public class SignInRemindService {
 
     SignInRemindRepository signInRemindRepository;
 
+    UserSignInRepository userSignInRepository;
+
     /**
      * 分页获取所有信息
      * @return
@@ -61,12 +63,30 @@ public class SignInRemindService {
     }
 
     /**
-     * 批量保存用户课程
+     * 用户课程
      *
      * */
     @Transactional(rollbackFor = Exception.class)
-    public List<LsSignInRemind> findByUserPhone(String phone) {
-        return signInRemindRepository.findByUserPhone(phone);
+    public List<LsSignInRemind> findByUserPhone(String phone,Long userId) {
+        List<LsSignInRemind> remindList = signInRemindRepository.findByUserPhone(phone);
+        //获取该用户本周签到、请假的课程
+        //List<LsUserSignIn> userSignIns = userSignInRepository.findByUserId(userId);
+        if(!CollectionUtils.isEmpty(remindList)){
+            remindList.stream().forEach(item ->{
+
+                String classType = item.getClassType();
+                if(!StringUtils.isEmpty(classType)){
+                    if(ClassTypeEnum.CLASS.getCode().equals(classType)){
+                        item.setClassType(ClassTypeEnum.CLASS.getDesc());
+                    }else if(ClassTypeEnum.GROUP_COURSE.getCode().equals(classType)){
+                        item.setClassType(ClassTypeEnum.GROUP_COURSE.getDesc());
+                    }else if(ClassTypeEnum.ONE_ON_ONE.getCode().equals(classType)){
+                        item.setClassType(ClassTypeEnum.ONE_ON_ONE.getDesc());
+                    }
+                }
+            });
+        }
+        return remindList;
     }
 
     /**
@@ -94,9 +114,26 @@ public class SignInRemindService {
      * 修改已读状态
      *
      * */
-    public void remindAlreadySee(LsSignInRemind signInRemind) {
+    public LsSignInRemind remindAlreadySee(LsSignInRemind signInRemind,Long userId) {
         //修改已读状态
         signInRemind.setReadState(ReadStateEnum.READ.getCode());
-        signInRemindRepository.save(signInRemind);
+        LsSignInRemind remind = signInRemindRepository.save(signInRemind);
+        //获取该用户本周签到、请假的课程
+        List<LsUserSignIn> userSignIns = userSignInRepository.findByUserId(userId);
+        if(!CollectionUtils.isEmpty(userSignIns)){
+                    userSignIns.stream().forEach(userSignIn ->{
+                        if(remind.getUserClassId().equals(userSignIn.getUserClassId())){
+                            String flag = userSignIn.getFlag();
+                            if(OperationTypeEnum.SIGN_IN.getCode().equals(flag)){
+                                remind.setFlag(SignInStateEnum.SIGN_IN.getCode());
+                            }else{
+                                remind.setFlag(SignInStateEnum.LEAVE.getCode());
+                            }
+                        }
+                    });
+                }else{
+                    remind.setFlag(SignInStateEnum.NO_SIGN_IN_LEAVE.getCode());
+                }
+        return remind;
     }
 }

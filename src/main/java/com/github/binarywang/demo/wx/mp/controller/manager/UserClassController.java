@@ -106,7 +106,7 @@ public class UserClassController {
     }
 
     /**
-     * 新增预约信息
+     * 新增
      * @return
      */
     @PostMapping(value="/userClass/update")

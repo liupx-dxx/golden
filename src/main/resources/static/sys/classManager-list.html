@@ -194,7 +194,7 @@
             $(this).parent().remove();
         })
     }
-
+    var dataInfo;
     var TableInit = function () {
         var oTableInit = new Object();
         //初始化Table
@@ -288,6 +288,7 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success:function(data){
+                        dataInfo = data;
                         $('#appendStr').text("");
                         $("#updatemainid").val(data.id);
                         $("#updateclassName").val(data.className);
@@ -401,6 +402,7 @@
                         };
                     arrayTime.push(timeObjet);
                 })
+
                 var d = $("#update-form").serializeObject();
                 var classTimes = JSON.stringify(arrayTime);
                 eval("d.classTimes="+classTimes);
@@ -416,6 +418,7 @@
                             alert(data.msg);
                             return
                         }else{
+                            $("#updatemainid").val("");
                             $('#mainModal').modal('hide');
                             $('#tb_departments').bootstrapTable('refresh');
                         }

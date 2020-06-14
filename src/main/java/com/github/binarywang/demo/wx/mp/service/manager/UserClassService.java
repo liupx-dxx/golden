@@ -10,6 +10,7 @@ import com.github.binarywang.demo.wx.mp.repository.client.UserSignInRepository;
 import com.github.binarywang.demo.wx.mp.repository.manager.UserClassRepository;
 import com.github.binarywang.demo.wx.mp.utils.ResultEntity;
 import com.github.binarywang.demo.wx.mp.utils.ResultUtils;
+import com.github.binarywang.demo.wx.mp.utils.UpdateToolUtil;
 import com.github.binarywang.demo.wx.mp.vo.UserClassReq;
 import lombok.AllArgsConstructor;
 import org.hibernate.validator.constraints.Length;
@@ -55,8 +56,15 @@ public class UserClassService {
      * */
     @Transactional(rollbackFor = Exception.class)
     public void save(LsUserClass userClass) {
-        userClass.setCreateTime(LocalDateTime.now());
-        userClass.setUpdateTime(LocalDateTime.now());
+        Long id = userClass.getId();
+        //证明是新增
+        if(id==null){
+            userClass.setCreateTime(LocalDateTime.now());
+            userClass.setUpdateTime(LocalDateTime.now());
+        }else{
+            LsUserClass entity = userClassRepository.findOne(id);
+            UpdateToolUtil.copyNullProperties(entity,userClass);
+        }
         String classId = userClass.getClassId();
         if(!StringUtils.isEmpty(classId)){
             LsClass byId = classManagerService.findById(classId);
@@ -140,7 +148,7 @@ public class UserClassService {
                 lsUserClass.setSignInFlag(SignInStateEnum.NO_SIGN_IN_LEAVE.getCode());
             }
         }
-        return byId.get();
+        return lsUserClass;
     }
 
 
@@ -297,4 +305,7 @@ public class UserClassService {
     public String getUserSurplusByPhone(String phone) {
         return userClassRepository.getUserSurplusByPhone(phone);
     }
+
+    /*public LsUserClass findByRemindId(String remindId) {
+    }*/
 }

@@ -4,6 +4,7 @@ import com.github.binarywang.demo.wx.mp.entity.surce.LsClass;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsSignInRemind;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsUserClass;
 import com.github.binarywang.demo.wx.mp.enums.ReadStateEnum;
+import com.github.binarywang.demo.wx.mp.enums.SignInStateEnum;
 import com.github.binarywang.demo.wx.mp.service.manager.ClassManagerService;
 import com.github.binarywang.demo.wx.mp.service.manager.ClassTimeService;
 import com.github.binarywang.demo.wx.mp.service.manager.SignInRemindService;
@@ -80,6 +81,7 @@ public class UserClassTask {
                     lsSignInRemind.setUserClassId(userClass.getId());
                     lsSignInRemind.setTeacherName(lsClass.getTeacherName());
                     lsSignInRemind.setReadState(ReadStateEnum.NO_READ.getCode());
+                    lsSignInRemind.setFlag(SignInStateEnum.NO_SIGN_IN_LEAVE.getCode());
                     lsSignInRemind.setCreateTime(LocalDateTime.now());
                     signInRemindList.add(lsSignInRemind);
                 }else{

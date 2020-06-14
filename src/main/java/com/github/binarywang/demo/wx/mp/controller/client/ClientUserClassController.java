@@ -119,6 +119,20 @@ public class ClientUserClassController {
         return userClass;
     }
 
+
+    /**
+     * 根据提醒ID获取购买信息
+     *
+     *  *//*
+    @GetMapping("/userClass/findByRemindId/{remindId}")
+    @ResponseBody
+    public LsUserClass findByRemindId(
+        @NotNull(message = "remindId不可为空")
+        @PathVariable("remindId") String remindId) {
+        LsUserClass userClass = userClassService.findByRemindId(remindId);
+        return userClass;
+    }
+*/
     /**
      * 删除用户购买信息
      *

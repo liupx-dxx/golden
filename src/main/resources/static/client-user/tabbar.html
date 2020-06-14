@@ -345,63 +345,7 @@
                 //取消操作
             });
         })
-        //提醒页面签到
-        $("#remindSign").click(function () {
-            var userClassId = $("#remindUserClassId").val();
-            $.confirm("扣除2课时,您确定要签到吗?", "确认签到?", function () {
-                $.ajax({
-                    url: "/client/userClass/signIn/" + userClassId,
-                    type: "get",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        if (data.code != '2000') {
-                            $.toptip(data.msg);
-                            return
-                        } else {
-                            $.toptip('签到成功', 'success');
-                            //计算剩余课时
-                            var classHourNum = $("#classHourNum").text();
-                            var vlaue = eval(classHourNum-2);
-                            $("#classHourNum").html(vlaue);
-                            $("#remindDiv").html('<a href="javascript:;" class="weui-btn weui-btn_primary" disabled="true">今天以签到</a>');
-                        }
-                    },
-                    error: function (e) {
-                        alert("错误！！");
-                    }
-                });
-            }, function () {
-                //取消操作
-            });
-        })
 
-        //提醒页面请假
-        $("#remindLeave").click(function () {
-            var userClassId = $("#remindUserClassId").val();
-            $.confirm("您确定要请假吗?", "确认请假?", function () {
-                $.ajax({
-                    url: "/client/userClass/leave/" + userClassId,
-                    type: "get",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        if (data.code != '2000') {
-                            $.toptip(data.msg);
-                            return
-                        } else {
-                            $.toptip('请假成功', 'success');
-                            $("#remindDiv").html('<a href="javascript:;" class="weui-btn weui-btn_primary" disabled="true">今天以签到</a>');
-                        }
-                    },
-                    error: function (e) {
-                        alert("错误！！");
-                    }
-                });
-            }, function () {
-                //取消操作
-            });
-            });
         FastClick.attach(document.body);
         });
         var detailList = new h5Detail2list();
@@ -463,11 +407,11 @@
                             if ("1" === signInFlag) {
                                 li
                                     += '' +
-                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已签到</a>';
+                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程本周您已签到</a>';
                             } else if ("2" === signInFlag) {
                                 li
                                     += '' +
-                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已请假</a>';
+                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程本周您已请假</a>';
 
                             } else {
                                 li
@@ -544,11 +488,11 @@
                             if ("1" === signInFlag) {
                                 li
                                     += '' +
-                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已签到</a>';
+                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程本周您已签到</a>';
                             } else if ("2" === signInFlag) {
                                 li
                                     += '' +
-                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已请假</a>';
+                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程本周您已请假</a>';
 
                             } else {
                                 li
@@ -600,11 +544,11 @@
                             if ("1" === signInFlag) {
                                 li
                                     += '' +
-                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已签到</a>';
+                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程本周您已签到</a>';
                             } else if ("2" === signInFlag) {
                                 li
                                     += '' +
-                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已请假</a>';
+                                    '       <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程本周您已请假</a>';
 
                             } else {
                                 li
@@ -646,7 +590,7 @@
                             //$("#tab2").addClass('weui-tab__bd-item--active').siblings('.weui-tab__bd-item').removeClass('weui-tab__bd-item--active');
                             //window.location.href = "/client/to-personal";
                             $(dataVla).parent().siblings(".parent-div-flag").find(".classHourNumFlag").html(classHourNum-2);
-                            $(dataVla).parent().html('<a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已签到</a>');
+                            $(dataVla).parent().html('<a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程本周您已签到</a>');
                             $.toptip('签到成功', 'success');
                         }
                     },
@@ -675,7 +619,7 @@
                             return
                         } else {
                             $.toptip('请假成功', 'success');
-                            $(dataVla).parent().html('<a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程今天您已请假</a>');
+                            $(dataVla).parent().html('<a class="weui-form-preview__btn weui-form-preview__btn_primary" href="javascript:" style="color: gray" disabled="disabled">该课程本周您已请假</a>');
                         }
                     },
                     error: function (e) {
@@ -708,9 +652,9 @@
                         for (var i = 0; i < data_length; i++) {
                             var remingId = dataArray[i]["id"];
                             var userClassId = dataArray[i]["userClassId"];
-                            var className = dataArray[i]["className"];
-                            var classTime = dataArray[i]["classTime"];
-                            var classHourNum = dataArray[i]["classHourNum"];
+                            var flag = dataArray[i]["flag"];
+                            /*var classTime = dataArray[i]["classTime"];
+                            var classHourNum = dataArray[i]["classHourNum"];*/
                             li
                                 += '' +
                                 '<div class="weui-form-preview">';
@@ -747,7 +691,7 @@
                                 '       </div>' +
                                 '   </div>' +
                                 '   <div class="weui-form-preview__ft">' +
-                                '       <a class="weui-form-preview__btn weui-form-preview__btn_primary open-popup" onclick="to_sign('+remingId+ ',' + userClassId+ ',this' + ','+readState+')" data-target="#cart" href="javascript:">查看详情</a>' +
+                                '       <a class="weui-form-preview__btn weui-form-preview__btn_primary open-popup" onclick="to_sign('+remingId+ ',' + userClassId+ ',this' + ','+readState+ ','+flag+')" data-target="#cart" href="javascript:">查看详情</a>' +
                                 '   </div>' +
                                 '</div>';
                         }
@@ -764,13 +708,16 @@
         }
 
 
-        function to_sign(remindId,userClassId,remindThis,readState) {
+        function to_sign(remindId,userClassId,remindThis,readState,flag) {
+
             //清楚小红点
             if(readState === 0){
                 $(remindThis).parent().siblings(".weui-badge").hide();
                 var dataNum = $("#dataNum").text();
                 if(dataNum != "0"){
                     $("#dataNum").html(eval(dataNum-1));
+                }else{
+                    $("#dataNum").hide();
                 }
                 $.ajax({
                     url: "/client/signInRemind/remindAlreadySee/" + remindId,
@@ -797,19 +744,77 @@
                     $("#classTime").html(data.classTime);
                     $("#classHourNum").html(data.classHourNum);
                     $("#remindUserClassId").val(data.id);
-                    var signInFlag = data.signInFlag;
-                    if (signInFlag === "1") {
+                    var flag = data.signInFlag;
+                    if (flag === "1") {
                         //已签到
-                        $("#remindDiv").html('<a href="javascript:;" class="weui-btn weui-btn_primary" disabled="true">今天以签到</a>');
-                    } else if (signInFlag === "2") {
+                        $("#remindDiv").html('<a href="javascript:;" class="weui-btn weui-btn_primary" disabled="true">本周已签到</a>');
+                    } else if (flag === "2") {
                         //已请假
-                        $("#remindDiv").html('<a href="javascript:;" class="weui-btn weui-btn_primary" disabled="true">今天以请假</a>');
+                        $("#remindDiv").html('<a href="javascript:;" class="weui-btn weui-btn_primary" disabled="true">本周已请假</a>');
+                    }else{
+                        $("#remindDiv").html('<a href="javascript:;" class="weui-btn weui-btn_primary" onclick="remindSign()">签到</a>\n' +
+                            '                <a href="javascript:;" class="weui-btn weui-btn_primary" onclick="remindLeave()">请假</a>');
                     }
-
                 },
                 error: function (e) {
                     alert("错误！！");
                 }
+            });
+
+        }
+        function remindSign() {
+            var userClassId = $("#remindUserClassId").val();
+            $.confirm("扣除2课时,您确定要签到吗?", "确认签到?", function () {
+                $.ajax({
+                    url: "/client/userClass/signIn/" + userClassId,
+                    type: "get",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code != '2000') {
+                            $.toptip(data.msg);
+                            return
+                        } else {
+                            $.toptip('签到成功', 'success');
+                            //计算剩余课时
+                            var classHourNum = $("#classHourNum").text();
+                            var vlaue = eval(classHourNum-2);
+                            $("#classHourNum").html(vlaue);
+                            $("#remindDiv").html('<a href="javascript:;" class="weui-btn weui-btn_primary" disabled="true">本周已签到</a>');
+                        }
+                    },
+                    error: function (e) {
+                        alert("错误！！");
+                    }
+                });
+            }, function () {
+                //取消操作
+            });
+        }
+
+        function remindLeave() {
+            var userClassId = $("#remindUserClassId").val();
+            $.confirm("您确定要请假吗?", "确认请假?", function () {
+                $.ajax({
+                    url: "/client/userClass/leave/" + userClassId,
+                    type: "get",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code != '2000') {
+                            $.toptip(data.msg);
+                            return
+                        } else {
+                            $.toptip('请假成功', 'success');
+                            $("#remindDiv").html('<a href="javascript:;" class="weui-btn weui-btn_primary" disabled="true">本周已请假</a>');
+                        }
+                    },
+                    error: function (e) {
+                        alert("错误！！");
+                    }
+                });
+            }, function () {
+                //取消操作
             });
         }
 
