@@ -1,12 +1,10 @@
 package com.github.binarywang.demo.wx.mp.service.manager;
 
-import com.github.binarywang.demo.wx.mp.entity.surce.LsClass;
-import com.github.binarywang.demo.wx.mp.entity.surce.LsClientUser;
-import com.github.binarywang.demo.wx.mp.entity.surce.LsUserClass;
-import com.github.binarywang.demo.wx.mp.entity.surce.LsUserSignIn;
+import com.github.binarywang.demo.wx.mp.entity.surce.*;
 import com.github.binarywang.demo.wx.mp.enums.*;
 import com.github.binarywang.demo.wx.mp.repository.client.ClientUserRepository;
 import com.github.binarywang.demo.wx.mp.repository.client.UserSignInRepository;
+import com.github.binarywang.demo.wx.mp.repository.manager.SignInRemindRepository;
 import com.github.binarywang.demo.wx.mp.repository.manager.UserClassRepository;
 import com.github.binarywang.demo.wx.mp.utils.ResultEntity;
 import com.github.binarywang.demo.wx.mp.utils.ResultUtils;
@@ -22,6 +20,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -35,6 +34,8 @@ public class UserClassService {
     ClientUserRepository clientUserRepository;
 
     UserSignInRepository userSignInRepository;
+
+    SignInRemindRepository signInRemindRepository;
 
     /**
      * 分页获取所有信息
@@ -135,7 +136,7 @@ public class UserClassService {
             return null;
         }
         LsUserClass lsUserClass = byId.get();
-        if(lsUserClass!=null){
+        /*if(lsUserClass!=null){
             LsUserSignIn userSignIn = userSignInRepository.findByUserIdAndUserClassId(lsUserClass.getId());
             if(userSignIn!=null){
                 String flag = userSignIn.getFlag();
@@ -147,7 +148,7 @@ public class UserClassService {
             }else{
                 lsUserClass.setSignInFlag(SignInStateEnum.NO_SIGN_IN_LEAVE.getCode());
             }
-        }
+        }*/
         return lsUserClass;
     }
 
@@ -308,4 +309,33 @@ public class UserClassService {
 
     /*public LsUserClass findByRemindId(String remindId) {
     }*/
+
+    /**
+     *
+     * 根据提醒ID获取购买信息
+     * **/
+    public LsUserClass findByRemindId(String id) {
+        LsSignInRemind remind = signInRemindRepository.findOne(Long.valueOf(id));
+        LsUserClass lsUserClass = userClassRepository.findOne(remind.getUserClassId());
+        if(lsUserClass!=null){
+            LsUserSignIn userSignIn = userSignInRepository.findByUserIdAndUserClassId(lsUserClass.getId(),dateToString(remind.getCreateTime()));
+            if(userSignIn!=null){
+                String flag = userSignIn.getFlag();
+                if(OperationTypeEnum.SIGN_IN.getCode().equals(flag)){
+                    lsUserClass.setSignInFlag(SignInStateEnum.SIGN_IN.getCode());
+                }else{
+                    lsUserClass.setSignInFlag(SignInStateEnum.LEAVE.getCode());
+                }
+            }else{
+                lsUserClass.setSignInFlag(SignInStateEnum.NO_SIGN_IN_LEAVE.getCode());
+            }
+        }
+        return lsUserClass;
+    }
+
+    private String dateToString(LocalDateTime localDateTime){
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String localTime = df.format(localDateTime);
+        return localTime;
+    }
 }

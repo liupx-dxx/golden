@@ -67,7 +67,7 @@ public class SignInRemindService {
      *
      * */
     @Transactional(rollbackFor = Exception.class)
-    public List<LsSignInRemind> findByUserPhone(String phone,Long userId) {
+    public List<LsSignInRemind> findByUserPhone(String phone) {
         List<LsSignInRemind> remindList = signInRemindRepository.findByUserPhone(phone);
         //获取该用户本周签到、请假的课程
         //List<LsUserSignIn> userSignIns = userSignInRepository.findByUserId(userId);
@@ -121,19 +121,19 @@ public class SignInRemindService {
         //获取该用户本周签到、请假的课程
         List<LsUserSignIn> userSignIns = userSignInRepository.findByUserId(userId);
         if(!CollectionUtils.isEmpty(userSignIns)){
-                    userSignIns.stream().forEach(userSignIn ->{
-                        if(remind.getUserClassId().equals(userSignIn.getUserClassId())){
-                            String flag = userSignIn.getFlag();
-                            if(OperationTypeEnum.SIGN_IN.getCode().equals(flag)){
-                                remind.setFlag(SignInStateEnum.SIGN_IN.getCode());
-                            }else{
-                                remind.setFlag(SignInStateEnum.LEAVE.getCode());
-                            }
-                        }
-                    });
-                }else{
-                    remind.setFlag(SignInStateEnum.NO_SIGN_IN_LEAVE.getCode());
+            userSignIns.stream().forEach(userSignIn ->{
+                if(remind.getUserClassId().equals(userSignIn.getUserClassId())){
+                    String flag = userSignIn.getFlag();
+                    if(OperationTypeEnum.SIGN_IN.getCode().equals(flag)){
+                        remind.setFlag(SignInStateEnum.SIGN_IN.getCode());
+                    }else{
+                        remind.setFlag(SignInStateEnum.LEAVE.getCode());
+                    }
                 }
+            });
+        }else{
+            remind.setFlag(SignInStateEnum.NO_SIGN_IN_LEAVE.getCode());
+        }
         return remind;
     }
 }

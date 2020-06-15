@@ -123,7 +123,7 @@ public class ClientUserClassController {
     /**
      * 根据提醒ID获取购买信息
      *
-     *  *//*
+     *  */
     @GetMapping("/userClass/findByRemindId/{remindId}")
     @ResponseBody
     public LsUserClass findByRemindId(
@@ -132,7 +132,6 @@ public class ClientUserClassController {
         LsUserClass userClass = userClassService.findByRemindId(remindId);
         return userClass;
     }
-*/
     /**
      * 删除用户购买信息
      *

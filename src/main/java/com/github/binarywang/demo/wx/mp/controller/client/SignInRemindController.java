@@ -48,7 +48,7 @@ public class SignInRemindController {
         if(clientUser==null){
             return ResultUtils.fail(ResultCodeEnum.INTERNAL_ERROR);
         }
-        List<LsSignInRemind> signInReminds = signInRemindService.findByUserPhone(clientUser.getPhone(),clientUser.getId());
+        List<LsSignInRemind> signInReminds = signInRemindService.findByUserPhone(clientUser.getPhone());
         map.put("remindList",signInReminds);
         long noReadNum = signInRemindService.findNumByPhone(clientUser.getPhone());
         map.put("noReadNum",noReadNum);

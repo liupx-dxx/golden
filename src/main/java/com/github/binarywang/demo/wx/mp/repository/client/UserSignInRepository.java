@@ -111,21 +111,24 @@ public class UserSignInRepository extends BaseJpaRepository<LsUserSignIn,Long> {
      * 根据USERID、当前时间获取该用户的该课程今天是否
      *
      * */
-    public LsUserSignIn findByUserIdAndUserClassId(long userClassId) {
+    public LsUserSignIn findByUserIdAndUserClassId(long userClassId,String createTime) {
         StringBuilder builder = new StringBuilder();
         builder.append("SELECT id,userClassId,flag FROM LsUserSignIn");
-        builder.append(" WHERE YEARWEEK (date_format(createTime,'%Y-%m-%d'),1)= YEARWEEK(now(),1)");
+        builder.append(" WHERE YEARWEEK (date_format(createTime,'%Y-%m-%d'),1)= YEARWEEK('");
+        builder.append(createTime);
+        builder.append("',1)");
         builder.append(" AND userClassId=");
         builder.append(userClassId);
         Query query = entityManager.createQuery(builder.toString());
         List resultList = query.getResultList();
-        LsUserSignIn lsUserSignIn = new LsUserSignIn();
+        LsUserSignIn lsUserSignIn =null;
         if(!CollectionUtils.isEmpty(resultList)){
             Object[] singleResult = (Object[]) resultList.get(0);
             if(singleResult!=null && singleResult.length>=3){
-                lsUserSignIn.setId((Long) singleResult[0]);
-                lsUserSignIn.setUserClassId((Long) singleResult[1]);
-                lsUserSignIn.setFlag((String)singleResult[2]);
+                lsUserSignIn= new LsUserSignIn();
+                lsUserSignIn.setId(Long.valueOf(String.valueOf(singleResult[0])));
+                lsUserSignIn.setUserClassId(Long.valueOf(String.valueOf(singleResult[1])));
+                lsUserSignIn.setFlag(String.valueOf(singleResult[2]));
             }
         }
         return lsUserSignIn;

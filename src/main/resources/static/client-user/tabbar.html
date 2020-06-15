@@ -372,7 +372,7 @@
                     var li = '';
                     var data_length = dataList.length; //数据的总条数
                     var remainder = data_length % num; //page 是每次加载的条数，利用数据的总条数/每次加载条数 取余数
-                    if (data_length >= 0 && data_length != null) {
+                    if (data_length > 0 && data_length != null) {
                         for (i = 0; i < data_length; i++) {
                             li
                                 += '' +
@@ -429,8 +429,8 @@
                         }
                         $("#list").append(li);
                     } else {
-                        $('#loading').html("您还没有购买的课程哦~~~");
-                        $('#loading').show();
+                        $("#loading").html("您还没有购买的课程哦~~~");
+                        $("#loading").show();
                     }
                 },
                 error: function () {
@@ -710,32 +710,9 @@
 
         function to_sign(remindId,userClassId,remindThis,readState,flag) {
 
-            //清楚小红点
-            if(readState === 0){
-                $(remindThis).parent().siblings(".weui-badge").hide();
-                var dataNum = $("#dataNum").text();
-                if(dataNum != "0"){
-                    $("#dataNum").html(eval(dataNum-1));
-                }else{
-                    $("#dataNum").hide();
-                }
-                $.ajax({
-                    url: "/client/signInRemind/remindAlreadySee/" + remindId,
-                    type: "get",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-
-                    },
-                    error: function (e) {
-                        alert("错误！！");
-                    }
-
-                });
-            }
             //获取课程信息
             $.ajax({
-                url: "/client/userClass/findById/" + userClassId,
+                url: "/client/userClass/findByRemindId/" + remindId,
                 type: "get",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -760,6 +737,31 @@
                     alert("错误！！");
                 }
             });
+
+            //清楚小红点
+            if(readState === 0){
+                $(remindThis).parent().siblings(".weui-badge").hide();
+                var dataNum = $("#dataNum").text();
+                if(dataNum != "0"){
+                    $("#dataNum").html(eval(dataNum-1));
+                }else{
+                    $("#dataNum").hide();
+                }
+                $.ajax({
+                    url: "/client/signInRemind/remindAlreadySee/" + remindId,
+                    type: "get",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                    },
+                    error: function (e) {
+                        alert("错误！！");
+                    }
+
+                });
+            }
+
 
         }
         function remindSign() {
