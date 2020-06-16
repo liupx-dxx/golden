@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +57,7 @@ public class ClientUserClassController {
         @NotNull(message = "请求参数不能为空")
         @RequestBody Map<String,String> map) {
         PageUtils pageUtils = new PageUtils();
-        boolean flag = map.containsKey("phone");
+        /*boolean flag = map.containsKey("phone");
         if(!flag){
             pageUtils.setCode(405);
             pageUtils.setMsg("参数错误，请重试");
@@ -65,7 +66,7 @@ public class ClientUserClassController {
         if(StringUtils.isEmpty(phone)){
             pageUtils.setCode(405);
             pageUtils.setMsg("参数错误，请重试");
-        }
+        }*/
 
         int page = 0;
         int size = 10;

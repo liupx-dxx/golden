@@ -1,7 +1,11 @@
 package com.github.binarywang.demo.wx.mp.controller.manager;
 
+import com.github.binarywang.demo.wx.mp.config.intercepors.LoginInterceptor;
+import com.github.binarywang.demo.wx.mp.entity.surce.LsClientUser;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsUserClass;
+import com.github.binarywang.demo.wx.mp.entity.sys.SysUser;
 import com.github.binarywang.demo.wx.mp.enums.ClassTypeEnum;
+import com.github.binarywang.demo.wx.mp.enums.ResultCodeEnum;
 import com.github.binarywang.demo.wx.mp.service.manager.UserClassService;
 import com.github.binarywang.demo.wx.mp.utils.PageUtils;
 import com.github.binarywang.demo.wx.mp.utils.ResultEntity;
@@ -16,7 +20,10 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -143,6 +150,32 @@ public class UserClassController {
         List<LsUserClass> userClassList) {
         userClassService.delById(userClassList);
         return ResultUtils.success();
+    }
+
+    /**
+     * 事件全流程统计-导出Excel报表
+     *
+     * @param userClassReq
+     * @return
+     */
+    @PostMapping(path = "/userClass/exportExcel")
+    @ResponseBody
+    public ResultEntity exportExcel(HttpServletRequest request, @RequestBody UserClassReq userClassReq){
+        //获取用户
+        HttpSession session = request.getSession();
+        SysUser user = (SysUser)session.getAttribute(LoginInterceptor.MANAGER_SESSION_KEY);
+        if (user == null) {
+            return ResultUtils.fail(ResultCodeEnum.TORKEN_ERROR);
+        }
+        List<LsUserClass> list = userClassService.getUserClassByParm(userClassReq);
+        String url = userClassService.exportExcel(user.getName(), list, userClassReq);
+        Map<String,String> map = new HashMap<>();
+        if (url != null) {
+            map.put("url",url);
+            return ResultUtils.success(map);
+        } else {
+            return ResultUtils.fail(ResultCodeEnum.INTERNAL_ERROR);
+        }
     }
 
 }

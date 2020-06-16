@@ -66,6 +66,9 @@
         <button id="btn_delete" type="button" class="btn btn-danger">
             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
         </button>
+        <button id="btn_export" type="button" style="margin-left: 50px" class="btn btn-danger">
+            <span aria-hidden="true"></span>导出excel
+        </button>
     </div>
     <table id="tb_departments"></table>
 </div>
@@ -138,7 +141,7 @@
             dataType: "json",
             success:function(data){
                 $("#classSelect").empty();//首先清空select现在有的内容
-                $("#classSelect").append("<option selected='selected'  value=0>请选择..</option>");
+                $("#classSelect").append("<option selected='selected' value=''>请选择..</option>");
                 for (var i = 0; i < data.length; i++) {
                     var item = data[i];
                     // var option = $("<option  value="+item.id+">"+item.name+"</option>");
@@ -398,6 +401,45 @@
                 }
             });
 
+            $("#btn_export").click(function () {
+                var temp = {
+                    userName: $("#txt_search_userName").val(),
+                    phone: $("#txt_search_phone").val(),
+                };
+                var data = JSON.stringify(temp);
+                if(confirm("确认要导出数据吗？")){
+                    // 确定操作
+                    $.ajax({
+                        url: "/manager/userClass/exportExcel",
+                        type: "post",
+                        data: data,
+                        contentType: "application/json; charset=utf-8",
+                        dataType:"json",
+                        success: function (data) {
+                            if (data.code===2000) {
+                                var urlStr = data.data.url;
+                                let d = new Date().getTime();
+                                let saveName=d+"."+ urlStr.replace(/(.*\.)/, '');//这里文件名我用了毫秒数加上后缀
+                                var $a = document.createElement('a');
+                                $a.setAttribute("href", urlStr);
+                                $a.setAttribute("download", saveName);
+                                $a.setAttribute("target","_blank");//弹出窗体
+                                //模拟js事件
+                                var evObj = document.createEvent('MouseEvents');
+                                evObj.initMouseEvent( 'click', true, true, window, 0, 0, 0, 0, 0, false, false, true, false, 0, null);
+                                $a.dispatchEvent(evObj);
+                            }
+                        },
+                        error: function () {
+                            alert("系统错误")
+                        },
+
+                    });
+                }else{
+
+                }
+            });
+
 
 
             $("#btn_submit").click(function () {
@@ -434,6 +476,7 @@
                 var classId = $('#classSelect  option:selected').val();
                 if(classId === ''){
                     $("#timeSelect").empty();//首先清空select现在有的内容
+                    return
                 }
                 //查询事件段信息
                 $.ajax({

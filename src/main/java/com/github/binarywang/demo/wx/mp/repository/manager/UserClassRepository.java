@@ -3,6 +3,7 @@ package com.github.binarywang.demo.wx.mp.repository.manager;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsUserClass;
 import com.github.binarywang.demo.wx.mp.entity.surce.QLsUserClass;
 import com.github.binarywang.demo.wx.mp.repository.common.BaseJpaRepository;
+import com.github.binarywang.demo.wx.mp.vo.UserClassReq;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.domain.Page;
@@ -143,5 +144,27 @@ public class UserClassRepository extends BaseJpaRepository<LsUserClass,Long> {
         Query query = entityManager.createQuery("select sum(classHourNum) from LsUserClass where clientUserPhone=" + phone);
         Object singleResult = query.getSingleResult();
         return singleResult==null?"0":singleResult+"";
+    }
+    /**
+     *
+     * 获取导出的数据
+     *
+     *
+     * @return*/
+    public List<LsUserClass> getUserClassByParm(UserClassReq userClassReq) {
+        QLsUserClass qLsUserClass = QLsUserClass.lsUserClass;
+        BooleanBuilder builder = new BooleanBuilder();
+        JPQLQuery<LsUserClass> query = from(qLsUserClass);
+        String userName = userClassReq.getUserName();
+        if(!StringUtils.isEmpty(userName)){
+            builder.and(qLsUserClass.clientUserName.contains(userName));
+        }
+        String phone = userClassReq.getPhone();
+        if(!StringUtils.isEmpty(phone)){
+            builder.and(qLsUserClass.clientUserPhone.contains(phone));
+        }
+        query.where(builder).orderBy(qLsUserClass.createTime.desc());
+
+        return findAll(query);
     }
 }

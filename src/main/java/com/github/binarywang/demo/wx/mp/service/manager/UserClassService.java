@@ -6,6 +6,7 @@ import com.github.binarywang.demo.wx.mp.repository.client.ClientUserRepository;
 import com.github.binarywang.demo.wx.mp.repository.client.UserSignInRepository;
 import com.github.binarywang.demo.wx.mp.repository.manager.SignInRemindRepository;
 import com.github.binarywang.demo.wx.mp.repository.manager.UserClassRepository;
+import com.github.binarywang.demo.wx.mp.utils.PathUtil;
 import com.github.binarywang.demo.wx.mp.utils.ResultEntity;
 import com.github.binarywang.demo.wx.mp.utils.ResultUtils;
 import com.github.binarywang.demo.wx.mp.utils.UpdateToolUtil;
@@ -18,7 +19,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -36,6 +46,8 @@ public class UserClassService {
     UserSignInRepository userSignInRepository;
 
     SignInRemindRepository signInRemindRepository;
+
+    PathUtil pathUtil;
 
     /**
      * 分页获取所有信息
@@ -337,5 +349,219 @@ public class UserClassService {
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String localTime = df.format(localDateTime);
         return localTime;
+    }
+
+    /**
+     * 获取导出的数据
+     *
+     * */
+    public List<LsUserClass> getUserClassByParm(UserClassReq userClassReq) {
+        return userClassRepository.getUserClassByParm(userClassReq);
+    }
+
+    /**
+     * 导出Excel报表
+     *
+     * @param username 导出人
+     * @param list     导出数据
+     * @param userClassReq  查询条件
+     * @return
+     */
+    public String exportExcel(String username, List<LsUserClass> list, UserClassReq userClassReq) {
+        String excelFileName = null;
+        //设置文件名称
+        DateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+        String fileName = format.format(new Date()) + ".xlsx";
+        //设置文件存储地址
+        String sysFilePath = "/opt/upload";
+        String path = pathUtil.getFileUpLoadLocalStoragePath(sysFilePath) + "/" + fileName;
+        File newFile = new File(path);
+        if (!newFile.exists()) {
+            try {
+                newFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        //生成excel
+        exportExcel(list, path, "购买课程统计", username, userClassReq.getUserName(), userClassReq.getPhone());
+        if (new File(path).exists() && new File(path).isFile()) {
+            //设置文件地址
+            //获取系统ip地址
+            String serviceIp = "121.89.197.78:8000";
+            StringBuffer buffer = new StringBuffer("http://")
+                .append(serviceIp)
+                .append(path.replaceFirst(sysFilePath, ""));
+            excelFileName = buffer.toString();
+
+        }
+
+        return excelFileName;
+    }
+
+    /**
+     * 创建excel文件
+     *
+     * @param list
+     * @param path
+     * @param name
+     * @param userName
+     * @param clientUserName
+     * @param clientUserPhone
+     * @throws IndexOutOfBoundsException
+     * @throws IOException
+     */
+    public void exportExcel(List<LsUserClass> list, String path, String name, String userName, String clientUserName, String clientUserPhone) {
+        try {
+            File newFile = new File(path);
+            OutputStream out = new FileOutputStream(newFile);
+            SXSSFWorkbook wb = new SXSSFWorkbook();
+
+            wb.setCompressTempFiles(true);
+
+            Workbook workbook = new SXSSFWorkbook(100);
+
+            Sheet sheet = workbook.createSheet(name);
+
+            //String curDate = startTime + "  至  " + endTime;
+
+            process(userName, clientUserName, workbook, sheet, list);
+
+            workbook.write(out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 将数据写入excel文件中
+     *
+     * @param userName 用户名
+     * @param clientUserName  参数
+     * @param workbook 文本对象
+     * @param sheet    脚本对象
+     * @param list     导出的数据集合
+     */
+    private void process(String userName, String clientUserName, Workbook workbook, Sheet sheet, List<LsUserClass> list) {
+        sheet.setDefaultColumnWidth(23);
+        sheet.setDefaultRowHeightInPoints(15);
+        // 标题样式
+        CellStyle style = workbook.createCellStyle(); // 样式对象
+        // 设置样式
+        //ExcelUtil.assembleCellStyle(style);
+
+        // 第一行
+        Row row1 = sheet.createRow(0);
+        sheet.addMergedRegion(new CellRangeAddress(0, (short) 0, 0, (short) 5));
+        row1.setHeightInPoints(25);
+        Cell cell1 = row1.createCell(0); // --->创建一个单元格
+        cell1.setCellStyle(style);
+        cell1.setCellValue("学生购买课程情况统计");
+
+        // 第二行
+        sheet.addMergedRegion(new CellRangeAddress(1, (short) 1, 0, (short) 5));
+        Row row2 = sheet.createRow(1);
+        row2.setHeightInPoints(25);
+        Cell cell2 = row2.createCell(0);
+
+        cell2.setCellStyle(style);
+        cell2.setCellValue("学生：" + clientUserName);
+
+        // 第三行
+        sheet.addMergedRegion(new CellRangeAddress(2, (short) 2, 0, (short) 5));
+        Row row3 = sheet.createRow(2);
+        row1.setHeightInPoints(25);
+        Cell cell3 = row3.createCell(0);
+
+        cell3.setCellStyle(style);
+        cell3.setCellValue("导出人：" + userName);
+
+        // 第四行
+        sheet.addMergedRegion(new CellRangeAddress(3, (short) 3, 0, (short) 5));
+        Row row4 = sheet.createRow(3);
+        row1.setHeightInPoints(25);
+        Cell cell4 = row4.createCell(0);
+
+        cell4.setCellStyle(style);
+        if (list != null && list.size() > 0) {
+            cell4.setCellValue("导出数目：" + (list.size() - 1));
+        } else {
+            cell4.setCellValue("导出数目：" + 0);
+        }
+
+        setCellBorder(1, 5, row1, style);
+        setCellBorder(1, 5, row2, style);
+        setCellBorder(1, 5, row3, style);
+        setCellBorder(1, 5, row4, style);
+
+        // 第五行
+        Row row5 = sheet.createRow(4);
+        Cell cel_0 = row5.createCell(0);
+        cel_0.setCellStyle(style);
+
+        cel_0.setCellValue("购买课程");
+        Cell cel_1 = row5.createCell(1);
+        cel_1.setCellStyle(style);
+
+        cel_1.setCellValue("课程类型");
+        Cell cel_2 = row5.createCell(2);
+        cel_2.setCellStyle(style);
+        cel_2.setCellValue("购买价格");
+
+        Cell cel_3 = row5.createCell(3);
+        cel_3.setCellStyle(style);
+        cel_3.setCellValue("剩余课时");
+
+        Cell cel_4 = row5.createCell(4);
+        cel_4.setCellStyle(style);
+        cel_4.setCellValue("上课时间");
+
+        Cell cel_5 = row5.createCell(5);
+        cel_5.setCellStyle(style);
+        cel_5.setCellValue("购买时间");
+
+        // 报表数据
+        for (int i = 0; i < list.size(); i++) {
+            int count = 4;
+            LsUserClass vo = list.get(i);
+            Row row = sheet.createRow(count + i);
+            row.setHeightInPoints(15);
+            Cell cell_0 = row.createCell(0);
+            cell_0.setCellStyle(style);
+            cell_0.setCellValue(vo.getClassName());
+            Cell cell_1 = row.createCell(1);
+            cell_1.setCellStyle(style);
+            cell_1.setCellValue(vo.getClassType());
+            Cell cell_2 = row.createCell(2);
+            cell_2.setCellStyle(style);
+            cell_2.setCellValue(vo.getPrice());
+            Cell cell_3 = row.createCell(3);
+            cell_3.setCellStyle(style);
+            cell_3.setCellValue(vo.getClassHourNum());
+            Cell cell_4 = row.createCell(4);
+            cell_4.setCellStyle(style);
+            cell_4.setCellValue(vo.getClassTime());
+            Cell cell_5 = row.createCell(5);
+            cell_5.setCellStyle(style);
+            cell_5.setCellValue(vo.getCreateTime().toString());
+        }
+    }
+
+    /**
+     * 合并单元格加边框 水平
+     *
+     * @param start 为和并的第二列
+     * @param end   为合并的最后一列
+     * @param row   为当前行
+     * @param style 样式
+     *              (里面有设置边框)
+     */
+    private void setCellBorder(int start, int end, Row row,
+                               CellStyle style) {
+        for (int i = start; i <= end; i++) {
+            Cell cell = row.createCell(i);
+            cell.setCellValue("");
+            cell.setCellStyle(style);
+        }
     }
 }
