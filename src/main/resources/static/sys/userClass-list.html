@@ -66,7 +66,7 @@
         <button id="btn_delete" type="button" class="btn btn-danger">
             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>删除
         </button>
-        <button id="btn_export" type="button" style="margin-left: 50px" class="btn btn-danger">
+        <button id="btn_export" type="button" style="margin-left: 100px" class="btn btn-danger">
             <span aria-hidden="true"></span>导出excel
         </button>
     </div>
@@ -418,16 +418,7 @@
                         success: function (data) {
                             if (data.code===2000) {
                                 var urlStr = data.data.url;
-                                let d = new Date().getTime();
-                                let saveName=d+"."+ urlStr.replace(/(.*\.)/, '');//这里文件名我用了毫秒数加上后缀
-                                var $a = document.createElement('a');
-                                $a.setAttribute("href", urlStr);
-                                $a.setAttribute("download", saveName);
-                                $a.setAttribute("target","_blank");//弹出窗体
-                                //模拟js事件
-                                var evObj = document.createEvent('MouseEvents');
-                                evObj.initMouseEvent( 'click', true, true, window, 0, 0, 0, 0, 0, false, false, true, false, 0, null);
-                                $a.dispatchEvent(evObj);
+                                window.open(urlStr);
                             }
                         },
                         error: function () {

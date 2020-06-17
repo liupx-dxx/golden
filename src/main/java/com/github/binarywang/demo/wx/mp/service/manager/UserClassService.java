@@ -6,10 +6,7 @@ import com.github.binarywang.demo.wx.mp.repository.client.ClientUserRepository;
 import com.github.binarywang.demo.wx.mp.repository.client.UserSignInRepository;
 import com.github.binarywang.demo.wx.mp.repository.manager.SignInRemindRepository;
 import com.github.binarywang.demo.wx.mp.repository.manager.UserClassRepository;
-import com.github.binarywang.demo.wx.mp.utils.PathUtil;
-import com.github.binarywang.demo.wx.mp.utils.ResultEntity;
-import com.github.binarywang.demo.wx.mp.utils.ResultUtils;
-import com.github.binarywang.demo.wx.mp.utils.UpdateToolUtil;
+import com.github.binarywang.demo.wx.mp.utils.*;
 import com.github.binarywang.demo.wx.mp.vo.UserClassReq;
 import lombok.AllArgsConstructor;
 import org.hibernate.validator.constraints.Length;
@@ -446,29 +443,29 @@ public class UserClassService {
         sheet.setDefaultColumnWidth(23);
         sheet.setDefaultRowHeightInPoints(15);
         // 标题样式
-        CellStyle style = workbook.createCellStyle(); // 样式对象
+        CellStyle style = workbook.createCellStyle();
         // 设置样式
-        //ExcelUtil.assembleCellStyle(style);
-
+        ExcelUtil.assembleCellStyle(style);
         // 第一行
         Row row1 = sheet.createRow(0);
-        sheet.addMergedRegion(new CellRangeAddress(0, (short) 0, 0, (short) 5));
+        sheet.addMergedRegion(new CellRangeAddress(0, (short) 0, 0, (short) 6));
         row1.setHeightInPoints(25);
-        Cell cell1 = row1.createCell(0); // --->创建一个单元格
+        // --->创建一个单元格
+        Cell cell1 = row1.createCell(0);
         cell1.setCellStyle(style);
         cell1.setCellValue("学生购买课程情况统计");
 
         // 第二行
-        sheet.addMergedRegion(new CellRangeAddress(1, (short) 1, 0, (short) 5));
+        sheet.addMergedRegion(new CellRangeAddress(1, (short) 1, 0, (short) 6));
         Row row2 = sheet.createRow(1);
         row2.setHeightInPoints(25);
         Cell cell2 = row2.createCell(0);
 
         cell2.setCellStyle(style);
-        cell2.setCellValue("学生：" + clientUserName);
+        cell2.setCellValue("学生：" + (StringUtils.isEmpty(clientUserName)?"所有":clientUserName));
 
         // 第三行
-        sheet.addMergedRegion(new CellRangeAddress(2, (short) 2, 0, (short) 5));
+        sheet.addMergedRegion(new CellRangeAddress(2, (short) 2, 0, (short) 6));
         Row row3 = sheet.createRow(2);
         row1.setHeightInPoints(25);
         Cell cell3 = row3.createCell(0);
@@ -477,22 +474,22 @@ public class UserClassService {
         cell3.setCellValue("导出人：" + userName);
 
         // 第四行
-        sheet.addMergedRegion(new CellRangeAddress(3, (short) 3, 0, (short) 5));
+        sheet.addMergedRegion(new CellRangeAddress(3, (short) 3, 0, (short) 6));
         Row row4 = sheet.createRow(3);
         row1.setHeightInPoints(25);
         Cell cell4 = row4.createCell(0);
 
         cell4.setCellStyle(style);
         if (list != null && list.size() > 0) {
-            cell4.setCellValue("导出数目：" + (list.size() - 1));
+            cell4.setCellValue("导出数目：" + (list.size()));
         } else {
             cell4.setCellValue("导出数目：" + 0);
         }
 
-        setCellBorder(1, 5, row1, style);
-        setCellBorder(1, 5, row2, style);
-        setCellBorder(1, 5, row3, style);
-        setCellBorder(1, 5, row4, style);
+        setCellBorder(1, 6, row1, style);
+        setCellBorder(1, 6, row2, style);
+        setCellBorder(1, 6, row3, style);
+        setCellBorder(1, 6, row4, style);
 
         // 第五行
         Row row5 = sheet.createRow(4);
@@ -520,31 +517,41 @@ public class UserClassService {
         cel_5.setCellStyle(style);
         cel_5.setCellValue("购买时间");
 
+        Cell cel_6 = row5.createCell(6);
+        cel_6.setCellStyle(style);
+        cel_6.setCellValue("总计");
+
         // 报表数据
-        for (int i = 0; i < list.size(); i++) {
-            int count = 4;
-            LsUserClass vo = list.get(i);
-            Row row = sheet.createRow(count + i);
-            row.setHeightInPoints(15);
-            Cell cell_0 = row.createCell(0);
-            cell_0.setCellStyle(style);
-            cell_0.setCellValue(vo.getClassName());
-            Cell cell_1 = row.createCell(1);
-            cell_1.setCellStyle(style);
-            cell_1.setCellValue(vo.getClassType());
-            Cell cell_2 = row.createCell(2);
-            cell_2.setCellStyle(style);
-            cell_2.setCellValue(vo.getPrice());
-            Cell cell_3 = row.createCell(3);
-            cell_3.setCellStyle(style);
-            cell_3.setCellValue(vo.getClassHourNum());
-            Cell cell_4 = row.createCell(4);
-            cell_4.setCellStyle(style);
-            cell_4.setCellValue(vo.getClassTime());
-            Cell cell_5 = row.createCell(5);
-            cell_5.setCellStyle(style);
-            cell_5.setCellValue(vo.getCreateTime().toString());
+        if (list != null && list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                int count = 5;
+                LsUserClass vo = list.get(i);
+                Row row = sheet.createRow(count + i);
+                row.setHeightInPoints(15);
+                Cell cell_0 = row.createCell(0);
+                cell_0.setCellStyle(style);
+                cell_0.setCellValue(vo.getClassName());
+                Cell cell_1 = row.createCell(1);
+                cell_1.setCellStyle(style);
+                cell_1.setCellValue(vo.getClassType());
+                Cell cell_2 = row.createCell(2);
+                cell_2.setCellStyle(style);
+                cell_2.setCellValue(vo.getPrice());
+                Cell cell_3 = row.createCell(3);
+                cell_3.setCellStyle(style);
+                cell_3.setCellValue(vo.getClassHourNum());
+                Cell cell_4 = row.createCell(4);
+                cell_4.setCellStyle(style);
+                cell_4.setCellValue(vo.getClassTime());
+                Cell cell_5 = row.createCell(5);
+                cell_5.setCellStyle(style);
+                cell_5.setCellValue(vo.getCreateTime().toString());
+                Cell cell_6 = row.createCell(6);
+                cell_6.setCellStyle(style);
+                cell_6.setCellValue("");
+            }
         }
+
     }
 
     /**
