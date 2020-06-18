@@ -10,6 +10,8 @@ import com.github.binarywang.demo.wx.mp.utils.*;
 import com.github.binarywang.demo.wx.mp.vo.UserClassReq;
 import lombok.AllArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -31,20 +33,22 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
-@AllArgsConstructor
 public class UserClassService {
-
+    @Autowired
     UserClassRepository userClassRepository;
-
+    @Autowired
     ClassManagerService classManagerService;
-
+    @Autowired
     ClientUserRepository clientUserRepository;
-
+    @Autowired
     UserSignInRepository userSignInRepository;
-
+    @Autowired
     SignInRemindRepository signInRemindRepository;
-
+    @Autowired
     PathUtil pathUtil;
+
+    @Value("${nginx.server}")
+    private String nginxServer;
 
     /**
      * 分页获取所有信息
@@ -385,9 +389,9 @@ public class UserClassService {
         if (new File(path).exists() && new File(path).isFile()) {
             //设置文件地址
             //获取系统ip地址
-            String serviceIp = "121.89.197.78:8000";
+            //String serviceIp = "121.89.197.78:8000";
             StringBuffer buffer = new StringBuffer("http://")
-                .append(serviceIp)
+                .append(nginxServer)
                 .append(path.replaceFirst(sysFilePath, ""));
             excelFileName = buffer.toString();
 

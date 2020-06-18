@@ -39,6 +39,8 @@ wx:
         secret: 878f133b5069c351762f7a57ff13f073
         token: e10adc3949ba59abbe56e057f20f883e
         aesKey: aKRN9HSmymDFhMY8NwngpjqsOssFpK4dbJQ7I0ukDG1
+nginx:
+    server: '@nginx.server@'
 
 
 

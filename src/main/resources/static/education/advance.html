@@ -131,7 +131,8 @@
                       $.toast(data.msg, 'forbidden')
                       return
                   }else{
-                      $.toptip('提交成功', 'success');
+                      $.toast('预约成功', 'success');
+                      //window.location.reload();
                   }
               },
               error:function(e){
