@@ -657,20 +657,32 @@
                             var classHourNum = dataArray[i]["classHourNum"];*/
                             li
                                 += '' +
-                                '<div class="weui-form-preview">';
+                                '<div class="weui-form-preview">'+
+                                '   <div class="weui-form-preview__ft">' +
+                                '       <span class="weui-form-preview__btn weui-form-preview__btn_primary" style="color: #7a869d;font-size: 8px" href="javascript:">' + dataArray[i]["createTime"] + '</span>' +
+                                '   </div>'+
+                                '   <div style="background-color: #2c3b41;margin: 0px 15px;border-radius: 15px">';
                             var readState = dataArray[i]["readState"]
                             if (readState === "0") {
                                 li
                                     += '' +
+                                    '   <div style="background-color: #2c3b41;margin: 0px 15px;border-radius: 15px">'+
                                     '   <span class="weui-badge" style="position: absolute;right: 1em;">1</span>';
                             }
                             li
                                 += '' +
-                                '   <div class="weui-form-preview__ft">' +
+                                /*'   <div class="weui-form-preview__ft">' +
                                 '       <span class="weui-form-preview__btn weui-form-preview__btn_primary" style="color: #7a869d;font-size: 8px" href="javascript:">' + dataArray[i]["createTime"] + '</span>' +
-                                '   </div>' +
+                                '   </div>' +*/
+                                '   <div style="padding-left: 14px;padding-top: 10px"><span style="font-size: 16px">待签到提醒</span></div>'+
+                                '       <div class="weui-form-preview__item" style="padding-top: 15px">' +
+                                '           <label class="weui-form-preview__label" style="padding-left: 14px">您好，易趣学教育中心提醒您，您有课程开始签到啦</label>' +
+                                '       </div>' +
+/*
+                                '   <div style="padding-top: 20px;padding-left: "><span  class="weui-form-preview__value">您好，易趣学教育中心提醒您，您有课程开始签到啦</span></div>'+
+*/
                                 '   <div class="weui-form-preview__hd">' +
-                                '       <div class="weui-form-preview__item">' +
+                                '       <div class="weui-form-preview__item" style="padding-top: 25px">' +
                                 '       <label class="weui-form-preview__label">课程名称</label>' +
                                 '       <em class="weui-form-preview__value">' + dataArray[i]["className"] + '</em>' +
                                 // '           <a herf="javascript:" style="font-size: 10px" onclick="discuss('+dataList[i]["id"]+')">进入讨论区>>></a>'+
@@ -689,10 +701,21 @@
                                 '           <label class="weui-form-preview__label">上课时间</label>' +
                                 '           <span class="weui-form-preview__value">' + '每' + dataArray[i]["classTime"] + '</span>' +
                                 '       </div>' +
+                                '       <div class="weui-form-preview__item">' +
+                                '           <label class="weui-form-preview__label">备注</label>' +
+                                '           <span class="weui-form-preview__value">您的孩子尚未签到，点击详情可为孩子签到或请假。</span>' +
+                                '       </div>' +
                                 '   </div>' +
-                                '   <div class="weui-form-preview__ft">' +
+                                '   <div class="weui-panel__ft">'+
+                                '       <a onclick="to_sign('+remingId+ ',' + userClassId+ ',this' + ','+readState+ ','+flag+')" data-target="#cart" class="weui-cell weui-cell_access weui-cell_link open-popup">'+
+                                '       <div class="weui-cell__bd">查看更多</div>'+
+                                '       <span class="weui-cell__ft"></span>'+
+                                '       </a>'+
+                                '    </div>'+
+                                '   </div>'+
+                                /*'   <div class="weui-form-preview__ft">' +
                                 '       <a class="weui-form-preview__btn weui-form-preview__btn_primary open-popup" onclick="to_sign('+remingId+ ',' + userClassId+ ',this' + ','+readState+ ','+flag+')" data-target="#cart" href="javascript:">查看详情</a>' +
-                                '   </div>' +
+                                '   </div>' +*/
                                 '</div>';
                         }
                         $("#remindList").append(li);
@@ -742,10 +765,11 @@
             if(readState === 0){
                 $(remindThis).parent().siblings(".weui-badge").hide();
                 var dataNum = $("#dataNum").text();
-                if(dataNum != "0"){
-                    $("#dataNum").html(eval(dataNum-1));
-                }else{
+                if(dataNum === "1" || dataNum ==  "0"){
                     $("#dataNum").hide();
+
+                }else{
+                    $("#dataNum").html(eval(dataNum-1));
                 }
                 $.ajax({
                     url: "/client/signInRemind/remindAlreadySee/" + remindId,
