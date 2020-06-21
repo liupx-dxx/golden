@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>个人中心</title>
     <meta charset="utf-8">
@@ -16,7 +16,7 @@
 </head>
 
 <body ontouchstart>
-
+<input type="hidden" id="roles" value="${user}">
 <div class="weui-tab">
     <div class="weui-tab__bd weui-tab__panel ">
         <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
@@ -325,8 +325,8 @@
     //获取我的课程列表
     function tipInfo() {
         flag = 1;
-        $("#remindList").empty();
-        getReimdlist();
+        //$("#remindList").empty();
+        //getReimdlist();
     }
 
     //获取个人信息
@@ -850,13 +850,49 @@
                 //取消操作
             });
         }
-    function getScroll(){
-        return {
-            left: window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft ,
-            top: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+
+</script>
+<script th:inline="javascript">
+    //实时消息
+    var webSocket;
+    var phone = [[${user}]];
+    if ("WebSocket" in window)
+    {
+        webSocket = new WebSocket("ws://121.89.197.78/websocket/"+phone);
+        //连通之后的回调事件
+        webSocket.onopen = function()
+        {
+            //webSocket.send( document.getElementById('username').value+"已经上线了");
+            console.log("已经连通了websocket");
+        };
+        //接收后台服务端的消息
+        webSocket.onmessage = function (evt)
+        {
+            var received_msg = evt.data;
+            /*console.log("数据已接收:" +received_msg);
+            var obj = JSON.parse(received_msg);*/
+            if("1" === received_msg){
+                $("#remindList").empty();
+                getReimdlist();
+            }
+        };
+
+        //连接关闭的回调事件
+        webSocket.onclose = function()
+        {
+            console.log("连接已关闭...");
+            setMessageInnerHTML("连接已经关闭....");
         };
     }
+    else{
+        // 浏览器不支持 WebSocket
+        alert("您的浏览器不支持 WebSocket!");
+    }
 
+    function closeWebSocket() {
+        //直接关闭websocket的连接
+        webSocket.close();
+    }
 
 
 </script>

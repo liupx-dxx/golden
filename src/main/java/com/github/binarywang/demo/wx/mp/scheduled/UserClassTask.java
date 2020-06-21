@@ -1,5 +1,6 @@
 package com.github.binarywang.demo.wx.mp.scheduled;
 
+import com.github.binarywang.demo.wx.mp.config.websocket.WebSocket;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsClass;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsSignInRemind;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsUserClass;
@@ -18,6 +19,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,11 +44,12 @@ public class UserClassTask {
     ClassTimeService classTimeService;
     @Autowired
     SignInRemindService signInRemindService;
+    @Autowired
+    WebSocket webSocket;
     //每天半小时查询有没有半小时之后需要签到的用户  半小时: 0 */30 * * * ?  十秒: 0/10 * *  * * ?
     @Scheduled(cron = "0 */30 * * * ?")
     //@Scheduled(cron = "0/10 * *  * * ?")
     public void remind(){
-
         //查看今天是周几
         String week = getWeek();
         LOGGER.info("今天"+week+"开始提醒用户签到咯!");
@@ -97,6 +100,14 @@ public class UserClassTask {
         //保存需要提醒的信息
         signInRemindService.saveAll(signInRemindList);
         List<String> phones = signInRemindList.stream().map(LsSignInRemind::getUserPhone).collect(Collectors.toList());
+        try {
+            for (String phone : phones) {
+                webSocket.sendMessageTo("1",phone);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         LOGGER.info("已经给以下用户发送了提醒消息,{}",phones.toString());
     }
 

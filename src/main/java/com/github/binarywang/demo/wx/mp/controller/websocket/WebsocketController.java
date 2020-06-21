@@ -1,19 +1,13 @@
 package com.github.binarywang.demo.wx.mp.controller.websocket;
 
-import lombok.AllArgsConstructor;
-import org.apache.coyote.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
-
 
 @Controller
 public class WebsocketController {
