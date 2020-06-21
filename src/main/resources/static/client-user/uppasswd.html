@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>jQuery WeUI</title>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+<meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+<link rel="stylesheet" href="../lib/weui.min.css">
+<link rel="stylesheet" href="../css/jquery-weui.css">
+<link rel="stylesheet" href="css/demos.css">
+
+  </head>
+
+  <body ontouchstart>
+
+    <div class="weui-cells__title">修改密码</div>
+    <div class="weui-cells weui-cells_form">
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">旧密码：</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="text" id="oldpass" placeholder="请输入旧密码">
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">新密码：</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="password" id="newpass"  placeholder="请输入新密码">
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">确认密码：</label></div>
+            <div class="weui-cell__bd">
+                <input class="weui-input" type="password" id="confirmpass"  placeholder="请输入密码">
+            </div>
+        </div>
+    </div>
+    <div class="weui-cells__tips">提示：密码不能含有中文哦</div>
+    <div class="weui-btn-area">
+        <a class="weui-btn weui-btn_primary" href="javascript:" id="submit">提交</a>
+    </div>
+    <script src="../lib/jquery-2.1.4.js"></script>
+<script src="../lib/fastclick.js"></script>
+<script>
+  $(function() {
+    FastClick.attach(document.body);
+  });
+</script>
+<script src="../js/jquery-weui.js"></script>
+
+    <script>
+        //获取个人信息
+        $(function () {
+            FastClick.attach(document.body);
+            $("#submit").click(function () {
+                var oldpass = $("#oldpass").val();
+                var newpass = $("#newpass").val();
+                var confirmpass = $("#confirmpass").val();
+                if(isNullOrEmpty(oldpass)){
+                    $.toptip('原密码不能为空', 'warning');
+                    return
+                }else if(isNullOrEmpty(newpass)){
+                    $.toptip('密码不能为空', 'warning');
+                    return
+                }else if(isNullOrEmpty(confirmpass)){
+                    $.toptip('确认密码不能为空', 'warning');
+                    return
+                }else if(!checkPassword(newpass,confirmpass)){
+                    $.toptip('两次密码不一致', 'warning');
+                    return
+                }else if(checkPassword(oldpass,newpass)){
+                    $.toptip('不能和原密码一致', 'warning');
+                    return
+                }
+                $.confirm("确定要修改吗?", "确认", function () {
+                    var data = {
+                        oldPassWd:oldpass,
+                        newPassWd:newpass
+                    }
+                    $.ajax({
+                        url: "/client/user/updatePass",
+                        type: "post",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(data),
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.code != '2000') {
+                                $.toptip(data.msg);
+                                return
+                            } else {
+                                $.toptip('密码修改成功', 'success');
+                            }
+                        },
+                        error: function (e) {
+                            alert("错误！！");
+                        }
+                    });
+                }, function () {
+                    //取消操作
+                });
+            })
+
+            //检测密码是否一致
+            function checkPassword(pass1,pass2) {
+                if(pass1 === pass2) {
+                    return true;
+                } else {
+                    return false;
+                }
+            };
+
+            //校验密码
+            function checkPass(passwd) {
+                var pattern = /^[\u4e00-\u9fa5]{0,}$/, str = passwd;
+                return pattern.test(str);
+            }
+
+            //校验字段非空
+            var isNullOrEmpty = function (str) {
+                if (str === null || str === "")
+                    return true;
+                else
+                    return false;
+            }
+
+
+        });
+    </script>
+  </body>
+</html>

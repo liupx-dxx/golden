@@ -275,7 +275,7 @@
 
         function operateFormatter(value, row, index) {
             return [
-                '<button type="button" class="RoleOfdelete btn btn-primary  btn-sm" style="margin-right:15px;">修改</button>'
+                '<button type="button" class="RoleOfdelete btn btn-primary  btn-sm" style="margin-right:15px;">查看/修改</button>'
             ].join('');
         }
 
@@ -384,9 +384,20 @@
             $("#cancel").click(function () {
                 $('#mainModal').modal('hide');
             })
+            //校验字段非空
+            var isNullOrEmpty = function (str) {
+                if (str == null || str == "")
+                    return true;
+                else
+                    return false;
+            }
 
             $("#submit").click(function () {
                 var arrayTime = new Array();
+                if($("#appendStr").children(".div_time").length==0){
+                    alert("请选择上课时间");
+                    return
+                }
                 //获取时间段
                 $("#appendStr").children(".div_time").each(function () {
                     var id = $(this).children(".ids").val();
@@ -400,10 +411,12 @@
                             "startTime":startTime,
                             "endTime":endTime,
                         };
+
                     arrayTime.push(timeObjet);
                 })
 
                 var d = $("#update-form").serializeObject();
+
                 var classTimes = JSON.stringify(arrayTime);
                 eval("d.classTimes="+classTimes);
                 var data = JSON.stringify(d);

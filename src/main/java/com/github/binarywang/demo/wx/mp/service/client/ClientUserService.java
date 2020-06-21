@@ -48,4 +48,14 @@ public class ClientUserService {
         }
         return byId.get();
     }
+    /**
+     * 修改密码
+     *
+     * */
+    public LsClientUser updatePass(LsClientUser user, String newPasswd) {
+        String encode = Base64.getEncoder().encodeToString(newPasswd.getBytes());
+        user.setPassword(encode);
+        LsClientUser clientUser = userRepository.save(user);
+        return clientUser;
+    }
 }

@@ -2,13 +2,16 @@ package com.github.binarywang.demo.wx.mp.controller.client;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.binarywang.demo.wx.mp.config.TokenService;
+import com.github.binarywang.demo.wx.mp.config.intercepors.LoginInterceptor;
 import com.github.binarywang.demo.wx.mp.entity.surce.LsClientUser;
 import com.github.binarywang.demo.wx.mp.enums.ResultCodeEnum;
 import com.github.binarywang.demo.wx.mp.service.client.ClientUserService;
 import com.github.binarywang.demo.wx.mp.utils.ResultEntity;
 import com.github.binarywang.demo.wx.mp.utils.ResultUtils;
+import com.github.binarywang.demo.wx.mp.vo.ClientUserReq;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
+import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 
 @Controller
@@ -87,6 +91,44 @@ public class ClientLoginController {
         }
         userService.save(clientUser);
         return ResultUtils.success();
+    }
+
+
+    @PostMapping(value="/user/updatePass")
+    @ResponseBody
+    public ResultEntity updatePass(
+        @NotNull(message = "参数不能为空")
+        @RequestBody ClientUserReq clientUserReq, HttpSession session) throws UnsupportedEncodingException {
+        LsClientUser clientUser = (LsClientUser) session.getAttribute(LoginInterceptor.CLIENT_SESSION_KEY);
+        if(clientUser==null){
+            return ResultUtils.fail(ResultCodeEnum.INTERNAL_ERROR);
+        }
+        String newPassWd = clientUserReq.getNewPassWd();
+        String oldPassWd = clientUserReq.getOldPassWd();
+        if(StringUtils.isEmpty(newPassWd) || StringUtils.isEmpty(oldPassWd)){
+            return ResultUtils.fail(ResultCodeEnum.PARAMETER_ERROR,"密码不能为空");
+        }
+        //判断原始密码是否正确
+        String password = clientUser.getPassword();
+        Base64.Decoder decoder = Base64.getDecoder();
+        String decoderPassWd = new String(decoder.decode(password), "UTF-8");
+        if(!oldPassWd.equals(decoderPassWd)){
+            return ResultUtils.fail(ResultCodeEnum.PARAMETER_ERROR,"旧密码不正确");
+        }
+        LsClientUser user = userService.updatePass(clientUser, newPassWd);
+        session.setAttribute("client_user",user);
+        return ResultUtils.success();
+    }
+
+    /**
+     *
+     * 修改密码页面
+     *
+     * */
+    @RequestMapping("/to-updatePW")
+    public String loginOut() {
+
+        return "client-user/uppasswd";
     }
 
 }

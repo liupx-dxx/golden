@@ -119,7 +119,7 @@
                     <div class="weui-cell__ft"></div>
                 </a>
             </div>
-            <div class="weui-cells">
+            <!--<div class="weui-cells">
                 <a class="weui-cell weui-cell_access" href="javascript:;">
                     <div class="weui-cell__hd"><img src="/images/1.png" alt=""
                                                     style="width:20px;margin-right:5px;display:block"></div>
@@ -160,13 +160,13 @@
                     </div>
                     <div class="weui-cell__ft"></div>
                 </a>
-            </div>
+            </div>-->
             <div class="weui-cells">
                 <a class="weui-cell weui-cell_access" href="javascript:;">
                     <div class="weui-cell__hd"><img src="/images/1.png" alt=""
                                                     style="width:20px;margin-right:5px;display:block"></div>
                     <div class="weui-cell__bd">
-                        <p>设置</p>
+                        <p id="updatePasswd">修改密码</p>
                     </div>
                     <div class="weui-cell__ft"></div>
                 </a>
@@ -192,6 +192,7 @@
                 </a>
             </div>
         </div>
+
     </div>
     <div class="weui-tabbar" style="position: fixed">
         <a href="#tab1" class="weui-tabbar__item weui-bar__item--on" onclick="tipInfo()">
@@ -249,7 +250,8 @@
 
 
 
-<script src="../lib/jquery-2.1.4.js"></script>
+<!--<script src="../lib/jquery-2.1.4.js"></script>-->
+<script src="../js/jquery-3.3.1.min.js"></script>
 <script src="../lib/fastclick.js"></script>
 <script type="text/javascript" src="../js/detailList.js"></script>
 <script src="../js/jquery-weui.js"></script>
@@ -276,7 +278,7 @@
         setTimeout(function(){
             if(flag){
                 var searchInput = $("#searchInput").val();
-                $("#list").html("");
+                $("#list").empty();
                 new_getList(searchInput);
             }
         },0)
@@ -286,7 +288,7 @@
 
     function search() {
         var searchInput = $("#searchInput").val();
-        $("#list").html("");
+        $("#list").empty();
         new_getList(searchInput);
     }
 
@@ -316,14 +318,14 @@
     //获取我的课程列表
     function classListInfo() {
         flag = 2;
-        $("#list").html("");
+        $("#list").empty();
         new_getList("");
     }
 
     //获取我的课程列表
     function tipInfo() {
         flag = 1;
-        $("#remindList").html("");
+        $("#remindList").empty();
         getReimdlist();
     }
 
@@ -344,6 +346,9 @@
             }, function () {
                 //取消操作
             });
+        })
+        $("#updatePasswd").click(function () {
+            window.location.href = "/client/to-updatePW";
         })
 
         FastClick.attach(document.body);
@@ -657,7 +662,7 @@
                             var classHourNum = dataArray[i]["classHourNum"];*/
                             li
                                 += '' +
-                                '<div class="weui-form-preview">'+
+                                '<div class="weui-form-preview abc">'+
                                 '   <div class="weui-form-preview__ft">' +
                                 '       <span class="weui-form-preview__btn weui-form-preview__btn_primary" style="color: #7a869d;font-size: 8px" href="javascript:">' + dataArray[i]["createTime"] + '</span>' +
                                 '   </div>'+
@@ -671,16 +676,10 @@
                             }
                             li
                                 += '' +
-                                /*'   <div class="weui-form-preview__ft">' +
-                                '       <span class="weui-form-preview__btn weui-form-preview__btn_primary" style="color: #7a869d;font-size: 8px" href="javascript:">' + dataArray[i]["createTime"] + '</span>' +
-                                '   </div>' +*/
                                 '   <div style="padding-left: 14px;padding-top: 10px"><span style="font-size: 16px">待签到提醒</span></div>'+
                                 '       <div class="weui-form-preview__item" style="padding-top: 15px">' +
                                 '           <label class="weui-form-preview__label" style="padding-left: 14px">您好，易趣学教育中心提醒您，您有课程开始签到啦</label>' +
                                 '       </div>' +
-/*
-                                '   <div style="padding-top: 20px;padding-left: "><span  class="weui-form-preview__value">您好，易趣学教育中心提醒您，您有课程开始签到啦</span></div>'+
-*/
                                 '   <div class="weui-form-preview__hd">' +
                                 '       <div class="weui-form-preview__item" style="padding-top: 25px">' +
                                 '       <label class="weui-form-preview__label">课程名称</label>' +
@@ -703,7 +702,7 @@
                                 '       </div>' +
                                 '       <div class="weui-form-preview__item">' +
                                 '           <label class="weui-form-preview__label">备注</label>' +
-                                '           <span class="weui-form-preview__value">您的孩子尚未签到，点击详情可为孩子签到或请假。</span>' +
+                                '           <span class="weui-form-preview__value">您的孩子尚未签到，点击详情可为孩子签到或请假</span>' +
                                 '       </div>' +
                                 '   </div>' +
                                 '   <div class="weui-panel__ft">'+
@@ -713,12 +712,19 @@
                                 '       </a>'+
                                 '    </div>'+
                                 '   </div>'+
-                                /*'   <div class="weui-form-preview__ft">' +
-                                '       <a class="weui-form-preview__btn weui-form-preview__btn_primary open-popup" onclick="to_sign('+remingId+ ',' + userClassId+ ',this' + ','+readState+ ','+flag+')" data-target="#cart" href="javascript:">查看详情</a>' +
-                                '   </div>' +*/
                                 '</div>';
                         }
+                        li +=
+                            '<div style="margin-bottom: 20px">' +
+                            '   <a name="page_botom"/>'+
+                            '</div>';
+
                         $("#remindList").append(li);
+                        /*setTimeout(
+                            function(){
+                                window.location.href = "#page_botom";
+                            }, 0);*/
+                        window.location.href='#page_botom';
                     } else {
                         $("#reminLoading").html("您还没有要提醒的课程哦~~~")
                         $("#reminLoading").show();
@@ -727,9 +733,10 @@
                 error: function () {
                     console.log("出错了");
                 }
-            });
-        }
 
+            });
+
+        }
 
         function to_sign(remindId,userClassId,remindThis,readState,flag) {
 
@@ -843,6 +850,14 @@
                 //取消操作
             });
         }
+    function getScroll(){
+        return {
+            left: window.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft ,
+            top: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        };
+    }
+
+
 
 </script>
 </body>

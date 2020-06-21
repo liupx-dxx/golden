@@ -56,7 +56,7 @@ public class SignInRemindRepository extends BaseJpaRepository<LsSignInRemind,Lon
         BooleanBuilder builder = new BooleanBuilder();
         JPQLQuery<LsSignInRemind> query = from(qLsSignInRemind);
         builder.and(qLsSignInRemind.userPhone.eq(phone));
-        query.where(builder).orderBy(qLsSignInRemind.createTime.desc());
+        query.where(builder).orderBy(qLsSignInRemind.createTime.asc());
         return findAll(query);
     }
 

@@ -96,9 +96,11 @@
                     <div class="form-group">
                         <span>选择课程:</span>
                         <select id="classSelect" name="classId">
+                            <option value=""></option>
                         </select>
                         <span style="margin-left: 20px">选择上课时间:</span>
                         <select id="timeSelect" name="classTime">
+                            <option value=""></option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -345,7 +347,20 @@
                 $('#mainModal').modal('hide');
             })
 
+            //校验字段非空
+            var isNullOrEmpty = function (str) {
+                if (str === null || str === "" || str === undefined)
+                    return true;
+                else
+                    return false;
+            }
+
             $("#submit").click(function () {
+                debugger
+                if(isNullOrEmpty($("#timeSelect").val) || isNullOrEmpty($("#classSelect").val)){
+                    alert("请选择上课时间");
+                    return
+                }
                 var d = $("#update-form").serializeObject()
                 var data = JSON.stringify(d);
                 $.ajax({
@@ -482,7 +497,7 @@
                         var timeList = data.data;
                         if(timeList!=null && timeList.length>0){
                             $("#timeSelect").empty();//首先清空select现在有的内容
-                            $("#timeSelect").append("<option selected='selected'  value=0>请选择..</option>");
+                            $("#timeSelect").append("<option selected='selected'  value=0>请选择</option>");
                             for (var i = 0; i < timeList.length; i++) {
                                 var item = timeList[i];
                                 // var option = $("<option  value="+item.id+">"+item.name+"</option>");
