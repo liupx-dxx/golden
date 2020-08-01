@@ -1,5 +1,5 @@
 server:
-    port: 80
+    port: 8080
 spring:
     datasource:
         driverClassName: @spring.datasource.driverClassName@
@@ -35,10 +35,10 @@ spring:
 wx:
   mp:
     configs:
-      - appId: wxa1258a21fb9d52ad
-        secret: 878f133b5069c351762f7a57ff13f073
-        token: e10adc3949ba59abbe56e057f20f883e
-        aesKey: aKRN9HSmymDFhMY8NwngpjqsOssFpK4dbJQ7I0ukDG1
+      - appId: wx09674257234e5ec2
+        secret: aa0dc8cea719bd0986851a3658e9aa40
+        token: dolden
+        aesKey: 6BwdVV4detpInZ9VXcv1MUPY2ZWxt0YX9GJIdys10lm
 nginx:
     server: '@nginx.server@'
 

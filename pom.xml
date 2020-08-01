@@ -11,11 +11,11 @@
 
     <groupId>com.github.binarywang</groupId>
     <version>1.0.0-SNAPSHOT</version>
-    <artifactId>springboot-education</artifactId>
+    <artifactId>springboot-golden</artifactId>
     <packaging>jar</packaging>
 
-    <name>springboot-education</name>
-    <description>springboot-education易趣学教育系统</description>
+    <name>springboot-golden</name>
+    <description>springboot-golden</description>
 
     <properties>
         <weixin-java-mp.version>3.7.0</weixin-java-mp.version>

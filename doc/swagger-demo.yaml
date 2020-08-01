@@ -1,0 +1,772 @@
+swagger: "2.0"
+info:
+  title: 演练计划
+  description: 应急演练、演练分项、评估报告
+  version: 1.0.0
+host: 127.0.0.1:8000
+basePath: /
+tags:
+  - name: 演练计划
+    description: 演练计划信息的查看、新建、编辑、删除
+  - name: 演练分项
+    description: 演练计划信息的查看、新建、编辑、删除
+  - name: 评估报告
+    description: 评估报告的新增、查看、导出
+
+schemes:
+  - https
+paths:
+  ####应急演练####
+  /ebSimulatPlan/search:
+    post:
+      tags:
+        - 演练计划
+      summary: '根据条件查询演练计划信息列表-分页'
+      operationId: findPage
+      parameters:
+        - name: EbSimulatPlanVo
+          description: 请求参数
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              planName:
+                type: string
+                description: 计划名称
+              eventLevel:
+                type: string
+                description: 预警级别
+              isFinished:
+                type: string
+                description: 完成状态 0 未完成  1已结束
+              planAct:
+                type: string
+                description: 时效性 （0 实时 1 周演练 2 月度演练 3 季度演练 4 半年演练  5 年度演练）
+              createTimeStart:
+                type: string
+                format: 'date-time'
+                description: 创建开始时间
+              createTimeEnd:
+                type: string
+                format: 'date-time'
+                description: 创建结束时间
+              alarmScope:
+                type: string
+                description: 预警区域
+              place:
+                type: string
+                description: 演练单位
+              planAim:
+                type: string
+                description: 演练目的
+              attendCompany:
+                type: string
+                description: 参演单位
+              page:
+                type: integer
+              size:
+                type: integer
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/EbSimulatPlanVoList'
+  /ebSimulatPlan:
+    post:
+      tags:
+        - 演练计划
+      summary: 新增演练计划
+      operationId: addEbSimulatPlan
+      parameters:
+        - name: EbSimulatPlanVo
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/EbSimulatPlanVo'
+      responses:
+        200:
+          description: ok
+          schema:
+            $ref: '#/definitions/ReturnResult'
+  /ebSimulatPlan/{id}:
+    get:
+      tags:
+        - 演练计划
+      summary: 根据演练计划ID查询单个信息
+      operationId: findEbSimulatPlanById
+      parameters:
+        - $ref: '#/parameters/id-p'
+      responses:
+        200:
+          description: ok
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/ReturnResult'
+            properties:
+              data:
+                type: object
+                $ref: '#/definitions/EbSimulatPlanVo'
+    put:
+      tags:
+        - 演练计划
+      summary: 修改演练计划
+      operationId: updateEbSimulatPlan
+      parameters:
+        -  $ref: '#/parameters/id-p'
+        - name: strategicVo
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/EbSimulatPlanVo'
+      responses:
+        200:
+          description: ok
+          schema:
+            $ref: '#/definitions/ReturnResult'
+    delete:
+      tags:
+        - 演练计划
+      summary: 删除演练计划
+      description: 根据ID删除某条演练计划信息
+      operationId: deleteEbSimulatPlanById
+      parameters:
+        -  $ref: '#/parameters/id-p'
+      responses:
+        200:
+          description: ok
+          schema:
+            $ref: '#/definitions/ReturnResult'
+  /ebSimulatPlan/updateState:
+    put:
+      tags:
+        - 演练计划
+      summary: 修改演练计划开始/结束状态
+      operationId: updateState
+      parameters:
+        - name: EbSimulatPlanVo
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                description: ID
+              isFinished:
+                type: string
+                description: 0 未完成  1已结束
+      responses:
+        200:
+          description: ok
+          schema:
+            $ref: '#/definitions/ReturnResult'
+  /ebExerciseProgram/findByPlanId/{planId}:
+    get:
+      tags:
+        - 演练分项
+      summary: 根据演练计划ID查询计划里所有演练分项数据
+      operationId: findByPlanId
+      parameters:
+        - $ref: '#/parameters/planId'
+      responses:
+        200:
+          description: ok
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/ReturnResult'
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/definitions/EbExerciseProgramVo'
+  /ebExerciseProgram:
+    post:
+      tags:
+        - 演练分项
+      summary: 新增演练分项
+      operationId: addEbExerciseProgram
+      parameters:
+        - name: EbExerciseProgramVo
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/EbExerciseProgramVo'
+      responses:
+        200:
+          description: ok
+          schema:
+            $ref: '#/definitions/ReturnResult'
+  /ebExerciseProgram/{id}:
+    get:
+      tags:
+        - 演练分项
+      summary: 根据演练分项ID查询单个信息
+      operationId: findEbExerciseProgramById
+      parameters:
+        - $ref: '#/parameters/id-p'
+      responses:
+        200:
+          description: ok
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/ReturnResult'
+            properties:
+              data:
+                type: object
+                $ref: '#/definitions/EbExerciseProgramVo'
+    put:
+      tags:
+        - 演练分项
+      summary: 修改演练分项
+      operationId: updateEbExerciseProgram
+      parameters:
+        - $ref: '#/parameters/id-p'
+        - name: strategicVo
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/EbExerciseProgramVo'
+      responses:
+        200:
+          description: ok
+          schema:
+            $ref: '#/definitions/ReturnResult'
+    delete:
+      tags:
+        - 演练分项
+      summary: 删除演练分项
+      description: 根据ID删除某条演练分项信息
+      operationId: deleteEbExerciseProgramById
+      parameters:
+        - $ref: '#/parameters/id-p'
+      responses:
+        200:
+          description: ok
+          schema:
+            $ref: '#/definitions/ReturnResult'
+  #####评估报告######
+  /ebEvaluateReport:
+    post:
+      tags:
+        - 评估报告
+      summary: 新增评估报告
+      operationId: addEbEvaluateReport
+      parameters:
+        - name: EbEvaluateReportVo
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/EbEvaluateReportVo'
+      responses:
+        200:
+          description: ok
+          schema:
+            $ref: '#/definitions/ReturnResult'
+  /ebEvaluateReport/{id}:
+    put:
+      tags:
+        - 评估报告
+      summary: 修改评估报告
+      operationId: updateEbEvaluateReport
+      parameters:
+        - $ref: '#/parameters/id-p'
+        - name: EbEvaluateReportVo
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/EbEvaluateReportVo'
+      responses:
+        200:
+          description: ok
+          schema:
+            $ref: '#/definitions/ReturnResult'
+    delete:
+      tags:
+        - 评估报告
+      summary: 删除评估报告
+      description: 根据ID删除评估报告信息
+      operationId: deleteById
+      parameters:
+        - $ref: '#/parameters/id-p'
+      responses:
+        200:
+          description: ok
+          schema:
+            $ref: '#/definitions/ReturnResult'
+  /ebEvaluateReport/getByPlanId/{planId}:
+    get:
+      tags:
+        - 评估报告
+      summary: 根据演练计划ID获取评估报告
+      operationId: getEbEvaluateReportByPlanId
+      parameters:
+        - $ref: '#/parameters/planId'
+      responses:
+        200:
+          description: ok
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/ReturnResult'
+            properties:
+              data:
+                type: object
+                properties:
+                  ebSimulatPlan:
+                    type: object
+                    description: 演练计划信息
+                    $ref: '#/definitions/EbSimulatPlanVo'
+                  ebExerciseProgramList:
+                    type: array
+                    description: 演练分项
+                    items:
+                      $ref: '#/definitions/EbExerciseProgramVo'
+                  ebAdapterRptList:
+                    type: array
+                    description: 适配器分项
+                    items:
+                      $ref: '#/definitions/EbAdapterRpt'
+                  ebTerminalRptList:
+                    type: array
+                    description: 终端分项
+                    items:
+                      $ref: '#/definitions/EbTerminalRpt'
+                  exceptionReportResp:
+                    type: array
+                    description: 异常分项
+                    items:
+                      $ref: '#/definitions/EbExceptionReport'
+                  ebEvaluateReport:
+                    type: object
+                    description: 计划评估报告
+                    $ref: '#/definitions/EbEvaluateReportVo'
+                  coverageSummaryResp:
+                    type: object
+                    description: 区域覆盖汇总
+                    $ref: '#/definitions/CoverageSummaryResp'
+  /ebEvaluateReport/updateState:
+    get:
+      tags:
+        - 评估报告
+      summary: 修改归档状态
+      operationId: updateEbEvaluateReportState
+      parameters:
+        - name: EbEvaluateReportVo
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                description: ID
+              filedFlag:
+                type: string
+                description: 0 未归档  1已归档
+      responses:
+        200:
+          description: ok
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/ReturnResult'
+  /ebEvaluateReport/exportWord/{id}:
+    get:
+      tags:
+        - 评估报告
+      summary: 导出评估报告信息
+      operationId: exportWord
+      parameters:
+        - $ref: '#/parameters/id-p'
+      responses:
+        200:
+          description: ok
+          schema:
+            type: object
+            allOf:
+              - $ref: '#/definitions/ReturnResult'
+            properties:
+              data:
+                type: string
+                description: 导出地址
+definitions:
+  ##### MediaDic####
+  EbSimulatPlanVoList:
+    type: object
+    allOf:
+      - $ref: '#/definitions/ReturnResult'
+    properties:
+      data:
+        type: object
+        properties:
+          totalElements:
+            type: integer
+            description: 记录总数
+          totalPages:
+            type: integer
+            description: 总页数
+          first:
+            type: boolean
+            description: 是否第一页
+          last:
+            type: boolean
+            description: 是否最后一页
+          number:
+            type: integer
+            description: 当前页数，页码从0开始
+          size:
+            type: integer
+            description: 每页记录数
+          sort:
+            type: string
+          numberOfElements:
+            type: integer
+            description: 返回记录条数
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/EbSimulatPlanVo'
+  EbSimulatPlanVo:
+    type: object
+    properties:
+      id:
+        type: string
+        description: 主键
+      planName:
+        type: string
+        description: 模拟演练名称
+      planAim:
+        type: string
+        description: 演练目的
+      planAct:
+        type: string
+        description: 时效性(0 实时 1 周演练 2 月度演练 3 季度演练 4 半年演练  5 年度演练 )
+      startTime:
+        type: string
+        format: 'date-time'
+        description: 演练开始时间
+      endTime:
+        type: string
+        format: 'date-time'
+        description: 演练结束时间
+      content:
+        type: string
+        description: 演练内容
+      eventLevel:
+        type: string
+        description: 计划的预警级别 (红橙黄蓝白，参照GDJ083 EBM)
+      eventType:
+        type: string
+        description: 计划的预警类型
+      attendCompany:
+        type: string
+        description: 参演单位(参演单位（外键），参照SYS_ORG表)
+      place:
+        type: string
+        description: 演练地点
+      alarmScope:
+        type: string
+        description: 预警区域  文字说明，描述
+      createPeople:
+        type: string
+        description: 创建用户
+      createTime:
+        type: string
+        format: 'date-time'
+        description: 创建时间
+      auditFlag:
+        type: string
+        description: 审核状态(0 未审核 1 审核通过 2 未通过 )
+      auditUserId:
+        type: string
+        description: 审核人ID
+      auditUserName:
+        type: string
+        description: 审核人名称
+      isFinished:
+        type: string
+        description: 完成状态(0 未完成  1已结束)
+  EbExerciseProgramVoList:
+    type: object
+    allOf:
+      - $ref: '#/definitions/ReturnResult'
+    properties:
+      data:
+        type: object
+        properties:
+          totalElements:
+            type: integer
+            description: 记录总数
+          totalPages:
+            type: integer
+            description: 总页数
+          first:
+            type: boolean
+            description: 是否第一页
+          last:
+            type: boolean
+            description: 是否最后一页
+          number:
+            type: integer
+            description: 当前页数，页码从0开始
+          size:
+            type: integer
+            description: 每页记录数
+          sort:
+            type: string
+          numberOfElements:
+            type: integer
+            description: 返回记录条数
+          content:
+            type: array
+            items:
+              $ref: '#/definitions/EbExerciseProgramVo'
+  EbExerciseProgramVo:
+    type: object
+    properties:
+      id:
+        type: string
+        description: 主键
+      planId:
+        type: string
+        description: 所属计划
+      ebmid:
+        type: string
+        description: 应急广播信息ID
+      processType:
+        type: string
+        description: 业务流程方向（发布流程类型(01 中央应急广播平台将预警信息下发至省应急广播平台，调用省级播发资源播发。
+          02 省应急广播平台发送申请，调用中央应急广播平台播发资源进行预警信息的播发。
+          03 省应急广播平台直接调用自身播发资源进行播发。
+          04 中央应急广播平台利用自身资源进行预警信信播发。
+          05 预警信息通过国家级、省级双重播发资源进行播发)）
+      eventDesc:
+        type: string
+        description: 演练内容
+      createTime:
+        type: string
+        format: 'date-time'
+        description: 创建时间
+      eventType:
+        type: string
+        description: 事件类型
+      eventLevel:
+        type: string
+        description: 事件级别
+      area:
+        type: string
+        description: 覆盖区域（多个区域逗号隔开）
+      exerciseType:
+        type: string
+        description: 演练目标（1  平台演练、2  适配器演练、3  终端演练、4  地震演练、5 红色演练、6 橙色演练、7 黄色演练、8 蓝色演练、9 未知演练）
+      terminalExerciseType:
+        type: string
+        description: 终端演练类型（1、应急广播文字消息
+          2、播出预存音频
+          3、播出当前频点
+          4、回传播发状态参数
+          5、停播）
+      eqExerciseType:
+        type: string
+        description: 地震演练类型（1、尽力播放
+          2、播放预存音频
+          3、播放流媒体
+          4、播放文本
+          5、返回状态）
+      exeTime:
+        type: string
+        format: 'date-time'
+        description: 执行时间
+      pri:
+        type: string
+        description: 任务优先级（0 - 9 ,数值越大执行优先级越高  默认5 ）
+      isExecute:
+        type: string
+        description: 执行状态（执行状态（0 未执行  1  执行中 2  已回执 3 已反馈 4已完成）   默认为0）
+      audiofilePath:
+        type: string
+        description: 预播放音频（预播放音频的路径）
+      coverageRate:
+        type: string
+        description: 资源覆盖率
+      coverageNumber:
+        type: string
+        description: 资源覆盖数
+      createPeople:
+        type: string
+        description: 负责人
+  EbEvaluateReportVo:
+    type: object
+    properties:
+      id:
+        type: string
+        description: ID
+      planId:
+        type: string
+        description: 所属计划
+      reportName:
+        type: string
+        description: 评估报告名称
+      reportTime:
+        type: string
+        format: 'date-time'
+        description: 评估时间
+      reportPeople:
+        type: string
+        description: 评估人
+      assessmentOpinion:
+        type: string
+        description: 评估意见（评估意见（0 优秀 1良好 ，2 一般  3.不及格））
+      overallOpinion:
+        type: string
+        description: 总体评价
+      successRate:
+        type: string
+        description: 播发成功率
+      filedFlag:
+        type: string
+        description: 播发成功率（0 未归档
+          1 已经归档
+          归档则不可人工编辑评估评语）
+      reportType:
+        type: string
+        description: 报告类型（1、应急演练报告、2、地震演练报告）
+      area:
+        type: string
+        description: 覆盖总区域面积
+      population:
+        type: integer
+        description: 覆盖总人口
+      gdp:
+        type: integer
+        description: GDP
+      coverdCountys:
+        type: integer
+        description: 覆盖县个数
+      coverdVillages:
+        type: integer
+        description: 覆盖乡镇个数
+  EbAdapterRpt:
+    type: object
+    properties:
+      id:
+        type: string
+        description: ID
+      planId:
+        type: string
+        description: 所属计划
+      type:
+        type: string
+        description: 适配器类型：1 有线数字电视适配器 2 地面数字电视适配器、3 IPTV适配器、4 模拟调频适配器、5 大喇叭适配器、
+      success:
+        type: string
+        description: 覆盖数量
+      failed:
+        type: string
+        description: 失败数量
+      total:
+        type: string
+        description: 总数
+      probability:
+        type: string
+        description: 覆盖率
+  EbTerminalRpt:
+    type: object
+    properties:
+      id:
+        type: string
+        description: ID
+      planId:
+        type: string
+        description: 所属计划
+      success:
+        type: string
+        description: 成功数量
+      failed:
+        type: string
+        description: 失败数量
+      total:
+        type: string
+        description: 总数
+  EbExceptionReport:
+    type: object
+    properties:
+      autograph:
+        type: string
+        description: 签名异常数量
+      link:
+        type: string
+        description: 链路异常
+      database:
+        type: string
+        description: 数据库异常
+      security:
+        type: string
+        description: 安全
+      business:
+        type: string
+        description: 业务处理异常
+      cityFail:
+        type: string
+        description: 市覆盖失败数量
+      countyFail:
+        type: string
+        description: 县覆盖失败数量
+      townshipFail:
+        type: string
+        description: 乡镇覆盖失败数量
+  CoverageSummaryResp:
+    type: object
+    properties:
+      city:
+        type: integer
+        description: 市
+      county:
+        type: integer
+        description: 县
+      township:
+        type: integer
+        description: 乡镇
+      areaNum:
+        type: integer
+        description: 覆盖面积（平方公里）
+      populationNum:
+        type: integer
+        description: 覆盖人口（万）
+      gdpNum:
+        type: integer
+        description: GDP
+  ##### common model ####
+  ReturnResult:
+    type: object
+    properties:
+      code:
+        type: integer
+        description: >-
+          2000  操作成功
+          4000 操作失败
+          4001 验证码出错
+          4002 用户名或密码错误
+          5000 后台逻辑错误
+          5001 令牌失效或过期
+          5009 未知错误
+      msg:
+        type: string
+############################ parameters#####################
+parameters:
+  id-p:
+    name: id
+    in: path
+    required: true
+    description: 主键ID
+    type: string
+  planId:
+    name: planId
+    in: path
+    required: true
+    description: 演练计划ID
+    type: string
